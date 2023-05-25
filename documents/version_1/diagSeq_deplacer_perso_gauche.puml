@@ -1,0 +1,33 @@
+@startuml
+
+Main -> Labyrinthe: deplacerPerso("Gauche")
+activate Labyrinthe
+
+Labyrinthe -> Perso: getSuivant(courante[0], courante[1], "Gauche")
+activate Perso
+Labyrinthe <-- Perso: suivante = [courante[0] - 1, courante[1]]
+deactivate Perso
+
+Labyrinthe -> Labyrinthe: getMur(suivante[0], suivante[1])
+
+Labyrinthe -> Perso: etrePresent(suivante[0], suivante[1])
+activate Perso
+Labyrinthe <-- Perso: false
+deactivate Perso
+
+Labyrinthe -> Perso: getX()
+activate Perso
+Labyrinthe <-- Perso: suivante[0]
+deactivate Perso
+
+Labyrinthe -> Perso: getY()
+activate Perso
+Labyrinthe <-- Perso: suivante[1]
+deactivate Perso
+
+Labyrinthe -> Labyrinthe: deplacerPerso("Gauche")
+activate Labyrinthe
+
+Main <-- Labyrinthe: -
+
+@enduml
