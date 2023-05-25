@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+Labyrinthe "1" <-- "0..*" Perso
+
+class Labyrinthe {
+boolean[][] murs;
+Perso pj;
+Labyrinthe(String nom)
+getSuivant(int x, int y, String action) : int[]
+deplacerPerso(String action)
+etreFini() : boolean
+getLengthY() : int
+getLength() : int
+getMur(int x, int y) : boolean
+}
+
+class Perso {
+int x, y;
+Perso(int dx, int dy)
+etrePresent(int dx, int dy) : boolean
+getX() : int
+getY() : int
+}
+
+
+@enduml
