@@ -2,11 +2,10 @@
 'https://plantuml.com/class-diagram
 
 
-Labyrinthe "1" <-- "0..*" Perso
+Labyrinthe "0..*"  -->  "1" Perso : - Perso pj
 
 class Labyrinthe {
 boolean[][] murs;
-Perso pj;
 Labyrinthe(String nom)
 getSuivant(int x, int y, String action) : int[]
 deplacerPerso(String action)
