@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+' Activation style
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+actor MainLaby
+
+MainLaby -> MoteurJeu: main(String[] args)
+activate MoteurJeu
+create LabyJeu
+create LabyDessin
+MoteurJeu -> LabyDessin: dessinJeu(jeuLaby, canvas)
+activate LabyDessin
+LabyDessin --> LabyJeu: utilise
+MoteurJeu -> LabyJeu: init()
+activate LabyJeu
+LabyJeu --> MoteurJeu: charge
+MoteurJeu --> LabyJeu: setTaille(width, height)
+MoteurJeu --> LabyJeu: setFPS(pFPS)
+MoteurJeu -> LabyJeu: update(double secondes, clavier)
+deactivate LabyJeu
+MainLaby <-- MoteurJeu: Execution terminée
+deactivate LabyDessin
+deactivate MoteurJeu
+
+@enduml
