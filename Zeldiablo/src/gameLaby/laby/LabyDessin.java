@@ -40,15 +40,25 @@ public class LabyDessin implements DessinJeu {
             }
         }
 
-        dessinerPerso(gc,labyrinthe);
+        dessinerAventurier(gc,labyrinthe);
+        dessinerMonstre(gc,labyrinthe);
     }
 
-    private void dessinerPerso(GraphicsContext gc, Labyrinthe labyrinthe) {
-        Perso personnage = labyrinthe.pj;
+    private void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) {
+        Aventurier personnage = labyrinthe.pj;
 
         int px = personnage.getX();
         int py = personnage.getY();
         gc.setFill(Color.RED);
+        gc.fillOval(py*30,px*30,30,30);
+    }
+
+    private void dessinerMonstre(GraphicsContext gc, Labyrinthe labyrinthe) {
+        Monstre personnage = labyrinthe.monstre;
+
+        int px = personnage.getX();
+        int py = personnage.getY();
+        gc.setFill(Color.GREEN);
         gc.fillOval(py*30,px*30,30,30);
     }
 }

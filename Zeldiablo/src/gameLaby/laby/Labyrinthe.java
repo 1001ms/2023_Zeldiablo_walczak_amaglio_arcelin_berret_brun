@@ -3,6 +3,7 @@ package gameLaby.laby;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * classe labyrinthe. represente un labyrinthe avec
@@ -15,6 +16,7 @@ public class Labyrinthe {
      * Constantes char
      */
     public static final char MUR = 'X';
+    public static final char MONSTRE = 'M';
     public static final char PJ = 'P';
     public static final char VIDE = '.';
 
@@ -29,7 +31,12 @@ public class Labyrinthe {
     /**
      * attribut du personnage
      */
-    public Perso pj;
+    public Aventurier pj;
+
+    /**
+     * attribut du monstre
+     */
+    public Monstre monstre;
 
     /**
      * les murs du labyrinthe
@@ -90,6 +97,7 @@ public class Labyrinthe {
         // creation labyrinthe vide
         this.murs = new boolean[nbColonnes][nbLignes];
         this.pj = null;
+        this.monstre=null;
 
         // lecture des cases
         String ligne = bfRead.readLine();
@@ -114,7 +122,13 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.pj = new Perso(colonne, numeroLigne);
+                        this.pj = new Aventurier(colonne, numeroLigne);
+                        break;
+                    case MONSTRE:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        this.monstre = new Monstre(colonne, numeroLigne);
                         break;
 
                     default:
@@ -146,10 +160,31 @@ public class Labyrinthe {
         int[] suivante = getSuivant(courante[0], courante[1], action);
 
         // si c'est pas un mur, on effectue le deplacement
-        if (!this.murs[suivante[0]][suivante[1]]) {
+        if ((!this.murs[suivante[0]][suivante[1]])&&!monstre.etrePresent(suivante[0],suivante[1])) {
             // on met a jour personnage
             this.pj.x = suivante[0];
             this.pj.y = suivante[1];
+        }
+    }
+
+    /**
+     * méthode deplacerMonstre permet de déplacer le Monstre de manière aléatoire
+     */
+    public void deplacerMonstre() {
+        String[] action = {HAUT,BAS,GAUCHE,DROITE};
+        Random r = new Random();
+
+        // case courante
+        int[] courante = {this.monstre.x, this.monstre.y};
+
+        // calcule case suivante
+        int[] suivante = getSuivant(courante[0], courante[1], action[r.nextInt(action.length)]);
+
+        // si c'est pas un mur, on effectue le deplacement
+        if ((!this.murs[suivante[0]][suivante[1]])&&!pj.etrePresent(suivante[0],suivante[1])){
+            // on met a jour personnage
+            this.monstre.x = suivante[0];
+            this.monstre.y = suivante[1];
         }
     }
 
