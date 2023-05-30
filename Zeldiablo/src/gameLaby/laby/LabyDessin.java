@@ -19,10 +19,10 @@ public class LabyDessin implements DessinJeu {
         LabyJeu labyJeu = (LabyJeu) jeu;
 
         // recupere un pinceau pour dessiner
-        final GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // dessin fond
-        gc.setFill(Color.web("0x52271a"));
+        gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // dessin laby
         Labyrinthe labyrinthe = labyJeu.getLabyrinthe();
@@ -31,11 +31,11 @@ public class LabyDessin implements DessinJeu {
             // affiche la ligne
             for (int x = 0; x < labyrinthe.getLength(); x++) {
                 if (labyrinthe.getMur(x, y)) {
-                    gc.fillRect( y * 30, x * 30, 30, 30);
                     gc.setFill(Color.BLACK);
+                    gc.fillRect(y * 30, x * 30, 30, 30);
                 } else {
-
-                    gc.fillRect( y * 30, x * 30, 30, 30);
+                    gc.setFill(Color.WHITE);
+                    gc.fillRect(y * 30, x * 30, 30, 30);
                 }
             }
         }
