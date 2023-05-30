@@ -37,8 +37,14 @@ public class LabyJeu implements Jeu {
         if (clavier.haut) {
             this.laby.deplacerPerso(HAUT);
         }
+    }
 
-
+    /**
+     * getter de laby
+     * @return this.laby
+     */
+    public Labyrinthe getLaby(){
+        return this.laby;
     }
 
     @Override

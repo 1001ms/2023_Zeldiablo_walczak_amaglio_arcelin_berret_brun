@@ -1,7 +1,10 @@
 package gameArkanoid;
 
+import gameLaby.laby.Labyrinthe;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
+
+import java.io.IOException;
 
 /**
  * represente un jeu de type casse brique : possede une raquette et une balle
@@ -18,6 +21,7 @@ public class ArkanoidJeu implements Jeu {
     private final Balle balle;
 
 
+
     /**
      * constructeur par defaut
      */
@@ -25,6 +29,9 @@ public class ArkanoidJeu implements Jeu {
         this.raquette = new Raquette(WIDTH, HEIGHT);
         this.balle = new Balle(WIDTH, HEIGHT);
     }
+
+    public Labyrinthe getLaby() throws IOException {
+        return new Labyrinthe("Zeldiablo/labySimple/laby1.txt");};
 
 
     @Override
@@ -73,4 +80,5 @@ public class ArkanoidJeu implements Jeu {
     public Balle getBalle() {
         return balle;
     }
+
 }

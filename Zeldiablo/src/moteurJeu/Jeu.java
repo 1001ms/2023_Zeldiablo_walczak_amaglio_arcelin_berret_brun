@@ -1,6 +1,10 @@
 package moteurJeu;
 
 
+import gameLaby.laby.Labyrinthe;
+
+import java.io.IOException;
+
 /**
  * modele de jeu
  */
@@ -23,4 +27,6 @@ public interface Jeu {
      * @return booleen true si le jeu est fini
      */
     boolean etreFini();
+
+    Labyrinthe getLaby() throws IOException;
 }
