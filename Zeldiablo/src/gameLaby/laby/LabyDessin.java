@@ -39,5 +39,16 @@ public class LabyDessin implements DessinJeu {
                 }
             }
         }
+
+        dessinerPerso(gc,labyrinthe);
+    }
+
+    private void dessinerPerso(GraphicsContext gc, Labyrinthe labyrinthe) {
+        Perso personnage = labyrinthe.pj;
+
+        int px = personnage.getX();
+        int py = personnage.getY();
+        gc.setFill(Color.RED);
+        gc.fillOval(py*30,px*30,30,30);
     }
 }
