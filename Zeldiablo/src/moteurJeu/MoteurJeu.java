@@ -16,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+
 // copied from: https://gist.github.com/james-d/8327842
 // and modified to use canvas drawing instead of shapes
 
@@ -172,7 +174,11 @@ public class MoteurJeu extends Application {
                     jeu.update(dureeEnMilliSecondes / 1_000., controle);
 
                     // dessine le jeu
-                    dessin.dessinerJeu(jeu, canvas);
+                    try {
+                        dessin.dessinerJeu(jeu, canvas);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     // ajoute la duree dans les statistiques
                     frameStats.addFrame(elapsedTime);
