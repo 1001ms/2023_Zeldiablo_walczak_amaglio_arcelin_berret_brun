@@ -32,10 +32,10 @@ public class LabyDessin implements DessinJeu {
             for (int x = 0; x < labyrinthe.getLength(); x++) {
                 if (labyrinthe.getMur(x, y)) {
                     gc.setFill(Color.BLACK);
-                    gc.fillRect(x * 30, y * 30, 30, 30);
+                    gc.fillRect(y * 30, x * 30, 30, 30);
                 } else {
                     gc.setFill(Color.WHITE);
-                    gc.fillRect(x * 30, y * 30, 30, 30);
+                    gc.fillRect(y * 30, x * 30, 30, 30);
                 }
             }
         }

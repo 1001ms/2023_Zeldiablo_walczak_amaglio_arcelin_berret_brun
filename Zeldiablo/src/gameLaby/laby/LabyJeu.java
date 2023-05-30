@@ -2,6 +2,10 @@ package gameLaby.laby;
 import moteurJeu.Clavier;
 import moteurJeu.Jeu;
 import java.io.IOException;
+
+import static gameLaby.laby.Labyrinthe.*;
+import static gameLaby.laby.Labyrinthe.HAUT;
+
 public class LabyJeu implements Jeu {
 
     //Labyrinthe et personnage
@@ -18,10 +22,25 @@ public class LabyJeu implements Jeu {
             e.printStackTrace();
         }
     }
-
     public void update(double secondes, Clavier clavier) {
 
+        // deplace le perso en fonction des touches
+        if (clavier.droite) {
+            laby.deplacerPerso(DROITE);
+        }
+        if (clavier.gauche) {
+            laby.deplacerPerso(GAUCHE);
+        }
+        if (clavier.bas) {
+            laby.deplacerPerso(BAS);
+        }
+        if (clavier.haut) {
+            this.laby.deplacerPerso(HAUT);
+        }
+
+
     }
+
     @Override
     public void init() {
     }
