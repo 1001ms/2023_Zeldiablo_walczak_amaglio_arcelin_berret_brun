@@ -2,13 +2,13 @@
 'https://plantuml.com/class-diagram
 
 'relations interclasses
-MoteurJeu "1" --> "1" Jeu : utilise
+MoteurJeu "1" --> "1" Jeu : charge
 MoteurJeu "1" --> "1...*" DessinJeu : utilise
-MoteurJeu "1" --> "1" Clavier : utilise
-MoteurJeu "1" --> "1...*" FrameStats : utilise
+MoteurJeu "1" --> "1" Clavier : a besoin
+MoteurJeu "1" --> "1...*" FrameStats : affiche
 DessinJeu "1...*" --> "1" Jeu : utilise
-Jeu "1" --> "1" Clavier : utilise
-Jeu "1" --> "1...*" FrameStats : utilise
+Jeu "1" --> "1" Clavier : a besoin
+Jeu "1" --> "1...*" FrameStats : affiche
 
 'blocs de classes
 
