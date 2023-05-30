@@ -44,27 +44,28 @@ public class Labyrinthe {
      * @param action action effectuee
      * @return case suivante
      */
-    public int[] getSuivant(int x, int y, String action) {
-        int[] coordonee = {x, y}; //on initialise notre tableau contenant [x,y] par les valeurs entrées en paramètres
-
-        //suivant l'action les coordonées changes
+    static int[] getSuivant(int x, int y, String action) {
         switch (action) {
             case HAUT:
-                coordonee[1] = y - 1;
+                // on monte une ligne
+                x--;
                 break;
             case BAS:
-                coordonee[1] = y + 1;
-                break;
-            case GAUCHE:
-                coordonee[0] = x - 1;
+                // on descend une ligne
+                x++;
                 break;
             case DROITE:
-                coordonee[0] = x + 1;
+                // on augmente colonne
+                y++;
+                break;
+            case GAUCHE:
+                // on augmente colonne
+                y--;
                 break;
             default:
-                System.out.println("Action non valide"); //si le switch ne gère par l'action demander, on affiche l'exception
+                throw new Error("action inconnue");
         }
-        return coordonee;
+        return new int[]{x, y};
     }
 
 
