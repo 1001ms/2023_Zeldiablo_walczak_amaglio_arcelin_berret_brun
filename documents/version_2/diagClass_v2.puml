@@ -1,0 +1,130 @@
+@startuml
+
+package javafx.application{
+class Application{
+}
+}
+
+
+package moteurJeu{
+
+class MoteurJeu{
+- <static> width: double
+- <static> height: double
+- <static> FPS: int
++ <static> launch(jeu: Jeu, dessin: DessinJeu)
++ <static> setTaille(width: double, height: double)
++ <static> setFPS(FPS: int)
++ start(primaryStage: Stage)
++ startAnimation(canvas: Canvas)
+}
+
+Application <|-- MoteurJeu
+
+
+
+interface Jeu{
++ init()
++ update(secondes: double, clavier: Clavier)
++ etreFini(): boolean
+}
+
+MoteurJeu "1" --> "1" Jeu : - <static> jeu
+
+
+interface DessinJeu{
++ dessinerJeu(jeu: Jeu, canvas: Canvas)
+}
+
+MoteurJeu "1" --> "1" DessinJeu : - <static> dessin
+
+class Clavier{
+- haut: boolean
+- bas: boolean
+- gauche: boolean
+- droite: boolean
++ appuyerTouche(event : KeyEvent)
++ relacherTouche(event : KeyEvent)
+}
+
+MoteurJeu "1" --> "1" Clavier : - clavier
+}
+
+
+package gameZeldiablo{
+
+class LabyJeu{
++ init()
++ LabyJeu()
++ update(seconds: double, clavier: Clavier)
++ etreFini(): boolean
++ getLaby(): Labyrinthe
++
+}
+Jeu <|.. LabyJeu
+class Labyrinthe{
+ + <static> MUR : char
+ + <static> MONSTRE : char
+ + <static> PJ : char
+ + <static> VIDE : char
+ + <static> HAUT : String
+ + <static> BAS : String
+ + <static> GAUCHE : String
+ + <static> DROITE : String
+ + murs : boolean[][]
+ + Labyrinthe(String nom)
+ + <static> getSuivant(int x, int y, String action) : int[]
+ + deplacerPerso(String nom)
+ + deplacerMonstre()
+ + etreFini() : boolean
+ + getLengthY() : int
+ + getLength() : int
+ + getMur(int x, int y) : boolean
+}
+Labyrinthe <- LabyJeu : +Labyrinthe
+
+Labyrinthe --> Monstre : +monstre
+Labyrinthe -> Aventurier : +pj
+
+class MainLaby{
++ main(String[] args)
+}
+
+class Monstre
+
+class Raquette{
+- posX: double
+- posY: double
+- vx: double
+- width: double
++ Raquette(width: double, height: double)
++ allerDroite(width: int, seconds: double)
++ allerGauche(width: int, seconds: double)
+}
+
+ArkanoidJeu "1" --> "1" Raquette : -raquette
+
+class Balle{
+- posX, posY: double
+- vx,vy: double
+- width: double
+- dessous: boolean
++ Balle(width: double, height: double)
++ evoluer(seconds: double)
++ collision(raquette: Raquette)
+}
+
+
+ArkanoidJeu "1" --> "1" Balle : -balle
+
+
+class ArkanoidDessin{
++ dessinerJeu(jeu: Jeu, canvas: Canvas)
+}
+
+DessinJeu <|.. ArkanoidDessin
+ArkanoidJeu <. ArkanoidDessin:uses
+}
+
+
+@enduml

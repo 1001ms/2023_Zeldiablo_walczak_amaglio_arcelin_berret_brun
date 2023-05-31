@@ -14,7 +14,7 @@ public class LabyDessin implements DessinJeu {
      * @param canvas dessin dans lequel dessin
      */
     @Override
-    public void dessinerJeu(Jeu jeu, Canvas canvas) throws FileNotFoundException {
+    public void dessinerJeu(Jeu jeu, Canvas canvas)  {
 
         LabyJeu labyJeu = (LabyJeu) jeu;
 
