@@ -14,10 +14,11 @@ actor MainLaby
 MainLaby -> MoteurJeu: main(String[] args)
 activate MoteurJeu
 create LabyJeu
+MainLaby -> LabyJeu : LabyJeu()
 create LabyDessin
-MoteurJeu -> LabyDessin: dessinJeu(jeuLaby, canvas)
+MainLaby -> LabyDessin: dessinJeu(jeuLaby, canvas)
 activate LabyDessin
-LabyDessin --> LabyJeu: utilise
+LabyDessin --> MoteurJeu: utilise
 MoteurJeu -> LabyJeu: init()
 activate LabyJeu
 LabyJeu --> MoteurJeu: charge
