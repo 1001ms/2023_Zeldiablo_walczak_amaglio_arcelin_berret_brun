@@ -16,13 +16,14 @@ activate MoteurJeu
 create LabyJeu
 MainLaby -> LabyJeu : LabyJeu()
 create LabyDessin
-MainLaby -> LabyDessin: dessinJeu(jeuLaby, canvas)
+MainLaby -> LabyDessin: LabyDessin()
 activate LabyDessin
-LabyDessin --> MoteurJeu: utilise
+MoteurJeu -> LabyDessin: dessinJeu(LabyJeu, canvas)
+LabyDessin --> MoteurJeu
 deactivate LabyDessin
 MoteurJeu -> LabyJeu: init()
 activate LabyJeu
-LabyJeu --> MoteurJeu: charge
+LabyJeu --> MoteurJeu
 MoteurJeu -> LabyJeu: setTaille(width, height)
 MoteurJeu <-- LabyJeu
 MoteurJeu -> LabyJeu: setFPS(pFPS)
@@ -30,7 +31,7 @@ MoteurJeu <-- LabyJeu
 MoteurJeu -> LabyJeu: update(double secondes, clavier)
 MoteurJeu <-- LabyJeu
 deactivate LabyJeu
-MainLaby <-- MoteurJeu: Execution terminée
+MainLaby <-- MoteurJeu:
 deactivate MoteurJeu
 
 @enduml
