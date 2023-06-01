@@ -30,3 +30,9 @@
   - le monstre ne peut pas se déplacer sur mur. S'il tente de se déplacer sur cette case, il ne bouge pas.
   - le monstre ne peut pas se trouver sur la même case que le personnage.
 
+5. Jeu en pause lors de combat
+- Descriptif :
+  - lorsqu'un joueur rencontre un monstre le jeu doit se mettre en pause pour facilité le system de combat
+- Critères de validation :
+  - Toute les TimeLine (sauf combat) doivent être à l'arret.
+  - Le nombre de frame ne doit pas augmenter apres la pause.

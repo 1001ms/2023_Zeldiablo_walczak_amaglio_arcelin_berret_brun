@@ -21,6 +21,8 @@ public class Labyrinthe {
     public static final char SERPENT = 'S';
     public static final char PJ = 'P';
     public static final char VIDE = '.';
+    public static final char DEPOT = '$';
+    public static final char CAISSE = '#';
 
     /**
      * constantes actions possibles
@@ -35,12 +37,12 @@ public class Labyrinthe {
      */
     public Aventurier pj;
 
-    public Serpent serpent;
+    public ArrayList<Serpent> serpents;
 
     /**
      * attribut du monstre
      */
-    public Monstre monstre;
+    public ArrayList<Monstre> monstres;
 
     /**
      * attribut Element
@@ -52,6 +54,19 @@ public class Labyrinthe {
      * les murs du labyrinthe
      */
     public boolean[][] murs;
+
+    /**
+     * liste depots du labyrinthe
+     */
+    public ListeElements depots;
+
+    /**
+     * liste caisse du labyrinthe
+     */
+
+    public ListeElements caisses;
+
+    public boolean combat;
 
     /**
      * retourne la case suivante selon une actions
@@ -107,9 +122,11 @@ public class Labyrinthe {
         // creation labyrinthe vide
         this.murs = new boolean[nbColonnes][nbLignes];
         this.pj = null;
-        this.monstre=null;
-        this.serpent=null;
-        this.elements=new ArrayList<Element>();
+        this.monstres = new ArrayList<Monstre>();
+        this.serpents = new ArrayList<Serpent>();
+        this.elements = new ArrayList<Element>();
+        this.caisses = new ListeElements();
+        this.depots = new ListeElements();
 
         // lecture des cases
         String ligne = bfRead.readLine();
@@ -117,6 +134,10 @@ public class Labyrinthe {
         // stocke les indices courants
         int numeroLigne = 0;
 
+        int m = 0;
+        int s = 0;
+        int d = 0;
+        int ca = 0;
         // parcours le fichier
         while (ligne != null) {
 
@@ -141,15 +162,33 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.monstre = new Monstre(colonne, numeroLigne);
-                        this.elements.add(monstre);
+                        this.monstres.add(new Monstre(colonne, numeroLigne));
+                        this.elements.add(monstres.get(m));
+                        m++;
                         break;
                     case SERPENT:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.serpent = new Serpent(colonne, numeroLigne);
-                        this.elements.add(serpent);
+                        this.serpents.add(new Serpent(colonne, numeroLigne));
+                        this.elements.add(serpents.get(s));
+                        s++;
+                        break;
+                    case DEPOT:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        depots.ajouter(new Depot(colonne, numeroLigne));
+                        this.elements.add(depots.getElementByIndice(d));
+                        d++;
+                        break;
+                    case CAISSE:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        caisses.ajouter(new Depot(colonne, numeroLigne));
+                        this.elements.add(caisses.getElementByIndice(ca));
+                        ca++;
                         break;
 
                     default:
@@ -169,28 +208,56 @@ public class Labyrinthe {
 
     /**
      * méthode elementPresent vérifie si un element est présent aux coordonnées x,y en paramètres
+     *
      * @param x coordonn yée x
      * @param y coordonnée
      * @return true si element present aux coordonnées entrées en param
      */
-    public boolean elementPresent(int x, int y){
+    public boolean elementPresent(int x, int y) {
         boolean trouve = false;
-        for(Element e : elements){
-            if(e instanceof Serpent){//si c'est un serpent on doit vérifier la position de tout son corp
+        for (Element e : elements) {
+            if (e instanceof Serpent) {//si c'est un serpent on doit vérifier la position de tout son corp
                 Serpent s = (Serpent) e;
-                for(int i =0;i<s.getCorp().size();i++){
-                    int xserpent=s.getCorp().get(i).getX();
-                    int yserpent=s.getCorp().get(i).getY();
-                    if(xserpent==x&&yserpent==y)
-                        trouve=true;
+                for (int i = 0; i < s.getCorp().size(); i++) {
+                    int xserpent = s.getCorp().get(i).getX();
+                    int yserpent = s.getCorp().get(i).getY();
+                    if (xserpent == x && yserpent == y)
+                        trouve = true;
                 }
-            }else{ //sinon on vérifie seulement le x et y de l'element
-                if(e.getX()==x&&e.getY()==y)
-                    trouve=true;
+            } else { //sinon on vérifie seulement le x et y de l'element
+                if (e.getX() == x && e.getY() == y)
+                    trouve = true;
             }
 
         }
         return trouve;
+    }
+
+    /**
+     * méthode elementPresent vérifie si un element est présent aux coordonnées x,y en paramètres
+     *
+     * @param x coordonn yée x
+     * @param y coordonnée
+     * @return true si element present aux coordonnées entrées en param
+     */
+    public Element elementPresentObject(int x, int y) {
+        Element res = null;
+        for (Element e : elements) {
+            if (e instanceof Serpent) {//si c'est un serpent on doit vérifier la position de tout son corp
+                Serpent s = (Serpent) e;
+                for (int i = 0; i < s.getCorp().size(); i++) {
+                    int xserpent = s.getCorp().get(i).getX();
+                    int yserpent = s.getCorp().get(i).getY();
+                    if (xserpent == x && yserpent == y)
+                        res = e;
+                }
+            } else { //sinon on vérifie seulement le x et y de l'element
+                if (e.getX() == x && e.getY() == y)
+                    res = e;
+            }
+
+        }
+        return res;
     }
 
     /**
@@ -200,38 +267,125 @@ public class Labyrinthe {
      * @param action une des actions possibles
      */
     public void deplacerPerso(String action) {
-        // case courante
-        int[] courante = {this.pj.getX(), this.pj.getY()};
+        //on récupère les coordonnées du personnage
+        int x = this.pj.getX();
+        int y = this.pj.getY();
+        //on récupère les coordonnées générer par l'action voulu
+        int[] suivant = getSuivant(x, y, action);
 
-        // calcule case suivante
-        int[] suivante = getSuivant(courante[0], courante[1], action);
+        //on attribue x et y à des variables temporaire si jamais l'action n'est pas possible
+        int tmpX = x;
+        int tmpY = y;
 
-        // si c'est pas un mur, on effectue le deplacement
-        if ((!this.murs[suivante[0]][suivante[1]])&&!elementPresent(suivante[0],suivante[1])) {
-            // on met a jour personnage
-            this.pj.setX(suivante[0]);
-            this.pj.setY(suivante[1]);
+        // x et y prennent les valeurs de générer par getSuivant
+        x = suivant[0];
+        y = suivant[1];
+
+        if ((elementPresentObject(x, y) instanceof Personnage) || (elementPresentObject(x, y) instanceof Serpent)) {  //cas si il y a un mur, alors personnage de bouge pas, il prend les valeurs sauvegarder dans les variables tmp
+                combat = true;
+        } else if (this.murs[x][y] || (elementPresentObject(x, y) instanceof Caisse)) {
+            this.pj.setX(tmpX);
+            this.pj.setY(tmpY);
+        } else {
+            boolean bool = false; //boolean qui permet de savoir si le perso se déplace ou non (true si il y a un obstacle)
+            if (this.caisses.getElement(x, y) != null) { //si il y a une caisse
+
+                Element caisse = this.caisses.getElement(x, y); //on récupère l'élement aux coordonnées (x,y)
+                int indiceElem = this.caisses.indiceElement(x, y); //on récupère l'indice de cette élément dans la liste (this.caisses)
+
+                //De même que pour personnage on sauvegarde les valeurs initial si l'action ne peut se dérouler correctement
+                int xElemTmp = this.caisses.getElement(x, y).getX();
+                int yElemTmp = this.caisses.getElement(x, y).getY();
+
+                //on récupère les coordonnées générer par getSuivant
+                int[] suivantElem = getSuivant(xElemTmp, yElemTmp, action);
+
+                //on initialise les variables xElem et yElem avec les valeurs générer par getSuivant
+                int xElem = suivantElem[0];
+                int yElem = suivantElem[1];
+
+                if (this.murs[xElem][yElem] || this.caisses.getElement(xElem, yElem) != null || elementPresentObject(xElem, yElem) instanceof Personnage) {
+                    //si après la caisse il y a un mur OU une caisse alors la caisse ne se déplace aps
+                    caisse.setX(xElemTmp);
+                    caisse.setY(yElemTmp);
+                    bool = true; //le personnage ne peut pas bouger il y a un obstacle donc il gardes ses valeurs initial
+                } else {
+                    //sinon la caisse se déplace
+                    caisse.setX(xElem);
+                    caisse.setY(yElem);
+                }
+
+                //on met à jour les coordonnées de la caisse déplacer
+                this.caisses.setListeElements(indiceElem, caisse);
+            }
+            if (bool) { //si bool=true alors le personnage ne peut pas avancer donc il garde ses valeurs initial
+                this.pj.setX(tmpX);
+                this.pj.setY(tmpY);
+            } else { //sinon il se déplace
+                this.pj.setX(x);
+                this.pj.setY(y);
+            }
+        }
+        caisseSurTrou();
+        aventurierDansTrou();
+    }
+
+    public void caisseSurTrou() {
+        for (int i = 0; i < this.caisses.getTaille(); i++) {
+            Element caisse = this.caisses.getElementByIndice(i);
+            for (int j = 0; j < this.depots.getTaille(); j++) {
+                Element depot = this.depots.getElementByIndice(j);
+                if (caisse.getX() == depot.getX() && caisse.getY() == depot.getY()) {
+                    // Les coordonnées de la caisse et du dépôt sont identiques, on les supprime des deux listes
+                    this.caisses.supprimerElement(i);
+                    this.depots.supprimerElement(j);
+                    i--; // On décrémente i car un élément a été supprimé de la liste des caisses
+                    break; // On sort de la boucle interne car on a trouvé une correspondance
+                }
+            }
         }
     }
+
+    public boolean aventurierDansTrou() {
+        boolean res = false;
+        int xPerso = this.pj.getX();
+        int yPerso = this.pj.getY();
+
+        for (int i = 0; i < this.depots.getTaille(); i++) {
+            Element depot = this.depots.getElementByIndice(i);
+            int xDepot = depot.getX();
+            int yDepot = depot.getY();
+
+            if (xPerso == xDepot && yPerso == yDepot) {
+                // Les coordonnées du personnage correspondent à celles du dépôt
+                System.out.println("Beh aled je meurs en fait"); // Le personnage est dans un trou
+                this.pj = new Aventurier(-1, -1);
+                res = true;
+            }
+        }
+        return res;
+    }
+
 
     /**
      * méthode deplacerMonstre permet de déplacer le Monstre de manière aléatoire
      */
     public void deplacerMonstre() {
-        String[] action = {HAUT,BAS,GAUCHE,DROITE};
+        String[] action = {HAUT, BAS, GAUCHE, DROITE};
         Random r = new Random();
+        for (Monstre m : monstres) {
+            // case courante
+            int[] courante = {m.getX(), m.getY()};
 
-        // case courante
-        int[] courante = {this.monstre.getX(), this.monstre.getY()};
+            // calcule case suivante
+            int[] suivante = getSuivant(courante[0], courante[1], action[r.nextInt(action.length)]);
 
-        // calcule case suivante
-        int[] suivante = getSuivant(courante[0], courante[1], action[r.nextInt(action.length)]);
-
-        // si c'est pas un mur, on effectue le deplacement
-        if ((!this.murs[suivante[0]][suivante[1]])&&!elementPresent(suivante[0],suivante[1])){
-            // on met a jour personnage
-            this.monstre.setX(suivante[0]);
-            this.monstre.setY(suivante[1]);
+            // si c'est pas un mur, on effectue le deplacement
+            if ((!this.murs[suivante[0]][suivante[1]]) && !elementPresent(suivante[0], suivante[1])) {
+                // on met a jour personnage
+                m.setX(suivante[0]);
+                m.setY(suivante[1]);
+            }
         }
     }
 
@@ -242,46 +396,47 @@ public class Labyrinthe {
         // Obtient les actions possibles
         String[] actions = {HAUT, BAS, GAUCHE, DROITE};
         Random random = new Random();
+        for (Serpent s : serpents) {
+            // Récupère la position courante de la tête du serpent
+            int xTete = s.getCorp().get(0).getX();
+            int yTete = s.getCorp().get(0).getY();
 
-        // Récupère la position courante de la tête du serpent
-        int xTete = this.serpent.getCorp().get(0).getX();
-        int yTete = this.serpent.getCorp().get(0).getY();
+            // Calcule la case suivante
+            String action = actions[random.nextInt(actions.length)];
+            int[] suivante = getSuivant(xTete, yTete, action);
 
-        // Calcule la case suivante
-        String action = actions[random.nextInt(actions.length)];
-        int[] suivante = getSuivant(xTete, yTete, action);
+            // Vérifie si la case suivante est valide
+            if ((!this.murs[suivante[0]][suivante[1]]) && !(elementPresent(suivante[0], suivante[1]))) {
 
-        // Vérifie si la case suivante est valide
-        if ((!this.murs[suivante[0]][suivante[1]])&&!elementPresent(suivante[0],suivante[1])) {
-
-            boolean peutAvancer=true;
-            for (int i = 1; i < serpent.getCorp().size(); i++) {
-                int ix = serpent.getCorp().get(i).getX();
-                int iy = serpent.getCorp().get(i).getY();
-                if (suivante[0] == ix && suivante[1] == iy) {
-                    peutAvancer = false;
-                    break; // Sortir de la boucle dès qu'une collision est détectée
+                boolean peutAvancer = true;
+                for (int i = 1; i < s.getCorp().size(); i++) {
+                    int ix = s.getCorp().get(i).getX();
+                    int iy = s.getCorp().get(i).getY();
+                    if (suivante[0] == ix && suivante[1] == iy) {
+                        peutAvancer = false;
+                        break; // Sortir de la boucle dès qu'une collision est détectée
+                    }
                 }
-            }
 
-            //**** NOTE
-            // pour le rendre intelligent faire un tab des actions dès qu'une action est faite
-            //mais qu'il ne peux pas ou delete l'action du tableau
-            //si tableau vide on skip
-            //****
+                //**** NOTE
+                // pour le rendre intelligent faire un tab des actions dès qu'une action est faite
+                //mais qu'il ne peux pas ou delete l'action du tableau
+                //si tableau vide on skip
+                //****
 
-            if(peutAvancer) {
+                if (peutAvancer) {
                     // Met à jour la position de la tête du serpent
-                    this.serpent.setX(suivante[0]);
-                    this.serpent.setY(suivante[1]);
+                    s.setX(suivante[0]);
+                    s.setY(suivante[1]);
                 }
 
-            // Met à jour la position des autres parties du corps
-            for (int i = this.serpent.getCorp().size() - 1; i > 0; i--) {
-                int xPrecedent = this.serpent.getCorp().get(i - 1).getX();
-                int yPrecedent = this.serpent.getCorp().get(i - 1).getY();
-                this.serpent.getCorp().get(i).setX(xPrecedent);
-                this.serpent.getCorp().get(i).setY(yPrecedent);
+                // Met à jour la position des autres parties du corps
+                for (int i = s.getCorp().size() - 1; i > 0; i--) {
+                    int xPrecedent = s.getCorp().get(i - 1).getX();
+                    int yPrecedent = s.getCorp().get(i - 1).getY();
+                    s.getCorp().get(i).setX(xPrecedent);
+                    s.getCorp().get(i).setY(yPrecedent);
+                }
             }
         }
     }
@@ -320,6 +475,7 @@ public class Labyrinthe {
 
     /**
      * return mur en (i,j)
+     *
      * @param x
      * @param y
      * @return

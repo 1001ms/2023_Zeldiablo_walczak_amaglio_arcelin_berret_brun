@@ -1,0 +1,44 @@
+@startuml
+
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+Main -> Labyrinthe: deplacerPerso("Gauche")
+activate Labyrinthe
+
+Labyrinthe -> Perso: getX()
+activate Perso
+Labyrinthe <-- Perso:
+deactivate Perso
+
+Labyrinthe -> Perso: getY()
+activate Perso
+Labyrinthe <-- Perso:
+deactivate Perso
+
+
+Labyrinthe -> Labyrinthe: getSuivant(courante[0], courante[1], "Gauche")
+Labyrinthe --> Labyrinthe: [courante[0] - 1, courante[1]]
+
+
+Labyrinthe -> Labyrinthe: elementPresentObject(x, y)
+Labyrinthe --> Labyrinthe: Monster
+
+
+MoteurJeu -> Labyrinthe: getCombat()
+activate MoteurJeu
+Labyrinthe --> MoteurJeu: true
+
+MoteurJeu -> MoteurJeu : monstreTimeLine.pause()
+MoteurJeu -> MoteurJeu : serpentTimeline.pause()
+MoteurJeu -> MoteurJeu : timer.stop()
+MoteurJeu --> MoteurJeu
+MoteurJeu --> MoteurJeu
+MoteurJeu --> MoteurJeu
+MoteurJeu --> Labyrinthe
+deactivate MoteurJeu
+Main <-- Labyrinthe
+@enduml
