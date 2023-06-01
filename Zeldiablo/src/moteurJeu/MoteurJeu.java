@@ -10,18 +10,26 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.*;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 // copied from: https://gist.github.com/james-d/8327842
 // and modified to use canvas drawing instead of shapes
@@ -92,30 +100,112 @@ public class MoteurJeu extends Application {
     // SURCHARGE Application
     //#################################
 
+
     @Override
     /**
      * creation de l'application avec juste un canvas et des statistiques
      */
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
         // initialisation du canvas de dessin et du container
-        final Canvas canvas = new Canvas();
-        final Pane canvasContainer = new Pane(canvas);
-        canvas.widthProperty().bind(canvasContainer.widthProperty());
-        canvas.heightProperty().bind(canvasContainer.heightProperty());
 
-        // affichage des stats
-        final Label stats = new Label();
-        stats.textProperty().bind(frameStats.textProperty());
+    Canvas canvas = new Canvas();
+        final Pane canvasContainer = new Pane(canvas);
+        canvasContainer.setPrefSize(21*30,21*30);
+        canvasContainer.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+
 
         // ajout des statistiques en bas de la fenetre
-        final BorderPane root = new BorderPane();
+        BorderPane root = new BorderPane();
         root.setCenter(canvasContainer);
-        root.setBottom(stats);
+        root.setMinSize(canvasContainer.getHeight(), canvasContainer.getWidth());
+
+
+        HBox attack = new HBox();
+        attack.setAlignment(Pos.CENTER);
+        attack.setSpacing(20);
+        Button atk = new Button("Attaque au corps à corps");
+        Button atk2 = new Button("Attaque explosive");
+        Button soin = new Button("Utiliser potion de soin");
+
+        attack.getChildren().addAll(atk, atk2, soin);
+
+
+        FileInputStream inputStreamMonstre = new FileInputStream("Zeldiablo/images/monstre.png");
+        Image monstre = new Image(inputStreamMonstre);
+        ImageView IVm = new ImageView(monstre);
+
+
+        FileInputStream  inputStreamPerso = new FileInputStream("zeldiablo/images/perso2.png");
+        Image perso = new Image(inputStreamPerso);
+        ImageView IVp = new ImageView(perso);
+
+        ProgressBar pokemonHPBar = new ProgressBar();
+        pokemonHPBar.setMaxWidth(Double.MAX_VALUE);
+        pokemonHPBar.setProgress(0.8); // PV à 100% au départ
+
+        ProgressBar opponentHPBar = new ProgressBar();
+        opponentHPBar.setMaxWidth(Double.MAX_VALUE);
+        opponentHPBar.setProgress(0.5); // PV à 100% au départ
+
+        // Création du GridPane et configuration des cellules
+        GridPane combatI = new GridPane();
+        combatI.setGridLinesVisible(true);
+        combatI.setHgap(10);
+        combatI.setVgap(10);
+        combatI.setPadding(new Insets(10));
+
+        combatI.add(IVp, 0, 0);
+        combatI.add(pokemonHPBar, 0, 1);
+
+        combatI.add(IVm, 1, 0);
+        combatI.add(opponentHPBar, 1, 1);
+
+        combatI.add(attack, 0,3, combatI.getColumnCount(), 1);
+
+
+        // Création de la scène et affichage
+
+
+
+        Image bg = new Image(new File("zeldiablo/images/background.jpg").toURI().toString());
+
+        ImageView bgImageView = new ImageView(bg);
+        bgImageView.setPreserveRatio(false);
+        bgImageView.setFitWidth(combatI.getWidth());
+        bgImageView.setFitHeight(combatI.getHeight());
+
+
+        BackgroundImage bgImg = new BackgroundImage(bgImageView.getImage(), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+
+        Background backgrnd = new Background(bgImg);
+
+        combatI.setBackground(backgrnd);
+
+
+        combatI.setPadding(new Insets(20));
+
+
+        HBox superRoot = new HBox();
+
+        superRoot.setMinHeight(canvasContainer.getHeight());
+        superRoot.setMinWidth(canvasContainer.getWidth());
+        superRoot.setPadding(new Insets(20));
+        superRoot.setSpacing(100);
+        superRoot.getChildren().addAll(root, combatI);
+        canvas.widthProperty().bind(superRoot.widthProperty());
+        canvas.heightProperty().bind(superRoot.heightProperty());
+        superRoot.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+
 
         // creation de la scene
-        final Scene scene = new Scene(root, WIDTH, HEIGHT);
+        Scene scene = new Scene(superRoot, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
+
+
+
+
 
 
         // listener clavier
