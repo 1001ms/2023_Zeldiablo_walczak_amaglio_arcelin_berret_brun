@@ -2,7 +2,7 @@
 10
 XXXXXXXXXX
 XM....XX.X
-X.X......X
+X.X.....SX
 X......X.X
 X........X
 X..XXP...X
