@@ -1,6 +1,6 @@
 package gameLaby.laby;
 
-public interface Personnage {
+public interface Element {
     /**
      * permet de savoir si le personnage est en x,y
      *
@@ -8,19 +8,15 @@ public interface Personnage {
      * @param dy position testee
      * @return true si le personnage est bien en (dx,dy)
      */
-    public boolean etrePresent(int dx, int dy);
-
-    // ############################################
-    // GETTER
-    // ############################################
+    boolean etrePresent(int dx, int dy);
 
     /**
      * @return position x du personnage
      */
-    public int getX();
+     int getX();
 
     /**
      * @return position y du personnage
      */
-    public int getY();
+     int getY();
 }
