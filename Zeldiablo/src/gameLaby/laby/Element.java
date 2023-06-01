@@ -19,4 +19,7 @@ public interface Element {
      * @return position y du personnage
      */
      int getY();
+
+    void setX(int x);
+    void setY(int y);
 }
