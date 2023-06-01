@@ -11,6 +11,8 @@ public abstract class Personnage implements Element {
      */
     private Coordonnee coordonnee;
 
+    private int HP;
+
     /**
      * constructeur
      *
@@ -50,7 +52,15 @@ public abstract class Personnage implements Element {
     }
 
     /**
-     * @return position x du personnage
+     * @return position y du personnage
+     */
+    public int getHP() {
+        //getter
+        return this.HP;
+    }
+
+    /**
+     * set position x du personnage
      */
     public void setX(int x) {
         // getter
@@ -58,12 +68,18 @@ public abstract class Personnage implements Element {
     }
 
     /**
-     * @return position y du personnage
+     * set position y du personnage
      */
     public void setY(int y) {
         // getter
         this.coordonnee.setY(y);
     }
 
+    /**
+     * set HP du personnage
+     */
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
 }
 

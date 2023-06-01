@@ -10,18 +10,24 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Timer;
 
 // copied from: https://gist.github.com/james-d/8327842
 // and modified to use canvas drawing instead of shapes
@@ -44,6 +50,15 @@ public class MoteurJeu extends Application {
      * statistiques sur les frames
      */
     private final FrameStats frameStats = new FrameStats();
+
+    /**
+     * Mise en paramettre des différentes timeLine
+     */
+    private  Timeline monstreTimeline = new Timeline();
+
+    private  Timeline serpentTimeline = new Timeline();
+
+    private  AnimationTimer timer;
 
     /**
      * jeu en Cours et renderer du jeu
@@ -112,8 +127,21 @@ public class MoteurJeu extends Application {
         root.setCenter(canvasContainer);
         root.setBottom(stats);
 
+        //ajout Conteneur principale
+        final HBox superRoot = new HBox();
+        superRoot.setSpacing(10);
+        superRoot.getChildren().addAll(root);
+
+        //ajout Conteneur combat
+        final GridPane combatI = new GridPane();
+        Rectangle r1 = new Rectangle(150,150);
+        r1.setFill(Color.BLACK);
+        combatI.add(r1,0,0);
+        superRoot.getChildren().addAll(combatI);
+
+
         // creation de la scene
-        final Scene scene = new Scene(root, WIDTH, HEIGHT);
+        final Scene scene = new Scene(superRoot, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -127,7 +155,7 @@ public class MoteurJeu extends Application {
         });
 
         // timeline pour le déplacement du monstre ---------------------------------------------------------------------
-        Timeline monstreTimeline = new Timeline(
+        this.monstreTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.5), event -> {
                     // Déplacement du monstre
                     try {
@@ -148,7 +176,7 @@ public class MoteurJeu extends Application {
         monstreTimeline.play(); // Démarrer la timeline du monstre
 
         // timeline pour le déplacement du serpent ---------------------------------------------------------------------
-        Timeline serpentTimeline = new Timeline(
+         this.serpentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.2), event -> {
                     // Déplacement du serpent
                     try {
@@ -190,6 +218,29 @@ public class MoteurJeu extends Application {
 
         // lance la boucle de jeu
         startAnimation(canvas);
+
+        // timeline pour le déplacement du monstre ---------------------------------------------------------------------
+        Timeline combatTl = new Timeline(
+                new KeyFrame(Duration.seconds(0.5), event -> {
+                    // Déplacement du monstre
+                    try {
+                        boolean Combat = jeu.getLabyrinthe().combat;
+                        if (Combat== true){
+                            this.monstreTimeline.stop();
+                            this.serpentTimeline.stop();
+                            this.timer.stop();
+                        }else{
+                            this.monstreTimeline.play();
+                            this.serpentTimeline.play();
+                            this.timer.start();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+        );
+        combatTl.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
+        combatTl.play(); // Démarrer la timeline du monstre
     }
 
     /**
@@ -202,7 +253,7 @@ public class MoteurJeu extends Application {
         final LongProperty lastUpdateTime = new SimpleLongProperty(0);
 
         // timer pour boucle de jeu
-        final AnimationTimer timer = new AnimationTimer() {
+        this.timer = new AnimationTimer() {
             @Override
             public void handle(long timestamp) {
 
@@ -240,5 +291,17 @@ public class MoteurJeu extends Application {
 
         // lance l'animation
         timer.start();
+    }
+
+    public Timeline getMonstreTimeline() {
+        return monstreTimeline;
+    }
+
+    public Timeline getSerpentTimeline() {
+        return serpentTimeline;
+    }
+
+    public AnimationTimer getAnimationTimer() {
+        return timer;
     }
 }
