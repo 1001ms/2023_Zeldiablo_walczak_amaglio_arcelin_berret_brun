@@ -29,18 +29,16 @@ public class LabyDessin implements DessinJeu {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // dessin laby
         Labyrinthe labyrinthe = labyJeu.getLabyrinthe();
-
+        FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur.png");
+        Image mur = new Image(inputStreamMur);
+        FileInputStream  inputStreamSol = new FileInputStream("zeldiablo/images/sol.png");
+        Image sol = new Image(inputStreamSol);
         for (int y = 0; y < labyrinthe.getLengthY(); y++) {
             // affiche la ligne
             for (int x = 0; x < labyrinthe.getLength(); x++) {
-                FileInputStream inputStream;
                 if (labyrinthe.getMur(x, y)) {
-                    inputStream = new FileInputStream("zeldiablo/images/mur.png");
-                    Image mur = new Image(inputStream);
                     gc.drawImage(mur,y*30,x*30,30,30);
                 } else {
-                    inputStream = new FileInputStream("zeldiablo/images/sol.png");
-                    Image sol = new Image(inputStream);
                     gc.drawImage(sol,y*30,x*30,30,30);
                 }
             }
@@ -51,25 +49,27 @@ public class LabyDessin implements DessinJeu {
         dessinerSerpent(gc,labyrinthe);
     }
 
-    private void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) {
+    public void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) {
         Aventurier personnage = labyrinthe.pj;
 
         int px = personnage.getX();
         int py = personnage.getY();
         gc.setFill(Color.RED);
         gc.fillOval(py*30,px*30,30,30);
+
     }
 
-    private void dessinerMonstre(GraphicsContext gc, Labyrinthe labyrinthe) {
+    public void dessinerMonstre(GraphicsContext gc, Labyrinthe labyrinthe) {
         Monstre personnage = labyrinthe.monstre;
 
         int px = personnage.getX();
         int py = personnage.getY();
         gc.setFill(Color.GREEN);
         gc.fillOval(py*30,px*30,30,30);
+
     }
 
-    private void dessinerSerpent(GraphicsContext gc, Labyrinthe labyrinthe) {
+    public void dessinerSerpent(GraphicsContext gc, Labyrinthe labyrinthe) {
         Serpent serpent = labyrinthe.serpent;
 
 
