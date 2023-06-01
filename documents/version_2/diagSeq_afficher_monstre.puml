@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+' Activation style
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+MoteurJeu -> LabyDessin: dessinerJeu(GraphicsContext gc, Labyrinthe labyrinthe)
+activate LabyDessin
+activate LabyDessin
+LabyDessin -> LabyDessin : dessinerMonstre (GraphicsContext gc, Labyrinthe labyrinthe)
+LabyDessin --> LabyDessin
+'deactivate LabyDessin : pour un meuilleur affichage il ne faut aps le mettre au niveau du commentaire
+LabyDessin -->MoteurJeu
+deactivate LabyDessin
+deactivate LabyDessin
+
+deactivate MoteurJeu
+
+@enduml

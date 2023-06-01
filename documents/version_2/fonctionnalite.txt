@@ -12,7 +12,7 @@
   - le jeu doit afficher le monstre à sa position.
 - Critères de validation :
   - le monstre doit être affiché à la bonne position dans le labyrinthe.
-  - le monstre sera représenté sous la forme d'un cercle violet de la taille du personnage.
+  - le monstre sera représenté sous la forme d'un cercle vert de la taille du personnage.
 
 3. Considérer le monstre dans les déplacements du personnage
 - Descriptif :
@@ -22,7 +22,7 @@
   - le monstre et le personnage ne peuvent pas se trouver sur la même case.
   - le personnage ne peut pas traverser la case du monstre
 
-4. Déplacer le monstre (optionnel en fonction avancée)
+4. Déplacer le monstre
 - Descriptif :
   - lorsque le jeu évolue, le monstre choisit une case adjacente de manière aléatoire et tente de s'y déplacer.
 - Critères de validation :
