@@ -28,5 +28,5 @@ public interface Jeu {
      */
     boolean etreFini();
 
-    Labyrinthe getLaby() throws IOException;
+    Labyrinthe getLabyrinthe() throws IOException;
 }

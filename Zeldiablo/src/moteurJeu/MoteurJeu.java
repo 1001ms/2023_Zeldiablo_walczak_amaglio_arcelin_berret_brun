@@ -126,12 +126,12 @@ public class MoteurJeu extends Application {
             }
         });
 
-        // timeline pour le déplacement du monstre
+        // timeline pour le déplacement du monstre ---------------------------------------------------------------------
         Timeline monstreTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.5), event -> {
                     // Déplacement du monstre
                     try {
-                        jeu.getLaby().deplacerMonstre();
+                        jeu.getLabyrinthe().deplacerMonstre();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -146,6 +146,27 @@ public class MoteurJeu extends Application {
         );
         monstreTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
         monstreTimeline.play(); // Démarrer la timeline du monstre
+
+        // timeline pour le déplacement du serpent ---------------------------------------------------------------------
+        Timeline serpentTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.2), event -> {
+                    // Déplacement du serpent
+                    try {
+                        jeu.getLabyrinthe().deplacerSerpent();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    // Redessiner le jeu
+                    try {
+                        dessin.dessinerJeu(jeu, canvas);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+        );
+        serpentTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
+        serpentTimeline.play(); // Démarrer la timeline du monstre
 
 
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {

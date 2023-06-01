@@ -17,7 +17,7 @@ public class LabyJeu implements Jeu {
      */
     public LabyJeu(){
         try {
-            this.laby=new Labyrinthe("Zeldiablo/labySimple/laby1.txt");
+            this.laby=new Labyrinthe("Zeldiablo/labySimple/laby3.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,19 +39,9 @@ public class LabyJeu implements Jeu {
         }
     }
 
-    /**
-     * getter de laby
-     * @return this.laby
-     */
-    public Labyrinthe getLaby(){
-        return this.laby;
-    }
-
     @Override
     public void init() {
     }
-
-
     @Override
     public boolean etreFini() {
         return laby.etreFini();
@@ -60,7 +50,4 @@ public class LabyJeu implements Jeu {
     public Labyrinthe getLabyrinthe(){
         return this.laby;
     }
-
-
-
 }
