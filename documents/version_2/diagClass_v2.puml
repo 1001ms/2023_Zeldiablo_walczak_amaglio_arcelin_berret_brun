@@ -9,11 +9,11 @@ class Application{
 package moteurJeu{
 
 class MoteurJeu{
-- <static> width: double
-- <static> height: double
+- <static> width: int
+- <static> height: int
 - <static> FPS: int
 + <static> launch(jeu: Jeu, dessin: DessinJeu)
-+ <static> setTaille(width: double, height: double)
++ <static> setTaille(width: int, height: int)
 + <static> setFPS(FPS: int)
 + start(primaryStage: Stage)
 + startAnimation(canvas: Canvas)
@@ -25,7 +25,7 @@ Application <|-- MoteurJeu
 
 interface Jeu{
 + init()
-+ update(secondes: double, clavier: Clavier)
++ update(seconds: double, clavier: Clavier)
 + etreFini(): boolean
 }
 
@@ -51,80 +51,111 @@ MoteurJeu "1" --> "1" Clavier : - clavier
 }
 
 
-package gameZeldiablo{
-
+package gameLaby.laby{
 class LabyJeu{
 + init()
-+ LabyJeu()
 + update(seconds: double, clavier: Clavier)
 + etreFini(): boolean
 + getLaby(): Labyrinthe
-+
 }
+
 Jeu <|.. LabyJeu
-class Labyrinthe{
- + <static> MUR : char
- + <static> MONSTRE : char
- + <static> PJ : char
- + <static> VIDE : char
- + <static> HAUT : String
- + <static> BAS : String
- + <static> GAUCHE : String
- + <static> DROITE : String
- + murs : boolean[][]
- + Labyrinthe(String nom)
- + <static> getSuivant(int x, int y, String action) : int[]
- + deplacerPerso(String nom)
- + deplacerMonstre()
- + etreFini() : boolean
- + getLengthY() : int
- + getLength() : int
- + getMur(int x, int y) : boolean
+
+class Aventurier {
+  - coordonnee: Coordonnee
+  + Aventurier(dx: int, dy: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
 }
+
+class Coordonnee {
+  - x: int
+  - y: int
+  + Coordonnee(x: int, y: int)
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+interface Element {
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+}
+
+class Monstre {
+  - coordonnee: Coordonnee
+  + Monstre(dx: int, dy: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+abstract class Personnage {
+  - coordonnee: Coordonnee
+  + Personnage(dx: int, dy: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+class Serpent {
+  - corp: List<Coordonnee>
+  + Serpent(dx: int, dy: int)
+  + getCorp(): List<Coordonnee>
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+class Labyrinthe {
+  - murs: boolean[][]
+  - pj: Aventurier
+  - monstres: List<Monstre>
+  - serpents: List<Serpent>
+  - elements: List<Element>
+  + Labyrinthe(nom: String)
+  + elementPresent(x: int, y: int): boolean
+  + deplacerPerso(action: String): void
+  + deplacerMonstre(): void
+  + deplacerSerpent(): void
+  + etreFini(): boolean
+  + getLengthY(): int
+  + getLength(): int
+  + getMur(x: int, y: int): boolean
+}
+
+Aventurier --|> Personnage
+Personnage <|-- Monstre
+
+Personnage "1" <-- "1..*" Coordonnee
+Element <|.. Serpent
+Element <|.. Personnage
+
+Labyrinthe -- Aventurier
+Labyrinthe "1" -- "0..*" Monstre
+Labyrinthe "1" -- "0..*" Serpent
+Labyrinthe "1" -- "0..*" Element
+
 Labyrinthe <- LabyJeu : +Labyrinthe
 
-Labyrinthe --> Monstre : +monstre
+Labyrinthe --> Monstre : +monstres
 Labyrinthe -> Aventurier : +pj
 
 class MainLaby{
 + main(String[] args)
 }
 
-class Monstre
-
-class Raquette{
-- posX: double
-- posY: double
-- vx: double
-- width: double
-+ Raquette(width: double, height: double)
-+ allerDroite(width: int, seconds: double)
-+ allerGauche(width: int, seconds: double)
-}
-
-ArkanoidJeu "1" --> "1" Raquette : -raquette
-
-class Balle{
-- posX, posY: double
-- vx,vy: double
-- width: double
-- dessous: boolean
-+ Balle(width: double, height: double)
-+ evoluer(seconds: double)
-+ collision(raquette: Raquette)
-}
-
-
-ArkanoidJeu "1" --> "1" Balle : -balle
-
-
-class ArkanoidDessin{
-+ dessinerJeu(jeu: Jeu, canvas: Canvas)
-}
-
-DessinJeu <|.. ArkanoidDessin
-ArkanoidJeu <. ArkanoidDessin:uses
-}
-
+MainLaby --> MoteurJeu : <<use>>
 
 @enduml
