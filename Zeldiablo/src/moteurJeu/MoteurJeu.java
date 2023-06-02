@@ -51,7 +51,7 @@ public class MoteurJeu extends Application {
     /**
      * statistiques sur les frames
      */
-    private final FrameStats frameStats = new FrameStats();
+    public final FrameStats frameStats = new FrameStats();
 
     /**
      * jeu en Cours et renderer du jeu
@@ -330,5 +330,9 @@ public class MoteurJeu extends Application {
 
         // lance l'animation
         timer.start();
+    }
+
+    public FrameStats getFrameStats(){
+        return frameStats;
     }
 }
