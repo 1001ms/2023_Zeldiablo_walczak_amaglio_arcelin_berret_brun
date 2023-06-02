@@ -111,14 +111,11 @@ public class MoteurJeu extends Application {
         Canvas canvas = new Canvas();
         final Pane canvasContainer = new Pane(canvas);
         canvasContainer.setPrefSize(21*30,21*30);
-        canvasContainer.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-
 
         // ajout des statistiques en bas de la fenetre
         BorderPane root = new BorderPane();
         root.setCenter(canvasContainer);
         root.setMinSize(canvasContainer.getHeight(), canvasContainer.getWidth());
-
 
         HBox attack = new HBox();
         attack.setAlignment(Pos.CENTER);
@@ -152,7 +149,6 @@ public class MoteurJeu extends Application {
         combatI.setGridLinesVisible(true);
         combatI.setHgap(10);
         combatI.setVgap(10);
-        combatI.setPadding(new Insets(10));
 
         combatI.add(IVp, 0, 0);
         combatI.add(pokemonHPBar, 0, 1);
@@ -164,9 +160,6 @@ public class MoteurJeu extends Application {
 
 
         // Création de la scène et affichage
-
-
-
         Image bg = new Image(new File("zeldiablo/images/background.jpg").toURI().toString());
 
         ImageView bgImageView = new ImageView(bg);
@@ -186,15 +179,26 @@ public class MoteurJeu extends Application {
 
 
         HBox superRoot = new HBox();
-
+        superRoot.setSpacing(50);
+        superRoot.setPadding(new Insets(50));
         superRoot.setMinHeight(canvasContainer.getHeight());
         superRoot.setMinWidth(canvasContainer.getWidth());
-        superRoot.setPadding(new Insets(20));
-        superRoot.setSpacing(100);
+
         superRoot.getChildren().addAll(root, combatI);
         canvas.widthProperty().bind(superRoot.widthProperty());
         canvas.heightProperty().bind(superRoot.heightProperty());
-        superRoot.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        //FOND ---------------------------------
+        Image bgFond = new Image(new File("zeldiablo/images/backgroundFOND.jpeg").toURI().toString());
+        ImageView bgFondImageView = new ImageView(bgFond);
+        bgFondImageView.setPreserveRatio(false);
+        bgFondImageView.setFitWidth(superRoot.getWidth());
+        bgFondImageView.setFitHeight(superRoot.getHeight());
+
+        BackgroundImage bgFondImg = new BackgroundImage(bgFondImageView.getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true));
+
+        Background backgrndFond = new Background(bgFondImg);
+
+        superRoot.setBackground(backgrndFond);
 
 
         // creation de la scene
@@ -202,11 +206,6 @@ public class MoteurJeu extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
-
-
-
-
-
 
         // listener clavier
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {

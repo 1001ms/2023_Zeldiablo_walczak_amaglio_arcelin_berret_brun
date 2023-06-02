@@ -330,6 +330,9 @@ public class Labyrinthe {
         aventurierDansTrou();
     }
 
+    /**
+     * méthode caisseSurTrou supprime caisse et depot lorsque la caisse est sur le depot
+     */
     public void caisseSurTrou() {
         for (int i = 0; i < this.caisses.getTaille(); i++) {
             Element caisse = this.caisses.getElementByIndice(i);
@@ -346,6 +349,10 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * méthode qui permet de savoir si l'aventurier est dans le trou
+     * @return true si l'aventurier est sur le trou
+     */
     public boolean aventurierDansTrou() {
         boolean res = false;
         int xPerso = this.pj.getX();

@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 
 public class LabyDessin implements DessinJeu {
 
-
     /**
      * affichage d'un jeu de type arkanoid
      *
@@ -20,13 +19,8 @@ public class LabyDessin implements DessinJeu {
     public void dessinerJeu(Jeu jeu, Canvas canvas) throws FileNotFoundException {
 
         LabyJeu labyJeu = (LabyJeu) jeu;
-
         // recupere un pinceau pour dessiner
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        // dessin fond
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         // dessin laby
         Labyrinthe labyrinthe = labyJeu.getLabyrinthe();
         FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur.png");
@@ -63,7 +57,7 @@ public class LabyDessin implements DessinJeu {
 
     public void dessinerMonstre(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
 
-        FileInputStream  inputStreamMonstre = new FileInputStream("zeldiablo/images/monstre.gif");
+        FileInputStream  inputStreamMonstre = new FileInputStream("zeldiablo/images/brocoli.png");
         Image monstre = new Image(inputStreamMonstre);
         for(Monstre m : labyrinthe.monstres) {
             int px = m.getX();
@@ -104,15 +98,15 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
-    public void dessinerDepot(GraphicsContext gc, Labyrinthe labyrinthe) {
-
+    public void dessinerDepot(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
+        FileInputStream  inputStreamTrou = new FileInputStream("zeldiablo/images/trou.png");
+        Image trou = new Image(inputStreamTrou);
         for (int i=0;i<labyrinthe.depots.getTaille();i++) {
 
             // Parcours chaque partie du corps du serpent
             int px = labyrinthe.depots.getElementByIndice(i).getX();
             int py = labyrinthe.depots.getElementByIndice(i).getY();
-            gc.setFill(Color.BLACK);
-            gc.fillRect(py * 30, px * 30, 30, 30);
+            gc.drawImage(trou,py*30,px*30,30,30);
         }
     }
 }
