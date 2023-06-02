@@ -22,6 +22,17 @@ public class LabyJeu implements Jeu {
             e.printStackTrace();
         }
     }
+
+    /**
+     Constructeur avec une String en parametre
+     */
+    public LabyJeu(String path){
+        try {
+            this.laby=new Labyrinthe(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void update(double secondes, Clavier clavier) {
 
         // deplace le perso en fonction des touches
