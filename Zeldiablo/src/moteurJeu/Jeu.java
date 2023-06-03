@@ -1,6 +1,8 @@
 package moteurJeu;
 
 
+import gameLaby.laby.Echappatoire;
+import gameLaby.laby.LabyJeu;
 import gameLaby.laby.Labyrinthe;
 
 import java.io.IOException;
@@ -28,5 +30,8 @@ public interface Jeu {
      */
     boolean etreFini();
 
+    Labyrinthe getLaby() throws IOException;
+
+    LabyJeu newLaby(String l, int lvl, Echappatoire es) throws IOException;
     Labyrinthe getLabyrinthe() throws IOException;
 }

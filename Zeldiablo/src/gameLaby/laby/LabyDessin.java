@@ -71,6 +71,12 @@ public class LabyDessin implements DessinJeu {
                 }
             }
         }
+        dessinerDepot(gc,labyrinthe);
+        dessinerAventurier(gc,labyrinthe);
+        dessinerMonstre(gc,labyrinthe);
+        dessinerEscaliers(gc,labyrinthe);
+        dessinerSerpent(gc,labyrinthe);
+        dessinerCaisse(gc,labyrinthe);
     }
 
     public void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
@@ -131,4 +137,15 @@ public class LabyDessin implements DessinJeu {
             gc.drawImage(trou, py*TAILLE, px*TAILLE, TAILLE, TAILLE);
         }
     }
+
+    private void dessinerEscaliers(GraphicsContext gc, Labyrinthe labyrinthe) {
+        Echappatoire ec = labyrinthe.escapes;
+        for(int i=0; i<ec.getEscpNv(labyrinthe.nvLaby).size();i++){
+            int px = ec.getEscpNv(labyrinthe.nvLaby).get(i)[0];
+            int py = ec.getEscpNv(labyrinthe.nvLaby).get(i)[1];
+            gc.setFill(Color.YELLOW);
+            gc.fillRect(py*TAILLE,px*TAILLE,TAILLE,TAILLE);
+        }
+    }
+
 }
