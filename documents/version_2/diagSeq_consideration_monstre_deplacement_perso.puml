@@ -1,0 +1,40 @@
+@startuml
+
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+Main -> Labyrinthe: deplacerPerso("Gauche")
+activate Labyrinthe
+
+Labyrinthe -> Perso: getX()
+activate Perso
+Labyrinthe <-- Perso:
+deactivate Perso
+
+Labyrinthe -> Perso: getY()
+activate Perso
+Labyrinthe <-- Perso:
+deactivate Perso
+
+
+Labyrinthe -> Labyrinthe: getSuivant(courante[0], courante[1], "Gauche")
+Labyrinthe --> Labyrinthe: [courante[0] - 1, courante[1]]
+
+
+Labyrinthe -> Labyrinthe: getMur(suivante[0], suivante[1])
+Labyrinthe --> Labyrinthe: false
+Labyrinthe -> Monstre: etrePresent(suivante[0], suivante[1])
+activate Monstre
+Labyrinthe <-- Monstre: false
+deactivate Monstre
+
+
+Labyrinthe -> Labyrinthe: deplacerPerso("Gauche")
+Labyrinthe --> Labyrinthe:
+
+Main <-- Labyrinthe: -
+
+@enduml

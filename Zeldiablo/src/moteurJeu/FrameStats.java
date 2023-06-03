@@ -31,6 +31,7 @@ public class FrameStats {
         return text.getReadOnlyProperty();
     }
 
+
     @Override
     public String toString() {
         return String.format("Frame count: %,d Average frame interval: %.3f milliseconds", getFrameCount(), getMeanFrameInterval());

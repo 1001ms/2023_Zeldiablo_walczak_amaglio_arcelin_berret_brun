@@ -24,6 +24,17 @@ public class LabyJeu implements Jeu {
             e.printStackTrace();
         }
     }
+
+    /**
+     Constructeur avec une String en parametre
+     */
+    public LabyJeu(String path){
+        try {
+            this.laby=new Labyrinthe(path,0,null); //A modifier chargement des éscaliers
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void update(double secondes, Clavier clavier) {
 
         // deplace le perso en fonction des touches
@@ -41,22 +52,17 @@ public class LabyJeu implements Jeu {
         }
     }
 
-    /**
-     * getter de laby
-     * @return this.laby
-     */
-    public Labyrinthe getLaby(){
-        return this.laby;
-    }
-
     @Override
     public void init() {
     }
-
-
     @Override
     public boolean etreFini() {
         return laby.etreFini();
+    }
+
+    @Override
+    public Labyrinthe getLaby() throws IOException {
+        return this.laby;
     }
 
     public Labyrinthe getLabyrinthe(){

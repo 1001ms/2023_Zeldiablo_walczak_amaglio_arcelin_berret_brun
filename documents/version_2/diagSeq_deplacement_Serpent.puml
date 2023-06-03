@@ -1,0 +1,31 @@
+@startuml
+participant "MoteurJeu" as moteurJeu
+participant "Labyrinthe" as labyrinthe
+participant "Serpent" as serpent
+participant "Element:ArrayList<Element>" as element
+
+
+moteurJeu->labyrinthe: deplacerSerpent()
+activate labyrinthe
+labyrinthe -> serpent: getX(), getY()
+activate serpent
+labyrinthe -> serpent: getCorp()
+activate serpent
+loop ième element
+    serpent -> element: etrePresent(x, y)
+    activate element
+    element --> serpent: false
+    deactivate element
+        serpent -> serpent: setX(xSuivant), setY(ySuivant)
+        serpent-->serpent
+        loop ième corp serpent
+            serpent -> serpent: setX(precedente.getX()), setY(precedente.getY())
+            serpent-->serpent
+        end
+end
+serpent-->labyrinthe
+labyrinthe-->moteurJeu
+deactivate serpent
+deactivate labyrinthe
+
+@enduml

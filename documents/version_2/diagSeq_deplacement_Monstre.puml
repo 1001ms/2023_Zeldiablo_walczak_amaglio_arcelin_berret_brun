@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+' Activation style
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+loop monstreTimeLine toute les 0,5s
+MoteurJeu -> LabyJeu: getLaby()
+activate LabyJeu
+LabyJeu --> MoteurJeu : Laby
+deactivate LabyJeu
+MoteurJeu -> Labyrinthe : deplacerMonstre()
+activate Labyrinthe
+
+
+Labyrinthe -> Monstre: getX()
+activate Monstre
+Labyrinthe <-- Monstre:
+deactivate Monstre
+
+Labyrinthe -> Monstre: getY()
+activate Monstre
+Labyrinthe <-- Monstre:
+deactivate Monstre
+
+
+Labyrinthe -> Labyrinthe: getSuivant(courante[0], courante[1], action[r.nextInt(action.length)])
+Labyrinthe --> Labyrinthe: dépend du random [int,int]
+
+
+Labyrinthe -> Labyrinthe: getMur(suivante[0], suivante[1])
+Labyrinthe --> Labyrinthe: false
+Labyrinthe -> Perso: etrePresent(suivante[0], suivante[1])
+activate Perso
+Labyrinthe <-- Perso: false
+deactivate Perso
+deactivate MoteurJeu
+end
+@enduml

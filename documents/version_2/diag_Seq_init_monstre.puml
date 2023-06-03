@@ -1,0 +1,10 @@
+@startuml
+MainLaby -> LabyJeu:
+activate LabyJeu
+LabyJeu -> Labyrinthe: Labyrinte(String nomFichier)
+activate Labyrinthe
+Labyrinthe --> LabyJeu:
+deactivate Labyrinthe
+LabyJeu --> MainLaby:
+deactivate LabyJeu
+@enduml

@@ -14,19 +14,24 @@ actor MainLaby
 MainLaby -> MoteurJeu: main(String[] args)
 activate MoteurJeu
 create LabyJeu
+MainLaby -> LabyJeu : LabyJeu()
 create LabyDessin
-MoteurJeu -> LabyDessin: dessinJeu(jeuLaby, canvas)
+MainLaby -> LabyDessin: LabyDessin()
 activate LabyDessin
-LabyDessin --> LabyJeu: utilise
+MoteurJeu -> LabyDessin: dessinJeu(LabyJeu, canvas)
+LabyDessin --> MoteurJeu
+deactivate LabyDessin
 MoteurJeu -> LabyJeu: init()
 activate LabyJeu
-LabyJeu --> MoteurJeu: charge
-MoteurJeu --> LabyJeu: setTaille(width, height)
-MoteurJeu --> LabyJeu: setFPS(pFPS)
+LabyJeu --> MoteurJeu
+MoteurJeu -> LabyJeu: setTaille(width, height)
+MoteurJeu <-- LabyJeu
+MoteurJeu -> LabyJeu: setFPS(pFPS)
+MoteurJeu <-- LabyJeu
 MoteurJeu -> LabyJeu: update(double secondes, clavier)
+MoteurJeu <-- LabyJeu
 deactivate LabyJeu
-MainLaby <-- MoteurJeu: Execution terminée
-deactivate LabyDessin
+MainLaby <-- MoteurJeu:
 deactivate MoteurJeu
 
 @enduml
