@@ -3,12 +3,19 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import moteurJeu.DessinJeu;
 import moteurJeu.Jeu;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class LabyDessin implements DessinJeu {
+
+    public final static int TAILLE=50;
 
     /**
      * affichage d'un jeu de type arkanoid
@@ -17,13 +24,40 @@ public class LabyDessin implements DessinJeu {
      */
     @Override
     public void dessinerJeu(Jeu jeu, Canvas canvas) throws FileNotFoundException {
-
         LabyJeu labyJeu = (LabyJeu) jeu;
-        // recupere un pinceau pour dessiner
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        // dessin laby
         Labyrinthe labyrinthe = labyJeu.getLabyrinthe();
-        FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur.png");
+
+        // Récupérer un pinceau pour dessiner
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+
+
+        // Dessiner le personnage et les autres éléments du jeu
+        dessinerMurSol(gc, labyrinthe);
+        dessinerDepot(gc, labyrinthe);
+        dessinerAventurier(gc, labyrinthe);
+        dessinerMonstre(gc, labyrinthe);
+        dessinerSerpent(gc, labyrinthe);
+        dessinerCaisse(gc, labyrinthe);
+
+        // Dessiner la zone éclairée autour du personnage
+        Aventurier personnage = labyrinthe.pj;
+        int px = personnage.getX();
+        int py = personnage.getY();
+        int rayonEclairage = 125; // Définir le rayon d'éclairage souhaité
+
+        // Dessiner un cercle transparent avec une ombre autour du personnage
+        double centerX = (py * TAILLE) + (TAILLE / 2);
+        double centerY = (px * TAILLE) + (TAILLE / 2);
+        RadialGradient gradient = new RadialGradient(0, 0, centerX, centerY, rayonEclairage,
+                false, CycleMethod.NO_CYCLE, new Stop(0, Color.TRANSPARENT), new Stop(1, Color.BLACK));
+        gc.setFill(gradient);
+        gc.fillRect(0, 0, 21*30, 21*30);//changer selon la taille de laby
+    }
+
+
+    public void dessinerMurSol(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
+        FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur2.png");
         Image mur = new Image(inputStreamMur);
         FileInputStream  inputStreamSol = new FileInputStream("zeldiablo/images/sol.png");
         Image sol = new Image(inputStreamSol);
@@ -31,17 +65,12 @@ public class LabyDessin implements DessinJeu {
             // affiche la ligne
             for (int x = 0; x < labyrinthe.getLength(); x++) {
                 if (labyrinthe.getMur(x, y)) {
-                    gc.drawImage(mur,y*30,x*30,30,30);
+                    gc.drawImage(mur,y*TAILLE,x*TAILLE,TAILLE,TAILLE);
                 } else {
-                    gc.drawImage(sol,y*30,x*30,30,30);
+                    gc.drawImage(sol,y*TAILLE,x*TAILLE,TAILLE,TAILLE);
                 }
             }
         }
-        dessinerDepot(gc,labyrinthe);
-        dessinerAventurier(gc,labyrinthe);
-        dessinerMonstre(gc,labyrinthe);
-        dessinerSerpent(gc,labyrinthe);
-        dessinerCaisse(gc,labyrinthe);
     }
 
     public void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
@@ -50,63 +79,56 @@ public class LabyDessin implements DessinJeu {
         Image aventurier = new Image(inputStreamAventurier);
         int px = personnage.getX();
         int py = personnage.getY();
-        gc.setFill(Color.RED);
-        gc.drawImage(aventurier,py*30,px*30,30,30);
-
+        gc.drawImage(aventurier, py*TAILLE, px*TAILLE, TAILLE, TAILLE);
     }
 
     public void dessinerMonstre(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
-
-        FileInputStream  inputStreamMonstre = new FileInputStream("zeldiablo/images/brocoli.png");
+        FileInputStream  inputStreamMonstre = new FileInputStream("zeldiablo/images/monstre.png");
         Image monstre = new Image(inputStreamMonstre);
         for(Monstre m : labyrinthe.monstres) {
             int px = m.getX();
             int py = m.getY();
-            gc.drawImage(monstre,py*30,px*30,30,30);
+            gc.drawImage(monstre, py*TAILLE, px*TAILLE, TAILLE, TAILLE);
         }
     }
 
-
-    public void dessinerSerpent(GraphicsContext gc, Labyrinthe labyrinthe) {
+    public void dessinerSerpent(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
+        FileInputStream  inputStreamTeteS = new FileInputStream("zeldiablo/images/teteS.png");
+        Image teteS = new Image(inputStreamTeteS);
+        FileInputStream  inputStreamCorpS = new FileInputStream("zeldiablo/images/corpS.png");
+        Image corpS = new Image(inputStreamCorpS);
 
         for (Serpent s : labyrinthe.serpents) {
-
             // Parcours chaque partie du corps du serpent
             for (int i = 1; i < s.getCorp().size(); i++) {
                 int corpx = s.getCorp().get(i).getX();
                 int corpy = s.getCorp().get(i).getY();
-                gc.setFill(Color.MEDIUMSPRINGGREEN);
-                gc.fillOval(corpy * 30, corpx * 30, 30, 30);
-
+                gc.drawImage(corpS,corpy * TAILLE, corpx * TAILLE, TAILLE, TAILLE);
             }
             int x = s.getCorp().get(0).getX();
             int y = s.getCorp().get(0).getY();
-            gc.setFill(Color.GREEN);
-            gc.fillOval(y * 30, x * 30, 30, 30);
+
+            gc.drawImage(teteS,y * TAILLE, x * TAILLE, TAILLE, TAILLE);
         }
     }
 
     public void dessinerCaisse(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
-        FileInputStream  inputStreamCaisse = new FileInputStream("zeldiablo/images/caisse.png");
+        FileInputStream  inputStreamCaisse = new FileInputStream("zeldiablo/images/image 8.png");
         Image caisse = new Image(inputStreamCaisse);
         for (int i=0;i<labyrinthe.caisses.getTaille();i++) {
-
-            // Parcours chaque partie du corps du serpent
             int px = labyrinthe.caisses.getElementByIndice(i).getX();
             int py = labyrinthe.caisses.getElementByIndice(i).getY();
-            gc.drawImage(caisse,py*30,px*30,30,30);
+            gc.drawImage(caisse, py*TAILLE, px*TAILLE, TAILLE, TAILLE);
         }
     }
 
     public void dessinerDepot(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
-        FileInputStream  inputStreamTrou = new FileInputStream("zeldiablo/images/trou.png");
+        FileInputStream  inputStreamTrou = new FileInputStream("zeldiablo/images/image 7.png");
         Image trou = new Image(inputStreamTrou);
         for (int i=0;i<labyrinthe.depots.getTaille();i++) {
-
-            // Parcours chaque partie du corps du serpent
             int px = labyrinthe.depots.getElementByIndice(i).getX();
             int py = labyrinthe.depots.getElementByIndice(i).getY();
-            gc.drawImage(trou,py*30,px*30,30,30);
+            gc.drawImage(trou, py*TAILLE, px*TAILLE, TAILLE, TAILLE);
         }
     }
 }
