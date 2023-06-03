@@ -344,6 +344,7 @@ public class MoteurJeu extends Application {
                     jeu.update(dureeEnMilliSecondes / 1_000., controle);
                     try {
                         if(jeu.getLaby().playerInEscape() != -1) {
+                            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                             System.out.println("+ niveau : " + jeu.getLaby().nvLaby + " type : " + jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()));
                             int[] res = jeu.getLaby().escapes.identifierEchap(jeu.getLaby().nvLaby,jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()),jeu.getLaby().nMap);
                             System.out.println("+ niveau : " + res[0] + " type : " + jeu.getLaby().escapes.indexToType(res[1]));
