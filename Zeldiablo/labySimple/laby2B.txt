@@ -1,7 +1,7 @@
 14
 20
-XXXXXXXXXXXXXXXXXXXX
-XX.C.....X........XX
+XXXCXXXXXXXXXXXXXXXX
+XX.......X........XX
 X........X.........X
 X........X...X.....X
 X..X.....X........XX
@@ -12,5 +12,5 @@ X.....X..X.........X
 XX.......XX.....M..X
 X...S....X.........X
 X........X.........X
-XX..............PBXX
+XX...............PBX
 XXXXXXXXXXXXXXXXXXXX
