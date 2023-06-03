@@ -1,9 +1,11 @@
 package gameLaby.laby;
 import moteurJeu.MoteurJeu;
 
+import java.io.IOException;
+
 public class MainLaby {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int width = 810;
         int height = 718;
 
@@ -20,6 +22,8 @@ public class MainLaby {
 
         // lancement du jeu
         MoteurJeu.launch(jeuLaby, dessinLaby);
+
+        System.out.println("Labyrinthe 1");
 
     }
 }

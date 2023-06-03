@@ -42,6 +42,7 @@ public class LabyDessin implements DessinJeu {
 
         dessinerAventurier(gc,labyrinthe);
         dessinerMonstre(gc,labyrinthe);
+        dessinerEscaliers(gc,labyrinthe);
     }
 
     private void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) {
@@ -61,4 +62,15 @@ public class LabyDessin implements DessinJeu {
         gc.setFill(Color.GREEN);
         gc.fillOval(py*30,px*30,30,30);
     }
+
+    private void dessinerEscaliers(GraphicsContext gc, Labyrinthe labyrinthe) {
+        Echappatoire ec = labyrinthe.escapes;
+        for(int i=0; i<ec.getEscpNv(labyrinthe.nvLaby).size();i++){
+            int px = ec.getEscpNv(labyrinthe.nvLaby).get(i)[0];
+            int py = ec.getEscpNv(labyrinthe.nvLaby).get(i)[1];
+            gc.setFill(Color.YELLOW);
+            gc.fillRect(py*30,px*30,30,30);
+        }
+    }
+
 }

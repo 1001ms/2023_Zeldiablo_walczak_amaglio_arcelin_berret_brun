@@ -19,7 +19,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import  java.lang.*;
+import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -44,6 +45,8 @@ public class MoteurJeu extends Application {
      * statistiques sur les frames
      */
     private final FrameStats frameStats = new FrameStats();
+
+    private int frameCount = 0;
 
     /**
      * jeu en Cours et renderer du jeu
@@ -96,7 +99,7 @@ public class MoteurJeu extends Application {
     /**
      * creation de l'application avec juste un canvas et des statistiques
      */
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         // initialisation du canvas de dessin et du container
         final Canvas canvas = new Canvas();
         final Pane canvasContainer = new Pane(canvas);
@@ -176,7 +179,36 @@ public class MoteurJeu extends Application {
      *
      * @param canvas le canvas sur lequel on est synchronise
      */
-    private void startAnimation(final Canvas canvas) {
+    private void startAnimation(final Canvas canvas) throws IOException {
+        frameCount++;
+        if (frameCount == 1) {
+            //Parcour de la liste des fichiers texts et ajout dans la liste des labyrinthes
+            File dir  = new File("Zeldiablo\\labySimple");
+            File[] liste = dir.listFiles();
+            String name;
+            int n1;
+            char n2;
+            for(File item : liste){
+                if(item.isFile())
+                {
+                    name = item.getName();
+                    if(name.endsWith(".txt"))
+                    {
+                        try {
+                            System.out.println(name);
+                            name = name.substring(4, 7);
+                            n1 = Integer.parseInt(name.substring(0, 1));
+                            n2 = name.substring(1, 2).charAt(0);
+                            jeu.newLaby(("Zeldiablo/labySimple/laby"+n1+n2+".txt"), n1,jeu.getLaby().escapes);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            jeu = jeu.newLaby("Zeldiablo/labySimple/laby0A.txt", 0,jeu.getLaby().escapes);
+        }
+
         // stocke la derniere mise e jour
         final LongProperty lastUpdateTime = new SimpleLongProperty(0);
 
@@ -199,11 +231,24 @@ public class MoteurJeu extends Application {
                 if (dureeEnMilliSecondes > dureeFPS) {
                     // met a jour le jeu en passant les touches appuyees
                     jeu.update(dureeEnMilliSecondes / 1_000., controle);
-
-                    // dessine le jeu
                     try {
-                        dessin.dessinerJeu(jeu, canvas);
-                    } catch (FileNotFoundException e) {
+                        if(jeu.getLaby().playerInEscape() != -1) {
+                            System.out.println("+ niveau : " + jeu.getLaby().nvLaby + " type : " + jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()));
+                            int[] res = jeu.getLaby().escapes.identifierEchap(jeu.getLaby().nvLaby,jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()));
+                            System.out.println("+ niveau : " + res[0] + " type : " + jeu.getLaby().escapes.indexToType(res[1]));
+                            String labS = "Zeldiablo/labySimple/laby" + (res[0]) + (jeu.getLaby().escapes.indexToType(res[1]))+".txt";
+                            System.out.println(labS);
+                            jeu = jeu.newLaby(labS, res[0],jeu.getLaby().escapes);
+
+                        }
+
+                        // dessine le jeu
+                        try {
+                            dessin.dessinerJeu(jeu, canvas);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
 
