@@ -1,0 +1,10 @@
+8
+5
+XXXXX
+DP..X
+X...X
+X...X
+X...X
+X...X
+XS..X
+XXXXX

@@ -18,7 +18,7 @@ public class LabyJeu implements Jeu {
     public LabyJeu(){
         try {
             Echappatoire escp =new Echappatoire();
-            this.laby=new Labyrinthe("Zeldiablo/labySimple/laby0A.txt",0,escp);
+            this.laby=new Labyrinthe("Zeldiablo/labySimple/laby0A0.txt",0,escp,0);
             laby.escapes.afficher();
         } catch (IOException e) {
             e.printStackTrace();
@@ -30,7 +30,7 @@ public class LabyJeu implements Jeu {
      */
     public LabyJeu(String path){
         try {
-            this.laby=new Labyrinthe(path,0,null); //A modifier chargement des éscaliers
+            this.laby=new Labyrinthe(path,0,null,0); //A modifier chargement des éscaliers
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,9 +74,9 @@ public class LabyJeu implements Jeu {
     }
 
 
-    public LabyJeu newLaby(String name,int nv,Echappatoire es) throws IOException {
+    public LabyJeu newLaby(String name,int nv,Echappatoire es, int nM) throws IOException {
         try {
-            this.laby=new Labyrinthe(name,nv,es);
+            this.laby=new Labyrinthe(name,nv,es, nM);
             laby.escapes.afficher();
             return this;
         } catch (IOException e) {

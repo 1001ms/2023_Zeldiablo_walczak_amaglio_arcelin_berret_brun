@@ -32,6 +32,6 @@ public interface Jeu {
 
     Labyrinthe getLaby() throws IOException;
 
-    LabyJeu newLaby(String l, int lvl, Echappatoire es) throws IOException;
+    LabyJeu newLaby(String l, int lvl, Echappatoire es, int nM) throws IOException;
     Labyrinthe getLabyrinthe() throws IOException;
 }

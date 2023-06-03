@@ -11,7 +11,7 @@ public class Main {
         // charge le labyrinthe
 
         Echappatoire escp =new Echappatoire();
-        Labyrinthe laby = new Labyrinthe("labySimple/laby0A.txt",0,escp);
+        Labyrinthe laby = new Labyrinthe("labySimple/laby0A0.txt",0,escp,0);
 
 
         //affiche le labyrinthe charge
