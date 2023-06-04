@@ -18,3 +18,12 @@
 - Critères de validation :
   - Le monstre a bien disparue de la liste d'éléments.
   - Les TimeLine de jeu doivent se lancer à nouveaux.
+
+4. Création d'un système de portes 2ème partie : Félix Brun / Axel Berret
+- Descriptif :
+  - Les portes doivent être récupérées depuis Echappatoire et affichées.
+  - Lorsque le joueur passe sur une porte, il doit être téléporté à la position de la porte.
+- Critères de validation :
+  -  Lors de l'affichage de la map, les portes doivent être récupérées depuis Echappatoire et affichées.
+  -  Lorsque le joueur passe sur une porte, il doit être téléporté à la position de la porte
+     associée, récupérable grace à la classe Echapatoire.
