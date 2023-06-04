@@ -254,12 +254,11 @@ public class MoteurJeu extends Application {
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////à optimiser
                         int hpAventurier=jeu.getLabyrinthe().pj.getHP();
 
-                        double val =labyrinthe.pj.getRayonTorche() - 1;
+                        double val =labyrinthe.pj.getRayonTorche() -2;
 
                         if(val<=0) {
                             labyrinthe.pj.setRayonTorche(0.01);
                         }else {
-                            System.out.println(labyrinthe.pj.getRayonTorche());
                             labyrinthe.pj.setRayonTorche(val);
                         }
 
@@ -392,6 +391,7 @@ public class MoteurJeu extends Application {
             String name;
             int n1;
             char n2;
+            int n3;
             for(File item : liste){
                 if(item.isFile())
                 {
@@ -403,14 +403,15 @@ public class MoteurJeu extends Application {
                             name = name.substring(4, 7);
                             n1 = Integer.parseInt(name.substring(0, 1));
                             n2 = name.substring(1, 2).charAt(0);
-                            jeu.newLaby(("Zeldiablo/labySimple/laby"+n1+n2+".txt"), n1,jeu.getLaby().escapes);
+                            n3 = Integer.parseInt(name.substring(2, 3));
+                            jeu.newLaby(("Zeldiablo/labySimple/laby"+n1+n2+n3+".txt"), n1,jeu.getLaby().escapes,n3);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 }
             }
-            jeu = jeu.newLaby("Zeldiablo/labySimple/laby0A.txt", 0,jeu.getLaby().escapes);
+            jeu = jeu.newLaby("Zeldiablo/labySimple/laby0A0.txt", 0,jeu.getLaby().escapes,0);
         }
 
         // stocke la derniere mise e jour
@@ -437,12 +438,13 @@ public class MoteurJeu extends Application {
                     jeu.update(dureeEnMilliSecondes / 1_000., controle);
                     try {
                         if(jeu.getLaby().playerInEscape() != -1) {
+                            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                             System.out.println("+ niveau : " + jeu.getLaby().nvLaby + " type : " + jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()));
-                            int[] res = jeu.getLaby().escapes.identifierEchap(jeu.getLaby().nvLaby,jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()));
+                            int[] res = jeu.getLaby().escapes.identifierEchap(jeu.getLaby().nvLaby,jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()),jeu.getLaby().nMap);
                             System.out.println("+ niveau : " + res[0] + " type : " + jeu.getLaby().escapes.indexToType(res[1]));
-                            String labS = "Zeldiablo/labySimple/laby" + (res[0]) + (jeu.getLaby().escapes.indexToType(res[1]))+".txt";
+                            String labS = "Zeldiablo/labySimple/laby" + (res[0]) + (jeu.getLaby().escapes.indexToType(res[1]))+res[2]+".txt";
                             System.out.println(labS);
-                            jeu = jeu.newLaby(labS, res[0],jeu.getLaby().escapes);
+                            jeu = jeu.newLaby(labS, res[0],jeu.getLaby().escapes,res[2]);
 
                         }
 

@@ -1,6 +1,7 @@
 package gameLaby.laby;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 
 public class Echappatoire {
     private ArrayList<int[]> escpNv1;
@@ -14,13 +15,13 @@ public class Echappatoire {
         this.escpNv3 = new ArrayList<>(9);
 
         for (int i = 0; i < 9; i++) {
-            this.escpNv1.add(new int[]{-1, -1});
+            this.escpNv1.add(new int[]{-1, -1, -1});
         }
         for (int i = 0; i < 9; i++) {
-            this.escpNv2.add(new int[]{-1, -1});
+            this.escpNv2.add(new int[]{-1, -1, -1});
         }
         for (int i = 0; i < 9; i++) {
-            this.escpNv3.add(new int[]{-1, -1});
+            this.escpNv3.add(new int[]{-1, -1, -1});
         }
     }
 
@@ -30,21 +31,21 @@ public class Echappatoire {
         for (int i = 0; i < escpNv1.size(); i++) {
             System.out.print("Échappatoire " + (char)('A' + i) + ": ");
             int[] coord = escpNv1.get(i);
-            System.out.println("x = " + coord[0] + ", y = " + coord[1]);
+            System.out.println("x = " + coord[0] + ", y = " + coord[1] + ", numéro map = " + coord[2]);
         }
 
         System.out.println("Niveau 1 :");
         for (int i = 0; i < escpNv2.size(); i++) {
             System.out.print("Échappatoire " + (char)('A' + i) + ": ");
             int[] coord = escpNv2.get(i);
-            System.out.println("x = " + coord[0] + ", y = " + coord[1]);
+            System.out.println("x = " + coord[0] + ", y = " + coord[1] + ", numéro map = " + coord[2]);
         }
 
         System.out.println("Niveau 2 :");
         for (int i = 0; i < escpNv3.size(); i++) {
             System.out.print("Échappatoire " + (char)('A' + i) + ": ");
             int[] coord = escpNv3.get(i);
-            System.out.println("x = " + coord[0] + ", y = " + coord[1]);
+            System.out.println("x = " + coord[0] + ", y = " + coord[1] + ", numéro map = " + coord[2]);
         }
     }
 
@@ -56,16 +57,16 @@ public class Echappatoire {
      * @param y coordonnees en y
      * @param niveau niveau du labyrinthe (etage)
      */
-    public void determinerNiv(int x, int y, int niveau, char type) {
+    public void determinerNiv(int x, int y, int nMap, int niveau, char type) {
         switch (niveau) {
             case 0:
-                this.escpNv1.set(typeToIndex(type), new int[]{x,y});
+                this.escpNv1.set(typeToIndex(type), new int[]{x,y,nMap});
                 break;
             case 1:
-                this.escpNv2.set(typeToIndex(type), new int[]{x,y});
+                this.escpNv2.set(typeToIndex(type), new int[]{x,y,nMap});
                 break;
             case 2:
-                this.escpNv3.set(typeToIndex(type), new int[]{x,y});
+                this.escpNv3.set(typeToIndex(type), new int[]{x,y,nMap});
                 break;
         }
     }
@@ -116,36 +117,48 @@ public class Echappatoire {
      * @param type represente le code de l escalier
      * @return l escalier faisant la transition entre les niveaux
      */
-    public int[] identifierEchap(int niveau, char type) {
-        System.out.println("niveau = " + niveau + ", type = " + type);
-        int[] res = new int[]{-1, -1};
+    public int[] identifierEchap(int niveau, char type, int nMap) {
+        System.out.println("niveau = " + niveau + ", type = " + type + ", nMap = " + nMap);
+        int[] res = new int[]{-1, -1, -1};
         switch (niveau) {
             case 0:
                 if ((this.escpNv2.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv2.get(this.typeToIndex(type))[1] != -1)) {
-                    res[0] = 1; res[1] = this.typeToIndex(type);
+                    res[0] = 1; res[1] = this.typeToIndex(type); res[2] = 0;
                 }
-                else {
-                    res[0] = 2; res[1] = this.typeToIndex(type);
+                else if ((this.escpNv3.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv3.get(this.typeToIndex(type))[1] != -1)){
+                    res[0] = 2; res[1] = this.typeToIndex(type); res[2] = 0;
+                } else {
+                    res[0] = 0; res[1] = this.typeToIndex(type);
+                    if (nMap == 0) res[2] = 1;
+                    else res[2] = 0;
                 }
                 break;
             case 1:
                 if ((this.escpNv1.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv1.get(this.typeToIndex(type))[1]!=-1)) {
-                    res[0] = 0; res[1] = this.typeToIndex(type);
+                    res[0] = 0; res[1] = this.typeToIndex(type); res[2] = 0;
                 }
-                else {
-                    res[0] = 2; res[1] = this.typeToIndex(type);
+                else if ((this.escpNv3.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv3.get(this.typeToIndex(type))[1]!=-1)){
+                    res[0] = 2; res[1] = this.typeToIndex(type); res[2] = 0;
+                } else {
+                    res[0] = 1; res[1] = this.typeToIndex(type);
+                    if (nMap == 0) res[2] = 1;
+                    else res[2] = 0;
                 }
                 break;
             case 2:
                 if((this.escpNv1.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv1.get(this.typeToIndex(type))[1]!=-1)) {
-                    res[0] = 0; res[1] = this.typeToIndex(type);
+                    res[0] = 0; res[1] = this.typeToIndex(type); res[2] = 0;
                 }
-                else {
-                    res[0] = 1; res[1] = this.typeToIndex(type);
+                else if ((this.escpNv2.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv2.get(this.typeToIndex(type))[1]!=-1)){
+                    res[0] = 1; res[1] = this.typeToIndex(type); res[2] = 0;
+                } else {
+                    res[0] = 2; res[1] = this.typeToIndex(type);
+                    if (nMap == 0) res[2] = 1;
+                    else res[2] = 0;
                 }
                 break;
         }
-        System.out.println("niveau = " + res[0] + ", type = " + this.indexToType(res[1]));
+        System.out.println("niveau = " + res[0] + ", type = " + this.indexToType(res[1]) + ", nMap = " + res[2]);
         return res;
     }
 
@@ -158,17 +171,17 @@ public class Echappatoire {
      * @param niveau niveau du labyrinthe (etage)
      * @param type identifiant d une paire d escaliers
      */
-    public void add(int x, int y, int niveau, char type){
+    public void add(int x, int y, int nMap, int niveau, char type){
         switch (type) {
-            case 'A': this.determinerNiv(x, y, niveau,type); break;
-            case 'B': this.determinerNiv(x, y, niveau,type); break;
-            case 'C': this.determinerNiv(x, y, niveau,type); break;
-            case 'D': this.determinerNiv(x, y, niveau,type); break;
-            case 'E': this.determinerNiv(x, y, niveau,type); break;
-            case 'F': this.determinerNiv(x, y, niveau,type); break;
-            case 'G': this.determinerNiv(x, y, niveau,type); break;
-            case 'H': this.determinerNiv(x, y, niveau,type); break;
-            case 'I': this.determinerNiv(x, y, niveau,type); break;
+            case 'A': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'B': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'C': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'D': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'E': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'F': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'G': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'H': this.determinerNiv(x, y, nMap, niveau,type); break;
+            case 'I': this.determinerNiv(x, y, nMap, niveau,type); break;
         }
     }
 

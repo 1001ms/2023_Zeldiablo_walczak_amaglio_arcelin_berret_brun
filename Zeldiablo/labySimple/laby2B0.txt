@@ -3,12 +3,12 @@
 XXXXXXXXXXXX
 X..C.......X
 X..........X
-XXX$.......X
+XXX#.......X
 X......X...X
 X..X.......X
-X......$...X
+X......#...X
 X.....X....X
-X##XXXXXXXXX
-X..........X
+X$$XXXXXXXXX
+X.....X....X
 X..T....PB.X
 XXXXXXXXXXXX

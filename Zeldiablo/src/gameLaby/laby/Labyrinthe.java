@@ -75,6 +75,10 @@ public class Labyrinthe {
      * niveau du labyrinthe
      */
     public int nvLaby;
+    /**
+     * numéro de map
+     */
+    public int nMap;
 
     /**
      * liste depots du labyrinthe
@@ -135,7 +139,8 @@ public class Labyrinthe {
      * @return labyrinthe cree
      * @throws IOException probleme a la lecture / ouverture
      */
-    public Labyrinthe(String nom,int nv,Echappatoire esc) throws IOException {
+    public Labyrinthe(String nom,int nv,Echappatoire esc, int nMap) throws IOException {
+        this.nMap = nMap;
         this.escapes=esc;
         // ouvrir fichier
         FileReader fichier = new FileReader(nom);
@@ -166,8 +171,6 @@ public class Labyrinthe {
 
         int m = 0;
         int s = 0;
-        int d = 0;
-        int ca = 0;
         int f=0;
         // parcours le fichier
         while (ligne != null) {
@@ -192,47 +195,47 @@ public class Labyrinthe {
                     case ESCAPE1:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'A');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'A');
                         break;
                     case ESCAPE2:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'B');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'B');
                         break;
                     case ESCAPE3:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'C');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'C');
                         break;
                     case ESCAPE4:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'D');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'D');
                         break;
                     case ESCAPE5:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'E');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'E');
                         break;
                     case ESCAPE6:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'F');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'F');
                         break;
                     case ESCAPE7:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'G');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'G');
                         break;
                     case ESCAPE8:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'H');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'H');
                         break;
                     case ESCAPE9:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
-                        this.escapes.add(colonne, numeroLigne,this.nvLaby,'I');
+                        this.escapes.add(colonne, numeroLigne,this.nMap,this.nvLaby,'I');
                         break;
                     case MONSTRE:
                         // pas de mur
@@ -255,14 +258,12 @@ public class Labyrinthe {
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         depots.ajouter(new Depot(colonne, numeroLigne));
-                        d++;
                         break;
                     case CAISSE:
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         caisses.ajouter(new Depot(colonne, numeroLigne));
-                        ca++;
                         break;
                     case TORCHE:
                         // pas de mur
@@ -458,9 +459,7 @@ public class Labyrinthe {
             if(t.estPresent(this.pj.getX(),this.pj.getY())){
                 this.pj.setRayonTorche(Torche.RAYONTORCHE);
                 this.torches.remove(t);
-
             }
-
         }
     }
 
