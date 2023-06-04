@@ -480,7 +480,7 @@ public class Labyrinthe {
             if (xPerso == xDepot && yPerso == yDepot) {
                 // Les coordonnées du personnage correspondent à celles du dépôt
                 System.out.println("Beh aled je meurs en fait"); // Le personnage est dans un trou
-                this.pj = new Aventurier(-100, -100);
+                this.pj.setHP(0);
                 res = true;
             }
         }

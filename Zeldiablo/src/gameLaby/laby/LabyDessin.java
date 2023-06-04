@@ -93,7 +93,7 @@ public class LabyDessin implements DessinJeu {
         int px = personnage.getX();
         int py = personnage.getY();
         int maxVie = 100;
-        int vie = labyrinthe.pj.getHP(); // Récupérer la vie actuelle du personnage
+        double vie = labyrinthe.pj.getHP(); // Récupérer la vie actuelle du personnage
         double barWidth = (double) vie / maxVie * TAILLE; // Calculer la largeur relative de la barre de vie
         double barX = py * TAILLE; // Coordonnée X de la barre de vie (même position horizontale que le personnage)
         double barY = (px - 0.2) * TAILLE - 5; // Coordonnée Y de la barre de vie (au-dessus du personnage, ajustez selon vos besoins)

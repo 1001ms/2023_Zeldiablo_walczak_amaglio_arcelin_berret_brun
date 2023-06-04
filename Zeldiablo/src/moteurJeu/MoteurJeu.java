@@ -129,14 +129,18 @@ public class MoteurJeu extends Application {
         attack.getChildren().addAll(atk, atk2, soin);
 
 
-        FileInputStream inputStreamMonstre = new FileInputStream("Zeldiablo/images/monstre.png");
+        FileInputStream inputStreamMonstre = new FileInputStream("Zeldiablo/images/monstreGRANDF.png");
         Image monstre = new Image(inputStreamMonstre);
         ImageView IVm = new ImageView(monstre);
+        IVm.setPreserveRatio(true);
+        IVm.setFitHeight(150);
 
 
-        FileInputStream inputStreamPerso = new FileInputStream("zeldiablo/images/perso2.png");
+        FileInputStream inputStreamPerso = new FileInputStream("zeldiablo/images/aventurierGRANDF.png");
         Image perso = new Image(inputStreamPerso);
         ImageView IVp = new ImageView(perso);
+        IVp.setPreserveRatio(true);
+        IVp.setFitHeight(150);
 
         ProgressBar pokemonHPBar = new ProgressBar();
         pokemonHPBar.setMaxWidth(Double.MAX_VALUE);
@@ -150,39 +154,44 @@ public class MoteurJeu extends Application {
 
 
 
-        // Création du GridPane et configuration des cellules
-        GridPane combatI = new GridPane();
-        combatI.setGridLinesVisible(true);
-        combatI.setHgap(10);
-        combatI.setVgap(10);
+        VBox combatI = new VBox();
+        combatI.setAlignment(Pos.CENTER);
+        combatI.setSpacing(10);
 
-        combatI.add(IVp, 0, 0);
-        combatI.add(pokemonHPBar, 0, 1);
+        HBox row1 = new HBox(IVp, IVm);
+        row1.setAlignment(Pos.CENTER);
+        row1.setSpacing(150);
+        row1.setPadding(new Insets(100,0,0,0));
 
-        combatI.add(IVm, 1, 0);
-        combatI.add(opponentHPBar, 1, 1);
+        HBox row2 = new HBox(pokemonHPBar, opponentHPBar);
+        row2.setAlignment(Pos.CENTER);
+        row2.setSpacing(200);
 
-        combatI.add(attack, 0, 3, combatI.getColumnCount(), 1);
+        HBox row3 = new HBox(attack);
+        row3.setAlignment(Pos.CENTER);
+        row3.setPadding(new Insets(75,0,0,0));
 
+        VBox rowsContainer = new VBox(row1, row2, row3);
+        rowsContainer.setAlignment(Pos.CENTER);
+        rowsContainer.setSpacing(10);
 
-        // Création de la scène et affichage
-        Image bg = new Image(new File("zeldiablo/images/background.jpg").toURI().toString());
+        combatI.getChildren().add(rowsContainer);
+        combatI.setPrefSize(700, 600);
 
+// Ajouter un espace vide en haut de la troisième ligne
+        VBox.setMargin(row3, new Insets(10, 0, 0, 0));
+
+// Création de l'image de fond
+        Image bg = new Image(new File("zeldiablo/images/backgroundFight.gif").toURI().toString());
         ImageView bgImageView = new ImageView(bg);
-        bgImageView.setPreserveRatio(false);
-        bgImageView.setFitWidth(combatI.getWidth());
-        bgImageView.setFitHeight(combatI.getHeight());
+        bgImageView.setPreserveRatio(true);
+        bgImageView.fitWidthProperty().bind(combatI.widthProperty());
+        bgImageView.fitHeightProperty().bind(combatI.heightProperty());
 
+// Création du conteneur pour l'image de fond
+        Pane bgPane = new Pane(bgImageView);
 
-        BackgroundImage bgImg = new BackgroundImage(bgImageView.getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
-
-        Background backgrnd = new Background(bgImg);
-
-        combatI.setBackground(backgrnd);
-
-
-        combatI.setPadding(new Insets(20));
-
+        bgPane.getChildren().add(combatI);
 
         HBox superRoot = new HBox();
         superRoot.setSpacing(50);
@@ -190,7 +199,7 @@ public class MoteurJeu extends Application {
         superRoot.setMinHeight(canvasContainer.getHeight());
         superRoot.setMinWidth(canvasContainer.getWidth());
 
-        superRoot.getChildren().addAll(root, combatI);
+        superRoot.getChildren().addAll(root, bgPane); // Ajouter bgPane à superRoot au lieu de combatI
         canvas.widthProperty().bind(superRoot.widthProperty());
         canvas.heightProperty().bind(superRoot.heightProperty());
         //FOND ---------------------------------
@@ -252,7 +261,7 @@ public class MoteurJeu extends Application {
                         labyrinthe.deplacerFantome();
 
                         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////à optimiser
-                        int hpAventurier=jeu.getLabyrinthe().pj.getHP();
+                        double hpAventurier=jeu.getLabyrinthe().pj.getHP();
 
                         double val =labyrinthe.pj.getRayonTorche() -2;
 
@@ -267,7 +276,11 @@ public class MoteurJeu extends Application {
                             if(labyrinthe.pj.getHP()>0)
                                 labyrinthe.pj.setHP(hpAventurier-1);
 
-                            pokemonHPBar.setProgress(80/100); // PV à 100% au départ
+                            double vieperso=labyrinthe.pj.getHP()/100;
+
+                            System.out.println("VIEEEEE : "+vieperso);
+                            System.out.println(labyrinthe.pj.getHP());
+                            pokemonHPBar.setProgress(vieperso); // PV à 100% au départ
                         }
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     } catch (IOException e) {
