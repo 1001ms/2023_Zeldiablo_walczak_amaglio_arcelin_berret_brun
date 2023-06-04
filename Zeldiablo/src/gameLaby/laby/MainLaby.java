@@ -1,9 +1,8 @@
 package gameLaby.laby;
-import javazoom.jl.player.Player;
+//import javazoom.jl.player.Player;
+
 import moteurJeu.MoteurJeu;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainLaby {

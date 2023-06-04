@@ -95,9 +95,11 @@ public class Labyrinthe {
 
     public ArrayList<Fantome> fantomes;
 
-    public boolean combat;
+    public Combat combat;
 
     public int[]tailleMax;
+
+    public Personnage monstreEnCombat;
 
     /**
      * retourne la case suivante selon une actions
@@ -155,6 +157,7 @@ public class Labyrinthe {
         // creation labyrinthe vide
         this.murs = new boolean[nbColonnes][nbLignes];
         this.pj = null;
+        this.monstreEnCombat=null;
         this.monstres = new ArrayList<Monstre>();
         this.serpents = new ArrayList<Serpent>();
         this.personnages = new ArrayList<Personnage>();
@@ -189,7 +192,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.pj = new Aventurier(colonne, numeroLigne);
+                        this.pj = new Aventurier(colonne, numeroLigne,100);
                         this.personnages.add(pj);
                         break;
                     case ESCAPE1:
@@ -241,7 +244,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.monstres.add(new Monstre(colonne, numeroLigne));
+                        this.monstres.add(new Monstre(colonne, numeroLigne,30));
                         this.personnages.add(monstres.get(m));
                         m++;
                         break;
@@ -249,7 +252,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.serpents.add(new Serpent(colonne, numeroLigne));
+                        this.serpents.add(new Serpent(colonne, numeroLigne,70));
                         this.personnages.add(serpents.get(s));
                         s++;
                         break;
@@ -275,7 +278,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        fantomes.add(new Fantome(colonne, numeroLigne));
+                        fantomes.add(new Fantome(colonne, numeroLigne,20));
                         this.personnages.add(fantomes.get(f));
                         f++;
                         break;
@@ -385,8 +388,13 @@ public class Labyrinthe {
         x = suivant[0];
         y = suivant[1];
 
-        if ((elementPresentObject(x, y) instanceof Personnage) || (elementPresentObject(x, y) instanceof Serpent)) {  //cas si il y a un mur, alors personnage de bouge pas, il prend les valeurs sauvegarder dans les variables tmp
-                combat = true;
+        if ((elementPresentObject(x, y) instanceof Personnage)) {  //cas si il y a un mur, alors personnage de bouge pas, il prend les valeurs sauvegarder dans les variables tmp
+            combat = new Combat(pj,elementPresentObject(x, y));
+            Personnage monstreDuCombat = elementPresentObject(x,y);
+            monstreEnCombat=monstreDuCombat;
+            actualiserVieAventurier(combat);
+
+            supprimerMonstre(monstreDuCombat);
         } else if (this.murs[x][y]) {
             this.pj.setX(tmpX);
             this.pj.setY(tmpY);
@@ -433,6 +441,21 @@ public class Labyrinthe {
         caisseSurTrou();
         aventurierSurTorche();
         aventurierDansTrou();
+    }
+
+
+    public void supprimerMonstre(Personnage m){
+        this.personnages.remove(m);
+        if( m instanceof Monstre)
+            this.monstres.remove(m);
+
+        if(m instanceof  Serpent)
+            this.serpents.remove(m);
+        if(m instanceof Fantome)
+            this.fantomes.remove(m);
+    }
+    public void actualiserVieAventurier(Combat combat){
+        this.pj.setHP(combat.getPj().getHP());
     }
 
     /**
@@ -644,6 +667,15 @@ public class Labyrinthe {
         return -1;
     }
 
+    public Combat getCombat() {
+        return combat;
+    }
 
+    public Personnage getMonstreEnCombat() {
+        return monstreEnCombat;
+    }
 
+    public void setMonstreEnCombat(Personnage monstreEnCombat) {
+        this.monstreEnCombat = monstreEnCombat;
+    }
 }

@@ -20,8 +20,8 @@ public class Serpent extends Personnage {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Serpent(int dx, int dy) {
-        super(dx,dy);
+    public Serpent(int dx, int dy, int HP) {
+        super(dx,dy,HP);
         this.corp=new ArrayList<Coordonnee>();
         //ajout du corp
         for(int i =0;i<=4;i++){

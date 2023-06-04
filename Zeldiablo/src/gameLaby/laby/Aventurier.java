@@ -14,8 +14,8 @@ public class Aventurier extends Personnage {
      */
 
     private double rayonTorche;
-    public Aventurier(int dx, int dy) {
-        super(dx,dy);
+    public Aventurier(int dx, int dy, int HP) {
+        super(dx,dy,HP);
         this.rayonTorche=Torche.RAYONTORCHE;
     }
 

@@ -12,7 +12,7 @@ public class Fantome extends Personnage {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Fantome(int dx, int dy) {
-        super(dx,dy);
+    public Fantome(int dx, int dy,int HP) {
+        super(dx,dy,HP);
     }
 }

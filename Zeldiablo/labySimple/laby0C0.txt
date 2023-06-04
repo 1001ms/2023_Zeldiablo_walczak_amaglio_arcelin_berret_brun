@@ -6,9 +6,9 @@ X........X.X
 XXXXX.XX...X
 XM.......X.X
 XXXXXXX..X.X
-XC....X....X
+XC....X...MX
 XPX.X.X....X
 X.XS.....XXX
 X.XXXXX..XTX
-X..........X
+X...M......X
 XXXXXXXXXXXX

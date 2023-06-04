@@ -9,6 +9,6 @@ X..X.......X
 X......#...X
 X.....X....X
 X$$XXXXXXXXX
-X.....X....X
+X.....#....X
 X..T....PB.X
 XXXXXXXXXXXX
