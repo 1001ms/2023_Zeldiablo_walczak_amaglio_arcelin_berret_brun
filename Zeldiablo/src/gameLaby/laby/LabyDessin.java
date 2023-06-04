@@ -25,6 +25,9 @@ public class LabyDessin implements DessinJeu {
     public void dessinerJeu(Jeu jeu, Canvas canvas) throws FileNotFoundException {
         FileInputStream  inputStreamGameOver = new FileInputStream("zeldiablo/images/gameOver.png");
         Image gameOver = new Image(inputStreamGameOver);
+
+        FileInputStream  inputStreamWin = new FileInputStream("zeldiablo/images/win.png");
+        Image win = new Image(inputStreamWin);
         LabyJeu labyJeu = (LabyJeu) jeu;
         Labyrinthe labyrinthe = labyJeu.getLabyrinthe();
 
@@ -40,8 +43,7 @@ public class LabyDessin implements DessinJeu {
             dessinerSerpent(gc, labyrinthe);
             dessinerCaisse(gc, labyrinthe);
             dessinerAventurier(gc, labyrinthe);
-
-
+            dessinerTresor(gc,labyrinthe);
 
             // Dessiner la zone éclairée autour du personnage
             Aventurier personnage = labyrinthe.pj;
@@ -61,8 +63,11 @@ public class LabyDessin implements DessinJeu {
             dessinerTorche(gc,labyrinthe);
             dessinerFantome(gc,labyrinthe);
         }else {
-
-            gc.drawImage(gameOver,0,0,600,600);
+            if(labyrinthe.etreFini()&& labyrinthe.pj.getNbTresors()>=1){
+                gc.drawImage(win,0,0,600,600);
+            }else{
+                gc.drawImage(gameOver,0,0,600,600);
+            }
         }
     }
 
@@ -226,6 +231,16 @@ public class LabyDessin implements DessinJeu {
 
             // Rétablir l'opacité par défaut
             gc.setGlobalAlpha(1.0); // Rétablir l'opacité à 100%
+        }
+    }
+
+    public void dessinerTresor(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
+        FileInputStream  inputStreamTrou = new FileInputStream("zeldiablo/images/tresor.png");
+        Image trou = new Image(inputStreamTrou);
+        for(Tresor t: labyrinthe.tresors) {
+            int px = t.getX();
+            int py = t.getY();
+            gc.drawImage(trou, py * TAILLE, px * TAILLE, TAILLE, TAILLE);
         }
     }
 

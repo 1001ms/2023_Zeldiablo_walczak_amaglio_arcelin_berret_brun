@@ -35,6 +35,7 @@ public class Labyrinthe {
 
     public static final char TORCHE = 'T';
     public static final char FANTOME = '&';
+    public static final char TRESOR = '+';
 
     /**
      * constantes actions possibles
@@ -101,6 +102,8 @@ public class Labyrinthe {
 
     public Personnage monstreEnCombat;
 
+    public ArrayList<Tresor> tresors;
+
     /**
      * retourne la case suivante selon une actions
      *
@@ -165,6 +168,7 @@ public class Labyrinthe {
         this.depots = new ListeElements();
         this.torches=new ArrayList<Torche>();
         this.fantomes=new ArrayList<Fantome>();
+        this.tresors=new ArrayList<Tresor>();
 
         // lecture des cases
         String ligne = bfRead.readLine();
@@ -281,6 +285,12 @@ public class Labyrinthe {
                         fantomes.add(new Fantome(colonne, numeroLigne,20));
                         this.personnages.add(fantomes.get(f));
                         f++;
+                        break;
+                    case TRESOR:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        tresors.add(new Tresor(colonne, numeroLigne));
                         break;
 
                     default:
@@ -441,6 +451,7 @@ public class Labyrinthe {
         caisseSurTrou();
         aventurierSurTorche();
         aventurierDansTrou();
+        tresorTrouve();
     }
 
 
@@ -456,6 +467,15 @@ public class Labyrinthe {
     }
     public void actualiserVieAventurier(Combat combat){
         this.pj.setHP(combat.getPj().getHP());
+    }
+
+    public void tresorTrouve(){
+        for (Tresor t : tresors){
+            if(t.estPresent(this.pj.getX(),this.pj.getY())) {
+                this.pj.setNbTresors(this.pj.getNbTresors() + 1);
+                tresors.remove(t);
+            }
+        }
     }
 
     /**
@@ -616,7 +636,7 @@ public class Labyrinthe {
     public boolean etreFini() {
         boolean res = false;
 
-        if(pj.getHP()<=0)
+        if(pj.getHP()<=0||pj.getNbTresors()>=1)
             res=true;
         return res;
     }

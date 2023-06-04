@@ -1,7 +1,7 @@
 12
 12
 XXXXXXXXXXXX
-XTX.XB..X..X
+XTX.XB..X.+X
 X.X..XX...XX
 X..X.&...XXX
 XX....XX..MX

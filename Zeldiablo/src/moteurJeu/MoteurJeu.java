@@ -267,15 +267,12 @@ public class MoteurJeu extends Application {
                             labyrinthe.pj.setRayonTorche(val);
                         }
 
-
                         if(labyrinthe.pj.getRayonTorche()<=0.01) {
                             if(labyrinthe.pj.getHP()>0)
                                 labyrinthe.pj.setHP(hpAventurier-1);
 
                             double vieperso=labyrinthe.pj.getHP()/100;
 
-                            System.out.println("VIEEEEE : "+vieperso);
-                            System.out.println(labyrinthe.pj.getHP());
                             pokemonHPBar.setProgress(vieperso); // PV à 100% au départ
                         }
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,7 @@ public class Aventurier extends Personnage {
      * @param dx position selon x
      * @param dy position selon y
      */
-
+    private int nbTresors;
     private double rayonTorche;
     public Aventurier(int dx, int dy, int HP) {
         super(dx,dy,HP);
@@ -25,5 +25,13 @@ public class Aventurier extends Personnage {
 
     public void setRayonTorche(double dureeTorche) {
         rayonTorche = dureeTorche;
+    }
+
+    public void setNbTresors(int nbTresors) {
+        this.nbTresors = nbTresors;
+    }
+
+    public int getNbTresors() {
+        return nbTresors;
     }
 }
