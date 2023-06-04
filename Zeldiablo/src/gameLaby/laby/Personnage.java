@@ -11,7 +11,14 @@ public abstract class Personnage implements Element {
      */
     private Coordonnee coordonnee;
 
+    /**
+     * Nombre de point de vie actuelle du personnage
+     */
     private int HP;
+    /**
+     * Nombre de point de vie maximal du personnage
+     */
+    final int HPMax;
 
     /**
      * constructeur
@@ -19,9 +26,10 @@ public abstract class Personnage implements Element {
      * @param dx position selon x
      * @param dy position selon y
      */
-    public Personnage(int dx, int dy) {
+    public Personnage(int dx, int dy, int HP) {
         this.coordonnee=new Coordonnee(dx,dy);
-        this.HP=100;
+        this.HP=HP;
+        this.HPMax=HP;
     }
 
     /**
@@ -69,6 +77,14 @@ public abstract class Personnage implements Element {
      */
     public void setHP(int HP) {
         this.HP = HP;
+    }
+
+    /**
+     *
+     * @return le nombre de point de vie maximal
+     */
+    public int getHPMax(){
+        return HPMax;
     }
 }
 

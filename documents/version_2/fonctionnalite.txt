@@ -1,4 +1,4 @@
-1. Donner une position initiale au monstre
+1. Donner une position initial au monstre
 - Descriptif :
   - le monstre débute sur une case décrite dans le fichier labyrinthe.
 - Critères de validation :
@@ -36,3 +36,31 @@
 - Critères de validation :
   - Toute les TimeLine (sauf combat) doivent être à l'arret.
   - Le nombre de frame ne doit pas augmenter apres la pause.
+
+6. L'interface de combat est actualisé lors de la rencontre avec un monstre : Matias Amaglio
+- Descriptif :
+  - lorsqu'un joueur rencontre un monstre l'interface de combat doit etre actualis", au niveau des PV et du monstre combatue.
+- Critères de validation :
+  - Le nombre de PV doit etre correcte pour l'aventurier et le monstre.
+  - Les immages doivent bien avoir chargées.
+
+7. Boutton d'attaque fonctionnelle : Matias Amaglio
+- Descriptif :
+  - Lors d'un combat les bouton d'attaque du joueur doivent etre fonctionnelle.
+- Critères de validation :
+  - Les deux  bouttons d'attaque doiven,t etre clicable.
+  - Les bouttons d'attaques doivent appliquer leurs efdfets sur les HP du monstre.
+
+8. Contre attaques du monstre : Matias Amaglio
+- Descriptif :
+  - Apres le tours du joueurs, le mùonstre doit imédiattement contre attaquer.
+- Critères de validation :
+  - Apres le tours du joeurs le monstre devra avoir fais dfes dégats au joueur.
+  - Le programme doit passer dans la boucle d'attaque du monstre.
+
+9. Gestion de fin de combat : Matias Amaglio
+- Descriptif :
+  - A la fin du combats, le monstre doit disparaitre ou le joeur mourrir et la partie reprendre.
+- Critères de validation :
+  - Le monstre a bien disparue de la liste d'éléments.
+  - Les TimeLine de jeu doivent se lancer à nouveaux.

@@ -15,29 +15,20 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javazoom.jl.player.Player;
-import org.w3c.dom.Text;
-
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-
-import  java.lang.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 // copied from: https://gist.github.com/james-d/8327842
@@ -74,6 +65,28 @@ public class MoteurJeu extends Application {
      * touches appuyee entre deux frame
      */
     Clavier controle = new Clavier();
+
+    //controleur Boutton Combat
+    public class CombatBouttonControleur implements EventHandler<ActionEvent>{
+        private int codeC;
+        public CombatBouttonControleur(int codeC){
+            this.codeC = codeC;
+        }
+        @Override
+        public void handle(ActionEvent event){
+            try {
+                if(jeu.getLabyrinthe().getCombat().etatCombat == true){
+                    jeu.getLabyrinthe().getCombat().attaque(this.codeC);
+                    jeu.getLabyrinthe().getCombat().attaque(4);
+
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public AnimationTimer timer;
 
     /**
      * lancement d'un jeu
@@ -144,7 +157,7 @@ public class MoteurJeu extends Application {
 
         ProgressBar opponentHPBar = new ProgressBar();
         opponentHPBar.setMaxWidth(Double.MAX_VALUE);
-        opponentHPBar.setProgress(0.5); // PV à 100% au départ
+        opponentHPBar.setProgress(1); // PV à 100% au départ
         pokemonHPBar.setStyle("-fx-accent: red;");
         opponentHPBar.setStyle("-fx-accent: red;");
 
@@ -285,6 +298,35 @@ public class MoteurJeu extends Application {
         serpentTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
         serpentTimeline.play(); // Démarrer la timeline du monstre
 
+        // timeline pour le combat  ---------------------------------------------------------------------
+        Timeline combatTimeline = new Timeline(
+                new KeyFrame((Duration.seconds(0.1)), event -> {
+
+                    try {
+                        if(jeu.getLabyrinthe().getCombat().etatCombat == true){
+                            serpentTimeline.pause();
+                            monstreTimeline.pause();
+                            timer.stop();
+                            System.out.println(pokemonHPBar.getProgress());
+                        }else{
+                            serpentTimeline.play();
+                            monstreTimeline.play();
+                            timer.start();
+                            System.out.println(pokemonHPBar.getProgress());
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                })
+        );
+
+        combatTimeline.setCycleCount(Timeline.INDEFINITE);
+        combatTimeline.play();
+
+
+
+
 
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
@@ -304,6 +346,54 @@ public class MoteurJeu extends Application {
                         }
                     }
                 });
+
+        //handler boutton combats
+        atk.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() { //a finir les bar deprogression ne sont pas juste pour les monstre
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    if(jeu.getLabyrinthe().getCombat().etatCombat == true){
+                        jeu.getLabyrinthe().getCombat().attaque(1);
+                        jeu.getLabyrinthe().getCombat().attaque(4);
+                        pokemonHPBar.setProgress(pokemonHPBar.getProgress()-0.1);
+                        opponentHPBar.setProgress((jeu.getLabyrinthe().getCombat().adversaire.getHP()-10)/jeu.getLabyrinthe().getCombat().adversaire.getHPMax());
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        atk2.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    if(jeu.getLabyrinthe().getCombat().etatCombat == true){
+                        jeu.getLabyrinthe().getCombat().attaque(2);
+                        jeu.getLabyrinthe().getCombat().attaque(4);
+                        pokemonHPBar.setProgress(pokemonHPBar.getProgress()-0.1);
+                        opponentHPBar.setProgress(opponentHPBar.getProgress()-0.5);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        soin.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    if(jeu.getLabyrinthe().getCombat().etatCombat == true){
+                        jeu.getLabyrinthe().getCombat().attaque(3);
+                        jeu.getLabyrinthe().getCombat().attaque(4);
+                        pokemonHPBar.setProgress(pokemonHPBar.getProgress()+0.2); //soin mais pas déga du monstre
+                        opponentHPBar.setProgress(opponentHPBar.getProgress());
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
 
         // lance la boucle de jeu
         startAnimation(canvas);
@@ -385,7 +475,7 @@ public class MoteurJeu extends Application {
     private void startAnimation(final Canvas canvas) throws IOException {
         frameCount++;
         if (frameCount == 1) {
-            //Parcour de la liste des fichiers texts et ajout dans la liste des labyrinthes
+            //Parcours de la liste des fichiers texts et ajout dans la liste des labyrinthes
             File dir  = new File("Zeldiablo/labySimple");
             File[] liste = dir.listFiles();
             String name;
@@ -418,7 +508,7 @@ public class MoteurJeu extends Application {
         final LongProperty lastUpdateTime = new SimpleLongProperty(0);
 
         // timer pour boucle de jeu
-        final AnimationTimer timer = new AnimationTimer() {
+         timer = new AnimationTimer() {
             @Override
             public void handle(long timestamp) {
 

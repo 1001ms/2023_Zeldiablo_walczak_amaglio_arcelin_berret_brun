@@ -95,7 +95,7 @@ public class Labyrinthe {
 
     public ArrayList<Fantome> fantomes;
 
-    public boolean combat;
+    public Combat combat;
 
     public int[]tailleMax;
 
@@ -189,7 +189,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.pj = new Aventurier(colonne, numeroLigne);
+                        this.pj = new Aventurier(colonne, numeroLigne,100);
                         this.personnages.add(pj);
                         break;
                     case ESCAPE1:
@@ -241,7 +241,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.monstres.add(new Monstre(colonne, numeroLigne));
+                        this.monstres.add(new Monstre(colonne, numeroLigne,30));
                         this.personnages.add(monstres.get(m));
                         m++;
                         break;
@@ -249,7 +249,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        this.serpents.add(new Serpent(colonne, numeroLigne));
+                        this.serpents.add(new Serpent(colonne, numeroLigne,70));
                         this.personnages.add(serpents.get(s));
                         s++;
                         break;
@@ -275,7 +275,7 @@ public class Labyrinthe {
                         // pas de mur
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
-                        fantomes.add(new Fantome(colonne, numeroLigne));
+                        fantomes.add(new Fantome(colonne, numeroLigne,20));
                         this.personnages.add(fantomes.get(f));
                         f++;
                         break;
@@ -385,8 +385,8 @@ public class Labyrinthe {
         x = suivant[0];
         y = suivant[1];
 
-        if ((elementPresentObject(x, y) instanceof Personnage) || (elementPresentObject(x, y) instanceof Serpent)) {  //cas si il y a un mur, alors personnage de bouge pas, il prend les valeurs sauvegarder dans les variables tmp
-                combat = true;
+        if ((elementPresentObject(x, y) instanceof Personnage)) {  //cas si il y a un mur, alors personnage de bouge pas, il prend les valeurs sauvegarder dans les variables tmp
+            combat = new Combat(pj,elementPresentObject(x, y));
         } else if (this.murs[x][y]) {
             this.pj.setX(tmpX);
             this.pj.setY(tmpY);
@@ -480,7 +480,7 @@ public class Labyrinthe {
             if (xPerso == xDepot && yPerso == yDepot) {
                 // Les coordonnées du personnage correspondent à celles du dépôt
                 System.out.println("Beh aled je meurs en fait"); // Le personnage est dans un trou
-                this.pj = new Aventurier(-100, -100);
+                this.pj = new Aventurier(-100, -100,0);
                 res = true;
             }
         }
@@ -644,6 +644,7 @@ public class Labyrinthe {
         return -1;
     }
 
-
-
+    public Combat getCombat() {
+        return combat;
+    }
 }
