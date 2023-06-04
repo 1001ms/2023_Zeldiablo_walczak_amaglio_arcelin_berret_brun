@@ -45,4 +45,8 @@ public class Coordonnee {
         this.y=y;
     }
 
+    public boolean estPresent(int x, int y){
+        return this.x==x&&this.y==y;
+    }
+
 }

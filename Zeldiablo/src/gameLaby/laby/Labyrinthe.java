@@ -33,6 +33,9 @@ public class Labyrinthe {
     public static final char DEPOT = '$';
     public static final char CAISSE = '#';
 
+    public static final char TORCHE = 'T';
+    public static final char FANTOME = '&';
+
     /**
      * constantes actions possibles
      */
@@ -57,7 +60,7 @@ public class Labyrinthe {
      * attribut Element
      */
 
-    public ArrayList<Element> elements;
+    public ArrayList<Personnage> personnages;
 
     /**
      * attribut des échappatoires
@@ -84,7 +87,13 @@ public class Labyrinthe {
 
     public ListeElements caisses;
 
+    public ArrayList<Torche> torches;
+
+    public ArrayList<Fantome> fantomes;
+
     public boolean combat;
+
+    public int[]tailleMax;
 
     /**
      * retourne la case suivante selon une actions
@@ -143,9 +152,11 @@ public class Labyrinthe {
         this.pj = null;
         this.monstres = new ArrayList<Monstre>();
         this.serpents = new ArrayList<Serpent>();
-        this.elements = new ArrayList<Element>();
+        this.personnages = new ArrayList<Personnage>();
         this.caisses = new ListeElements();
         this.depots = new ListeElements();
+        this.torches=new ArrayList<Torche>();
+        this.fantomes=new ArrayList<Fantome>();
 
         // lecture des cases
         String ligne = bfRead.readLine();
@@ -157,11 +168,12 @@ public class Labyrinthe {
         int s = 0;
         int d = 0;
         int ca = 0;
+        int f=0;
         // parcours le fichier
         while (ligne != null) {
-
+            int colonne=0;
             // parcours de la ligne
-            for (int colonne = 0; colonne < ligne.length(); colonne++) {
+            for (colonne=0; colonne < ligne.length(); colonne++) {
                 char c = ligne.charAt(colonne);
                 switch (c) {
                     case MUR:
@@ -175,7 +187,7 @@ public class Labyrinthe {
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         this.pj = new Aventurier(colonne, numeroLigne);
-                        this.elements.add(pj);
+                        this.personnages.add(pj);
                         break;
                     case ESCAPE1:
                         // pas de mur
@@ -227,7 +239,7 @@ public class Labyrinthe {
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         this.monstres.add(new Monstre(colonne, numeroLigne));
-                        this.elements.add(monstres.get(m));
+                        this.personnages.add(monstres.get(m));
                         m++;
                         break;
                     case SERPENT:
@@ -235,7 +247,7 @@ public class Labyrinthe {
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         this.serpents.add(new Serpent(colonne, numeroLigne));
-                        this.elements.add(serpents.get(s));
+                        this.personnages.add(serpents.get(s));
                         s++;
                         break;
                     case DEPOT:
@@ -243,7 +255,6 @@ public class Labyrinthe {
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         depots.ajouter(new Depot(colonne, numeroLigne));
-                        this.elements.add(depots.getElementByIndice(d));
                         d++;
                         break;
                     case CAISSE:
@@ -251,15 +262,28 @@ public class Labyrinthe {
                         this.murs[colonne][numeroLigne] = false;
                         // ajoute PJ
                         caisses.ajouter(new Depot(colonne, numeroLigne));
-                        this.elements.add(caisses.getElementByIndice(ca));
                         ca++;
+                        break;
+                    case TORCHE:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        torches.add(new Torche(colonne, numeroLigne));
+                        break;
+                    case FANTOME:
+                        // pas de mur
+                        this.murs[colonne][numeroLigne] = false;
+                        // ajoute PJ
+                        fantomes.add(new Fantome(colonne, numeroLigne));
+                        this.personnages.add(fantomes.get(f));
+                        f++;
                         break;
 
                     default:
                         throw new Error("caractere inconnu " + c);
                 }
             }
-
+            this.tailleMax= new int[]{colonne-1, ligne.length()-1};
             // lecture
             ligne = bfRead.readLine();
             numeroLigne++;
@@ -277,9 +301,9 @@ public class Labyrinthe {
      * @param y coordonnée
      * @return true si element present aux coordonnées entrées en param
      */
-    public boolean elementPresent(int x, int y) {
+    public boolean personnagePresent(int x, int y) {
         boolean trouve = false;
-        for (Element e : elements) {
+        for (Personnage e : personnages) {
             if (e instanceof Serpent) {//si c'est un serpent on doit vérifier la position de tout son corp
                 Serpent s = (Serpent) e;
                 for (int i = 0; i < s.getCorp().size(); i++) {
@@ -304,9 +328,9 @@ public class Labyrinthe {
      * @param y coordonnée
      * @return true si element present aux coordonnées entrées en param
      */
-    public Element elementPresentObject(int x, int y) {
-        Element res = null;
-        for (Element e : elements) {
+    public Personnage elementPresentObject(int x, int y) {
+        Personnage res = null;
+        for (Personnage e : personnages) {
             if (e instanceof Serpent) {//si c'est un serpent on doit vérifier la position de tout son corp
                 Serpent s = (Serpent) e;
                 for (int i = 0; i < s.getCorp().size(); i++) {
@@ -320,6 +344,21 @@ public class Labyrinthe {
                     res = e;
             }
 
+        }
+        return res;
+    }
+
+    public boolean caisseOuTrouPresent(int x, int y) {
+        Boolean res = false;
+        for(int i =0;i<caisses.getTaille();i++){
+            if(caisses.etreElement(x,y))
+                res=true;
+        }
+        if(res==false){
+            for(int i =0;i<depots.getTaille();i++){
+                if(depots.etreElement(x,y))
+                    res=true;
+            }
         }
         return res;
     }
@@ -347,7 +386,7 @@ public class Labyrinthe {
 
         if ((elementPresentObject(x, y) instanceof Personnage) || (elementPresentObject(x, y) instanceof Serpent)) {  //cas si il y a un mur, alors personnage de bouge pas, il prend les valeurs sauvegarder dans les variables tmp
                 combat = true;
-        } else if (this.murs[x][y] || (elementPresentObject(x, y) instanceof Caisse)) {
+        } else if (this.murs[x][y]) {
             this.pj.setX(tmpX);
             this.pj.setY(tmpY);
         } else {
@@ -391,6 +430,7 @@ public class Labyrinthe {
             }
         }
         caisseSurTrou();
+        aventurierSurTorche();
         aventurierDansTrou();
     }
 
@@ -410,6 +450,17 @@ public class Labyrinthe {
                     break; // On sort de la boucle interne car on a trouvé une correspondance
                 }
             }
+        }
+    }
+
+    public void aventurierSurTorche(){
+        for(Torche t : torches){
+            if(t.estPresent(this.pj.getX(),this.pj.getY())){
+                this.pj.setRayonTorche(Torche.RAYONTORCHE);
+                this.torches.remove(t);
+
+            }
+
         }
     }
 
@@ -452,10 +503,32 @@ public class Labyrinthe {
             int[] suivante = getSuivant(courante[0], courante[1], action[r.nextInt(action.length)]);
 
             // si c'est pas un mur, on effectue le deplacement
-            if ((!this.murs[suivante[0]][suivante[1]]) && !elementPresent(suivante[0], suivante[1])) {
+            if ((!this.murs[suivante[0]][suivante[1]]) && !personnagePresent(suivante[0], suivante[1])&& !caisseOuTrouPresent(suivante[0],suivante[1])) {
                 // on met a jour personnage
                 m.setX(suivante[0]);
                 m.setY(suivante[1]);
+            }
+        }
+    }
+
+    /**
+     * méthode deplacerMonstre permet de déplacer le Monstre de manière aléatoire
+     */
+    public void deplacerFantome() {
+        String[] action = {HAUT, BAS, GAUCHE, DROITE};
+        Random r = new Random();
+        for (Fantome f : fantomes) {
+            // case courante
+            int[] courante = {f.getX(), f.getY()};
+
+            // calcule case suivante
+            int[] suivante = getSuivant(courante[0], courante[1], action[r.nextInt(action.length)]);
+
+            // si c'est pas un mur, on effectue le deplacement
+            if (suivante[0]>0&&suivante[0]<tailleMax[0]&&suivante[1]>0  &&suivante[1]<tailleMax[1] && !personnagePresent(suivante[0], suivante[1])) {
+                // on met a jour personnage
+                f.setX(suivante[0]);
+                f.setY(suivante[1]);
             }
         }
     }
@@ -477,7 +550,7 @@ public class Labyrinthe {
             int[] suivante = getSuivant(xTete, yTete, action);
 
             // Vérifie si la case suivante est valide
-            if ((!this.murs[suivante[0]][suivante[1]]) && !(elementPresent(suivante[0], suivante[1]))) {
+            if ((!this.murs[suivante[0]][suivante[1]]) && !(personnagePresent(suivante[0], suivante[1]))&& !caisseOuTrouPresent(suivante[0],suivante[1])) {
 
                 boolean peutAvancer = true;
                 for (int i = 1; i < s.getCorp().size(); i++) {
@@ -519,7 +592,11 @@ public class Labyrinthe {
      * @return fin du jeu
      */
     public boolean etreFini() {
-        return false;
+        boolean res = false;
+
+        if(pj.getHP()<=0)
+            res=true;
+        return res;
     }
 
     // ##################################

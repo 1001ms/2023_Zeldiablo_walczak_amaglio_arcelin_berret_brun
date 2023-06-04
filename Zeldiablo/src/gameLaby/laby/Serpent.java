@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * gere un personnage situe en x,y
  */
-public class Serpent implements Element {
+public class Serpent extends Personnage {
 
     /**
      * position du personnage
@@ -21,12 +21,14 @@ public class Serpent implements Element {
      * @param dy position selon y
      */
     public Serpent(int dx, int dy) {
+        super(dx,dy);
         this.corp=new ArrayList<Coordonnee>();
         //ajout du corp
         for(int i =0;i<=4;i++){
             Coordonnee iCorp = new Coordonnee(dx,dy);
             corp.add(iCorp);
         }
+
     }
 
     public ArrayList<Coordonnee> getCorp(){

@@ -22,4 +22,5 @@ public interface Element {
      * @param y met à jour y
      */
     void setY(int y);
+
 }

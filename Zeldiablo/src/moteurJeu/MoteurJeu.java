@@ -2,6 +2,7 @@ package moteurJeu;
 
 //https://github.com/zarandok/megabounce/blob/master/MainCanvas.java
 
+import gameLaby.laby.Labyrinthe;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,22 +15,30 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import javazoom.jl.player.Player;
+import org.w3c.dom.Text;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+
 import  java.lang.*;
 import java.io.*;
 import java.io.FileNotFoundException;
+
+import java.io.File;
+import java.net.MalformedURLException;
+
 
 // copied from: https://gist.github.com/james-d/8327842
 // and modified to use canvas drawing instead of shapes
@@ -96,23 +105,14 @@ public class MoteurJeu extends Application {
         WIDTH = width;
         HEIGHT = height;
     }
+    /****************************/
+    private void lancerJeu (Stage primaryStage) throws IOException {
 
 
-    //#################################
-    // SURCHARGE Application
-    //#################################
-
-
-    @Override
-    /**
-     * creation de l'application avec juste un canvas et des statistiques
-     */
-    public void start(Stage primaryStage) throws IOException, FileNotFoundException {
         // initialisation du canvas de dessin et du container
-
         Canvas canvas = new Canvas();
         final Pane canvasContainer = new Pane(canvas);
-        canvasContainer.setPrefSize(21*30,21*30);
+        canvasContainer.setPrefSize(21 * 30, 21 * 30);
 
         // ajout des statistiques en bas de la fenetre
         BorderPane root = new BorderPane();
@@ -134,17 +134,21 @@ public class MoteurJeu extends Application {
         ImageView IVm = new ImageView(monstre);
 
 
-        FileInputStream  inputStreamPerso = new FileInputStream("zeldiablo/images/perso2.png");
+        FileInputStream inputStreamPerso = new FileInputStream("zeldiablo/images/perso2.png");
         Image perso = new Image(inputStreamPerso);
         ImageView IVp = new ImageView(perso);
 
         ProgressBar pokemonHPBar = new ProgressBar();
         pokemonHPBar.setMaxWidth(Double.MAX_VALUE);
-        pokemonHPBar.setProgress(0.8); // PV à 100% au départ
+        pokemonHPBar.setProgress(jeu.getLaby().pj.getHP()/100); // PV à 100% au départ
 
         ProgressBar opponentHPBar = new ProgressBar();
         opponentHPBar.setMaxWidth(Double.MAX_VALUE);
         opponentHPBar.setProgress(0.5); // PV à 100% au départ
+        pokemonHPBar.setStyle("-fx-accent: red;");
+        opponentHPBar.setStyle("-fx-accent: red;");
+
+
 
         // Création du GridPane et configuration des cellules
         GridPane combatI = new GridPane();
@@ -158,7 +162,7 @@ public class MoteurJeu extends Application {
         combatI.add(IVm, 1, 0);
         combatI.add(opponentHPBar, 1, 1);
 
-        combatI.add(attack, 0,3, combatI.getColumnCount(), 1);
+        combatI.add(attack, 0, 3, combatI.getColumnCount(), 1);
 
 
         // Création de la scène et affichage
@@ -170,7 +174,7 @@ public class MoteurJeu extends Application {
         bgImageView.setFitHeight(combatI.getHeight());
 
 
-        BackgroundImage bgImg = new BackgroundImage(bgImageView.getImage(), BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+        BackgroundImage bgImg = new BackgroundImage(bgImageView.getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
 
         Background backgrnd = new Background(bgImg);
 
@@ -243,7 +247,30 @@ public class MoteurJeu extends Application {
                 new KeyFrame(Duration.seconds(0.2), event -> {
                     // Déplacement du serpent
                     try {
-                        jeu.getLabyrinthe().deplacerSerpent();
+                        Labyrinthe labyrinthe = jeu.getLabyrinthe();
+                        labyrinthe.deplacerSerpent();
+                        labyrinthe.deplacerFantome();
+
+                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////à optimiser
+                        int hpAventurier=jeu.getLabyrinthe().pj.getHP();
+
+                        double val =labyrinthe.pj.getRayonTorche() - 1;
+
+                        if(val<=0) {
+                            labyrinthe.pj.setRayonTorche(0.01);
+                        }else {
+                            System.out.println(labyrinthe.pj.getRayonTorche());
+                            labyrinthe.pj.setRayonTorche(val);
+                        }
+
+
+                        if(labyrinthe.pj.getRayonTorche()<=0.01) {
+                            if(labyrinthe.pj.getHP()>0)
+                                labyrinthe.pj.setHP(hpAventurier-1);
+
+                            pokemonHPBar.setProgress(80/100); // PV à 100% au départ
+                        }
+                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -281,6 +308,74 @@ public class MoteurJeu extends Application {
 
         // lance la boucle de jeu
         startAnimation(canvas);
+    }
+     /***********************$/
+    //#################################
+    // SURCHARGE Application
+    //#################################
+
+
+    @Override
+    /**
+     * creation de l'application avec juste un canvas et des statistiques
+     */
+    public void start(Stage primaryStage) throws IOException, FileNotFoundException {
+        primaryStage.setTitle("Menu du Jeu");
+        // Création des boutons
+        Button jouerButton = new Button("Jouer");
+        jouerButton.setPrefWidth(200); // Définir la largeur préférée du bouton
+        jouerButton.setPrefHeight(50); // Définir la hauteur préférée du bouton
+
+        Button quitterButton = new Button("Quitter");
+        quitterButton.setPrefWidth(200); // Définir la largeur préférée du bouton
+        quitterButton.setPrefHeight(50);
+
+
+
+        jouerButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Lancer le jeu
+                try {
+                    lancerJeu(primaryStage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        quitterButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Quitter le jeu
+                primaryStage.close();
+            }
+        });
+
+        // Création du conteneur pour les boutons
+        VBox menuBox = new VBox();
+        menuBox.setAlignment(Pos.CENTER);
+        menuBox.setSpacing(20);
+        menuBox.getChildren().addAll(jouerButton, quitterButton);
+
+        // Création de la scène du menu
+        BorderPane menuPane = new BorderPane();
+        menuPane.setCenter(menuBox);
+
+        //fond accueil du jeu
+        Image BGaccueil = new Image(new File("zeldiablo/images/accueil.png").toURI().toString());
+        ImageView BGaccueilImageView = new ImageView(BGaccueil);
+        BGaccueilImageView.setFitWidth(menuPane.getWidth());
+        BGaccueilImageView.setFitHeight(menuPane.getHeight());
+        BackgroundImage bgFondImg = new BackgroundImage(BGaccueilImageView.getImage(), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, false, true));
+        Background backgrndFond = new Background(bgFondImg);
+        menuPane.setBackground(backgrndFond);
+
+        //nouvelle scène
+        Scene menuScene = new Scene(menuPane, WIDTH, HEIGHT);
+        primaryStage.setScene(menuScene);
+        primaryStage.setMaximized(true);
+        primaryStage.show();
     }
 
     /**

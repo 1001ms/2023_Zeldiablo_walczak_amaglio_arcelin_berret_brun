@@ -1,6 +1,9 @@
 package gameLaby.laby;
+import javazoom.jl.player.Player;
 import moteurJeu.MoteurJeu;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainLaby {
@@ -21,11 +24,9 @@ public class MainLaby {
         MoteurJeu.setTaille(width,height);
         MoteurJeu.setFPS(pFPS);
 
-        // lancement du jeu
+        //lancement du jeu
         MoteurJeu.launch(jeuLaby, dessinLaby);
-
         System.out.println("Labyrinthe 1");
-
     }
 }
 

@@ -21,6 +21,7 @@ public abstract class Personnage implements Element {
      */
     public Personnage(int dx, int dy) {
         this.coordonnee=new Coordonnee(dx,dy);
+        this.HP=100;
     }
 
     /**
