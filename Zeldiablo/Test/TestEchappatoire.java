@@ -46,12 +46,20 @@ public class TestEchappatoire {
     @Test
     public void test_determinerNiv() {
         Echappatoire e = new Echappatoire();
+        int[] rab = new int[]{1,1,2};
         e.determinerNiv(1,1,2,0,'B');
-        assertTrue(e.getEscpNv(0).get(1)[0] == 1);
+        for (int i = 0; i<3; i++) {
+            assertTrue(e.getEscpNv(0).get(1)[i] == rab[i]);
+        }
     }
 
     @Test
     public void test_add() {
         Echappatoire e = new Echappatoire();
+        int[] rab = new int[]{1,1,2};
+        e.add(1,1,2,0,'B');
+        for (int i = 0; i<3; i++) {
+            assertTrue(e.getEscpNv(0).get(1)[i] == rab[i]);
+        }
     }
 }
