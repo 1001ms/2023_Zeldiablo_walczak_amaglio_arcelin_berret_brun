@@ -1,0 +1,66 @@
+@startuml
+skinparam participantPadding 20
+
+participant "MoteurJeu" as MoteurJeu
+participant "LabyJeu" as LabyJeu
+participant "Labyrinthe" as Labyrinthe
+participant "Echappatoire" as Echappatoire
+participant "ArrayList<Echappatoire>" as ArrayList
+participant "LabyDessin" as LabyDessin
+
+group Initialisation du jeu
+  MoteurJeu -> LabyJeu: Créer LabyJeu
+  activate LabyJeu
+  LabyJeu -> Labyrinthe: Créer Labyrinthe
+  activate Labyrinthe
+  Labyrinthe -> Echappatoire: Créer Echappatoire
+  activate Echappatoire
+  Echappatoire -> Echappatoire: Récupérer échappatoires
+  Echappatoire -> ArrayList: Ajouter échappatoire
+  activate ArrayList
+  ArrayList --> Echappatoire: Confirmation ajout
+  deactivate ArrayList
+  Echappatoire -> Echappatoire: Récupérer échappatoires restants
+  Echappatoire -> ArrayList: Ajouter échappatoire
+  activate ArrayList
+  ArrayList --> Echappatoire: Confirmation ajout
+  deactivate ArrayList
+  Echappatoire -> Echappatoire: Vérifier échappatoires restants
+  Echappatoire -> ArrayList: Récupérer échappatoires
+  activate ArrayList
+  ArrayList --> Echappatoire: Liste des échappatoires
+  deactivate ArrayList
+  deactivate Echappatoire
+  Labyrinthe --> LabyJeu: Obtenir Labyrinthe
+  deactivate Labyrinthe
+  LabyJeu --> MoteurJeu: Obtenir LabyJeu
+  deactivate LabyJeu
+end group
+
+group Lancement du jeu
+  MoteurJeu -> LabyJeu: Appeler init()
+  activate LabyJeu
+  deactivate LabyJeu
+
+  MoteurJeu -> LabyJeu: Appeler êtreFini()
+  activate LabyJeu
+  LabyJeu --> MoteurJeu: Statut du jeu
+  deactivate LabyJeu
+
+  MoteurJeu -> LabyJeu: Appeler update()
+  activate LabyJeu
+  LabyJeu -> Labyrinthe: Déplacer personnage
+  activate Labyriynthe
+  deactivate Labyrinthe
+  deactivate LabyJeu
+
+  MoteurJeu -> LabyDessin: Appeler dessiner()
+  activate LabyDessin
+  LabyDessin -> Labyrinthe: Obtenir Labyrinthe
+  activate Labyrinthe
+  Labyrinthe --> LabyDessin: Labyrinthe à dessiner
+  deactivate Labyrinthe
+  deactivate LabyDessin
+end group
+
+@enduml
