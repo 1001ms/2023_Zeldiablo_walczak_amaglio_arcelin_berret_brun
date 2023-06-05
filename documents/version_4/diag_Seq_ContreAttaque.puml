@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+
+MoteurJeu->MoteurJeu : button.addEventHandler()
+note right
+clique sur un boutton d'attaque/soin
+end note
+MoteurJeu->Combat : attaque(int codeAttaque);
+MoteurJeu<--Combat :
+note right
+attaque Joueur
+end note
+MoteurJeu->Combat : attaque(4);
+MoteurJeu<--Combat :
+note right
+Contre attaque Monstre
+end note
+
+
+@enduml

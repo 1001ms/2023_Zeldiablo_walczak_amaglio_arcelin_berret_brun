@@ -1,4 +1,4 @@
-1.Boutton d'attaque fonctionnelle : Matias Amaglio
+1.Boutton d'attaque fonctionnelle : Matias Amaglio / Dimitri Walczak-Vela-Mena
 - Descriptif :
   - Lors d'un combat les bouton d'attaque du joueur doivent etre fonctionnelle.
 - Critères de validation :
