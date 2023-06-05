@@ -1,0 +1,17 @@
+- Bilan :
+    - Réalisation :
+        Nous avons implémenté les actions de combats en les reliants aux boutons de l'interface graphique créer dans la version 3, ainsi que la contre attaque des monstre.
+        L'ajout d'un fantome, qui reprend en partie les fonctions d'un monstre sauf que lui peut se deplacer a travers les murs et les entités.
+        Pour finir le jeu nous avons ajouté un trésor caché, qui sert de condition de victoire.
+
+
+        Nous avons voulu rejouter 3 autres fonctionnalité mais par manque de temps cela ne se fera pas :
+            - l'ajout d'une minimap pour suivre les déplacements de l'aventurier, et garder en mémoire le chemin parcouru et les parties du labyrinthe deja explorés.
+            - l'ajout d'une musique de fond afin de mettre le joueur dans l'ambiance, musique qui changerai lors d'un combat.
+            - la sauvegarde des données du personnage lors du changement de niveau afin de garder les même PV et la même durée de vie de la torche actuel.
+
+
+    - Problème :
+        Le seul problème pour le combat été de ne pas oublier d'actualiser les PV l'aventurier lors du combats et les PV de l'aventurier dans le labyrinthe.
+        Pour ce qui est des problèmes rencontrés pour les portails, ces derniers résidaient principalement dans la corrélation
+        du code de l'escalier à deux étages distinctes permettant la transition d'une carte à l'autre

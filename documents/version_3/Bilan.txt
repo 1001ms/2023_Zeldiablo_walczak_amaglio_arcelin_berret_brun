@@ -1,0 +1,13 @@
+- Bilan :
+    - Réalisation :
+        Dans la version 3 nous avons commencé l'implémentation d'une Fonction Echappatoire afin de pouvoir gerer plusieurs niveaux.
+        Le but été de faire une sorte de donjon avec différents paliers avec des énigmes dans le futur qui seront liés et sur plusieurs niveaux, le principe des escalier et de pouvoir monter et redescendre entre les paliés.
+        De plus nous avons ajouté l'interface de combat qui illustre la rencontre entre notre aventurier et un monstrer quelconque, de plus nous avons ajouté des boutons afin de pouvoir dans le futur y associer des fonctionnalités.
+        L'ajout d'une torche afin de mieux se repérer dans la pénombre du labyrinthe, et dans le cas ou l'aventurier n'a plus de torche alors il perd de la vie au fur et à mesure.
+        La mise en pause du jeu lors d'un combat afin de ne pas avoir de déplacement non voulu d'un monstre, ou la consommation de la torche.
+        Nous avions réaliser un projet plus tot dans l'année qui s'appel Sokoban, et donc nous avons décidé de rajouter une de ses fonctionnalités qui est une caisse a déplacer pour remplir un trou afin d'acceder a une autre partie du labyrinthe.
+
+    - Problèmes :
+        Lors de la mise en pause du jeu nous avons rencontrer un probleme car toute les timeline peuvent etre mise en pause tandis que le timer ne faisant pas parti du launch ne pouvais pas être arreter simplement avec son nom, il a fallut creer un attribut timer pour pouvoir le mettre en pause.
+        Pour l'interface graphique nous avions eu le problème de taille avec les images, et un gridpane qui n'avait pas de taille constante alors nous avons décider de passer sur une VBox contenant plusieurs HBox.
+        Un des problème pour la fonction Echappatoire été principalement la corrélation entre les codes d'un portail d'un niveau à un autre, donc comme solution nous avons créé une méthode typeToIndex qui permet d'identifier l'index du portail en fonction du caractère donné en paramètre;
