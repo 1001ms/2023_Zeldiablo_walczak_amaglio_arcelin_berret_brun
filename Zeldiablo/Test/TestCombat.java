@@ -1,6 +1,4 @@
-import gameLaby.laby.Echappatoire;
-import org.testng.annotations.Test;
-
+import org.junit.jupiter.api.Test;
 import gameLaby.laby.LabyDessin;
 import gameLaby.laby.LabyJeu;
 import moteurJeu.MoteurJeu;
