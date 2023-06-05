@@ -1,9 +1,6 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-@startuml
-'https://plantuml.com/sequence-diagram
-
 skinparam sequence {
     ArrowColor DeepSkyBlue
     ActorBorderColor DeepSkyBlue
@@ -90,5 +87,4 @@ deactivate Labyrinthe
 LabyJeu --> MainLaby:
 deactivate LabyJeu
 
-@enduml
 @enduml

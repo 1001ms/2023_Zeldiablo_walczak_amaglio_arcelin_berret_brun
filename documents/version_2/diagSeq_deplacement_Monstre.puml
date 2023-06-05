@@ -38,6 +38,6 @@ Labyrinthe -> Perso: etrePresent(suivante[0], suivante[1])
 activate Perso
 Labyrinthe <-- Perso: false
 deactivate Perso
-deactivate MoteurJeu
+Labyrinthe-->MoteurJeu
 end
 @enduml

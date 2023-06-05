@@ -26,10 +26,10 @@ Labyrinthe --> Labyrinthe: [courante[0] - 1, courante[1]]
 
 Labyrinthe -> Labyrinthe: getMur(suivante[0], suivante[1])
 Labyrinthe --> Labyrinthe: false
-Labyrinthe -> Monstre: etrePresent(suivante[0], suivante[1])
-activate Monstre
-Labyrinthe <-- Monstre: false
-deactivate Monstre
+Labyrinthe -> ArraylistPersonnage : etrePresent(suivante[0], suivante[1])
+activate ArraylistPersonnage
+Labyrinthe <-- ArraylistPersonnage: false
+deactivate ArraylistPersonnage
 
 
 Labyrinthe -> Labyrinthe: deplacerPerso("Gauche")
