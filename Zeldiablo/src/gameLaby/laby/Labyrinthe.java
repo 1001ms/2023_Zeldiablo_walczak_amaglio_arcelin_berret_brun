@@ -476,13 +476,19 @@ public class Labyrinthe {
         this.pj.setHP(combat.getPj().getHP());
     }
 
+    /**
+     * méthode tresorTrouve quand l'aventurier est sur le trésor le tresor est supprimer
+     * de l'ArrayList<Tresor> trésors
+     */
     public void tresorTrouve(){
+        Tresor tresorASupprimer=null;
         for (Tresor t : tresors){
             if(t.estPresent(this.pj.getX(),this.pj.getY())) {
                 this.pj.setNbTresors(this.pj.getNbTresors() + 1);
-                tresors.remove(t);
+                tresorASupprimer=t;
             }
         }
+        tresors.remove(tresorASupprimer);
     }
 
     /**
@@ -508,12 +514,14 @@ public class Labyrinthe {
      * méthode aventurierSurTorche supprime la torche si l'aventurier est dessus
      */
     public void aventurierSurTorche(){
-        for(Torche t : torches){
-            if(t.estPresent(this.pj.getX(),this.pj.getY())){
-                this.pj.setRayonTorche(Torche.RAYONTORCHE);
-                this.torches.remove(t);
+        Torche torcheASupprimer=null;
+            for (Torche t : torches) {
+                if (t.estPresent(this.pj.getX(), this.pj.getY())) {
+                    this.pj.setRayonTorche(Torche.RAYONTORCHE);
+                    torcheASupprimer = t;
+                }
             }
-        }
+        this.torches.remove(torcheASupprimer);
     }
 
     /**

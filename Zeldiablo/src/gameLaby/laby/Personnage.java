@@ -4,12 +4,7 @@ package gameLaby.laby;
 /**
  * gere un personnage situe en x,y
  */
-public abstract class Personnage implements Element {
-
-    /**
-     * position du personnage
-     */
-    private Coordonnee coordonnee;
+public abstract class Personnage extends Element {
 
     /**
      * Nombre de point de vie actuelle du personnage
@@ -24,53 +19,13 @@ public abstract class Personnage implements Element {
     /**
      * constructeur
      *
-     * @param dx position selon x
-     * @param dy position selon y
+     * @param x position selon x
+     * @param y position selon y
      */
-    public Personnage(int dx, int dy, int HP) {
-        this.coordonnee=new Coordonnee(dx,dy);
+    public Personnage(int x, int y, int HP) {
+        super(x,y);
         this.HP=HP;
         this.HPMax=HP;
-    }
-
-    /**
-     * @return position x du personnage
-     */
-    public int getX() {
-        // getter
-        return this.coordonnee.getX();
-    }
-
-    /**
-     * @return position y du personnage
-     */
-    public int getY() {
-        //getter
-        return this.coordonnee.getY();
-    }
-
-    /**
-     * @return position y du personnage
-     */
-    public double getHP() {
-        //getter
-        return this.HP;
-    }
-
-    /**
-     * set position x du personnage
-     */
-    public void setX(int x) {
-        // getter
-        this.coordonnee.setX(x);
-    }
-
-    /**
-     * set position y du personnage
-     */
-    public void setY(int y) {
-        // getter
-        this.coordonnee.setY(y);
     }
 
     /**
@@ -86,6 +41,10 @@ public abstract class Personnage implements Element {
      */
     public double getHPMax(){
         return HPMax;
+    }
+
+    public double getHP() {
+        return HP;
     }
 }
 

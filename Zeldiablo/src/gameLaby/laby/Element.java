@@ -1,26 +1,55 @@
 package gameLaby.laby;
 
-public interface Element {
-    /**
-     * @return position x du personnage
-     */
-     int getX();
+public abstract class  Element {
 
-    /**
-     * @return position y du personnage
-     */
-     int getY();
+private Coordonnee coordonnee;
 
-    /**
-     * setter de X
-     * @param x met à jour le x
-     */
-    void setX(int x);
+/**
+ * constructeur d'entite
+ * @param x coordonnée x
+ * @param y coordonnée y
+ */
+public Element(int x, int y){
+        this.coordonnee=new Coordonnee(x,y);
+        }
+/**
+ * getter de X
+ * @return le coordonnée X de la torche
+ */
+public int getX() {
+        return coordonnee.getX();
+        }
 
-    /**
-     * setter de Y
-     * @param y met à jour y
-     */
-    void setY(int y);
+/**
+ * getter de Y
+ * @return le coordonnée Y de la torche
+ */
+public int getY() {
+        return coordonnee.getY();
+        }
 
+/**
+ * setter du X de la torche
+ * @param x met à jour le x
+ */
+public void setX(int x) {
+        coordonnee.setX(x);
+        }
+/**
+ * setter du Y de la torche
+ * @param y met à jour le y
+ */
+public void setY(int y) {
+        coordonnee.setY(y);
+        }
+
+/**
+ * méthode estPresent
+ * @param x coordonnée x
+ * @param y coordonnée y
+ * @return true si x==x et y==y, false sinon
+ */
+public boolean estPresent(int x, int y){
+        return coordonnee.estPresent(x,y);
+        }
 }

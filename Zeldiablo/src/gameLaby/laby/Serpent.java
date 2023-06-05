@@ -26,27 +26,14 @@ public class Serpent extends Personnage {
             Coordonnee iCorp = new Coordonnee(dx,dy);
             corp.add(iCorp);
         }
-
     }
 
+    /**
+     * méthode getCorp
+     * @return l'ArrayList<Coordonnee> qui reprsénte le corp du serpent
+     */
     public ArrayList<Coordonnee> getCorp(){
         return this.corp;
-    }
-
-    /**
-     * @return position x du personnage
-     */
-    public int getX() {
-        // getter
-        return this.corp.get(0).getX();
-    }
-
-    /**
-     * @return position y du personnage
-     */
-    public int getY() {
-        //getter
-        return this.corp.get(0).getY();
     }
 
     /**

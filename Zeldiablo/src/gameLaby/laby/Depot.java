@@ -1,48 +1,12 @@
 package gameLaby.laby;
 
-public class Depot implements Element {
-
-    private int x,y;
-
+public class Depot extends Element {
     /**
      * Constructeur de Depot
      * @param x
      * @param y
      */
     Depot(int x, int y) {
-        this.x=x;
-        this.y=y;
-    }
-
-    /**
-     * @return position x du personnage
-     */
-    public int getX() {
-        // getter
-        return this.x;
-    }
-
-    /**
-     * @return position y du personnage
-     */
-    public int getY() {
-        //getter
-        return this.y;
-    }
-
-    /**
-     * @return position x du personnage
-     */
-    public void setX(int x) {
-        // getter
-        this.x=x;
-    }
-
-    /**
-     * @return position y du personnage
-     */
-    public void setY(int y) {
-        //getter
-        this.y=y;
+        super(x,y);
     }
 }
