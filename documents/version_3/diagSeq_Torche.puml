@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+MainLaby -> LabyJeu:
+activate LabyJeu
+LabyJeu -> Labyrinthe: Labyrinte(String nomFichier)
+
+activate Labyrinthe
+Labyrinthe->Labyrinthe : aventurierSurTorche
+
+loop for each Torche
+Labyrinthe->Torche : estPresent
+activate Torche
+Labyrinthe<--Torche :
+deactivate Torche
+end loop
+
+Labyrinthe --> LabyJeu
+deactivate Labyrinthe
+
+LabyJeu --> MainLaby:
+deactivate LabyJeu
+
+@enduml

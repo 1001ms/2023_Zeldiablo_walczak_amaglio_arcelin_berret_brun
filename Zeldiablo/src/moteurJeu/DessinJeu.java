@@ -3,6 +3,7 @@ package moteurJeu;
 import javafx.scene.canvas.Canvas;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 /**
@@ -16,6 +17,6 @@ public interface DessinJeu {
      * @param jeu jeu a afficher
      * @param canvas canvas dans lequel dessiner l'etat du jeu
      */
-    void dessinerJeu(Jeu jeu, Canvas canvas) throws FileNotFoundException;
+    void dessinerJeu(Jeu jeu, Canvas canvas) throws IOException;
 
 }

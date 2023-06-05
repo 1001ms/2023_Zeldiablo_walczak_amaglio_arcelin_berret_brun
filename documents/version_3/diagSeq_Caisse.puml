@@ -1,0 +1,94 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+MainLaby -> LabyJeu:
+activate LabyJeu
+
+LabyJeu -> Labyrinthe: Labyrinte(String nomFichier)
+activate Labyrinthe
+LabyJeu->LabyJeu : Update()
+LabyJeu-->LabyJeu
+LabyJeu->Labyrinthe : deplacerPerso(String action)
+Labyrinthe->Personnage :setX()
+activate Personnage
+Labyrinthe<--Personnage
+deactivate Personnage
+Labyrinthe->Personnage :setY()
+activate Personnage
+Labyrinthe<--Personnage
+deactivate Personnage
+
+
+activate Labyrinthe
+Labyrinthe->Labyrinthe : caisseSurTrou
+
+loop for each Caisse
+Labyrinthe->Caisse
+activate Caisse
+Caisse->ListeElement : getElementByIndice(i)
+activate ListeElement
+Caisse<--ListeElement :
+deactivate ListeElement
+Labyrinthe<--Caisse
+deactivate Caisse
+
+
+loop for each Depot
+
+Labyrinthe->Depot
+activate Depot
+Depot->ListeElement : getElementByIndice(i)
+activate ListeElement
+Depot<--ListeElement
+deactivate ListeElement
+Labyrinthe<--Depot :
+deactivate Depot
+Caisse->ListeElement : supprimerElement(i)
+activate ListeElement
+Caisse<--ListeElement
+deactivate ListeElement
+Depot<-ListeElement : supprimerElement(i)
+activate Depot
+Depot-->ListeElement
+deactivate Depot
+
+end loop
+end loop
+
+Labyrinthe->Labyrinthe : aventurierDansTrou
+Labyrinthe->Personnage :getX()
+activate Personnage
+Labyrinthe<--Personnage
+deactivate Personnage
+Labyrinthe->Personnage :getY()
+activate Personnage
+Labyrinthe<--Personnage
+deactivate Personnage
+loop for each Depot
+Labyrinthe->Depot
+activate Depot
+Depot->ListeElement : getElementByIndice(i)
+Depot<--ListeElement
+deactivate ListeElement
+Labyrinthe<--Depot : boolean()
+
+deactivate Depot
+
+end loop
+
+Labyrinthe --> LabyJeu
+deactivate Labyrinthe
+
+LabyJeu --> MainLaby:
+deactivate LabyJeu
+
+@enduml
+@enduml
