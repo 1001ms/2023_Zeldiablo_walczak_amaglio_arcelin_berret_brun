@@ -402,9 +402,8 @@ public class Labyrinthe {
             combat = new Combat(pj,elementPresentObject(x, y));
             Personnage monstreDuCombat = elementPresentObject(x,y);
             monstreEnCombat=monstreDuCombat;
-            actualiserVieAventurier(combat);
-
-            supprimerMonstre(monstreDuCombat);
+            actualiserVieAventurier(combat); //on actualise la vie du monstre
+            supprimerMonstre(monstreDuCombat); //on supprime le monstre du jeu
         } else if (this.murs[x][y]) {
             this.pj.setX(tmpX);
             this.pj.setY(tmpY);
@@ -454,7 +453,10 @@ public class Labyrinthe {
         tresorTrouve();
     }
 
-
+    /**
+     * supprime le monstre
+     * @param m le monstre à supprimer
+     */
     public void supprimerMonstre(Personnage m){
         this.personnages.remove(m);
         if( m instanceof Monstre)
@@ -465,6 +467,11 @@ public class Labyrinthe {
         if(m instanceof Fantome)
             this.fantomes.remove(m);
     }
+
+    /**
+     * méthode actualiserVieAventurier actualise la vie de pj selon l'issu d'un combat
+     * @param combat le combat actuel
+     */
     public void actualiserVieAventurier(Combat combat){
         this.pj.setHP(combat.getPj().getHP());
     }
@@ -497,6 +504,9 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * méthode aventurierSurTorche supprime la torche si l'aventurier est dessus
+     */
     public void aventurierSurTorche(){
         for(Torche t : torches){
             if(t.estPresent(this.pj.getX(),this.pj.getY())){
@@ -675,6 +685,10 @@ public class Labyrinthe {
         return this.murs[x][y];
     }
 
+    /**
+     * méthode player in escape
+     * @return l'index du code de l'escalier jumeler ou -1 sinon
+     */
     public int playerInEscape(){
         int x = this.pj.getX();
         int y = this.pj.getY();
@@ -687,15 +701,11 @@ public class Labyrinthe {
         return -1;
     }
 
+    /**
+     * getter de Combat
+     * @return Combat
+     */
     public Combat getCombat() {
         return combat;
-    }
-
-    public Personnage getMonstreEnCombat() {
-        return monstreEnCombat;
-    }
-
-    public void setMonstreEnCombat(Personnage monstreEnCombat) {
-        this.monstreEnCombat = monstreEnCombat;
     }
 }

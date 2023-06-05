@@ -45,6 +45,12 @@ public class Coordonnee {
         this.y=y;
     }
 
+    /**
+     * vérifie que les coordonnées en parametre corresponde aux coordonnées actuelles
+     * @param x coordonnée x
+     * @param y coordonnée y
+     * @return true si x==x et y==y
+     */
     public boolean estPresent(int x, int y){
         return this.x==x&&this.y==y;
     }

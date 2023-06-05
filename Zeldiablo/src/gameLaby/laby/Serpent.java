@@ -7,11 +7,9 @@ import java.util.ArrayList;
  * gere un personnage situe en x,y
  */
 public class Serpent extends Personnage {
-
     /**
      * position du personnage
      */
-
     ArrayList<Coordonnee> corp;
 
     /**

@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         // charge le labyrinthe
-
         Echappatoire escp =new Echappatoire();
         Labyrinthe laby = new Labyrinthe("labySimple/laby0A0.txt",0,escp,0);
 
