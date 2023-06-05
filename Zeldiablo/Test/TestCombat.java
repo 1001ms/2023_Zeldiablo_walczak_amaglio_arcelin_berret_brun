@@ -1,5 +1,5 @@
 import gameLaby.laby.Echappatoire;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import gameLaby.laby.LabyDessin;
 import gameLaby.laby.LabyJeu;
