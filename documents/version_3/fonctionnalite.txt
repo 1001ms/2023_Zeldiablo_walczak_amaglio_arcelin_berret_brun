@@ -26,3 +26,21 @@
      les portes et les stocker dans la class Echappatoire.
 - Critères de validation :
   - Les portes doivent etre detecté et stocké aux bons endroits dans la class Echappatoire.
+
+5. Création d'un sysème d'éclairage grâce aux torches : Nino Arcelin
+    -Descriptif:
+        -Quand le joueur se déplace il peut voir autour de lui dans le rayon lumineux
+        que la torche lui procure
+      - Critères de validation :
+        -affichage du labyrinthe dans un certain rayon
+        -le rayon de lumière doit diminuer dans le temps
+        -les torches peu importe où elle sont doivent être éclairé
+
+6. Ajout d'un systeme de caisse et de trou : Nino Arcelin
+    -Descriptif:
+        -Quand le joueur va sur l'emplacement d'une caisse, il l'a déplace, quand la caisse est sur un
+        trou bouche le trou. Si il y a deux caisses rien ne se passe
+      - Critères de validation :
+        -le perso doit pouvoir déplacer des caisses mais pas deux d'affilés
+        -si le joueur va sur un trou il meurt
+        -les caisses doivent boucher des trous

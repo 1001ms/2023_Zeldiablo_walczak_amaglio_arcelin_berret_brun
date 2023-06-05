@@ -457,12 +457,13 @@ public class MoteurJeu extends Application {
         Button quitterButton = new Button("Quitter");
         quitterButton.setPrefWidth(200); // Définir la largeur préférée du bouton
         quitterButton.setPrefHeight(50);
-
+        /*
         String path = "Zeldiablo/musique/musique.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer media_player = new MediaPlayer(media);
         // La musique est prête à être jouée, vous pouvez la démarrer ici
         media_player.play();
+         */
         jouerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

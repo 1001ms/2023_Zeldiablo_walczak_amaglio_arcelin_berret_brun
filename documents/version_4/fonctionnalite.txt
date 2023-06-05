@@ -27,3 +27,18 @@
   -  Lors de l'affichage de la map, les portes doivent être récupérées depuis Echappatoire et affichées.
   -  Lorsque le joueur passe sur une porte, il doit être téléporté à la position de la porte
      associée, récupérable grace à la classe Echapatoire.
+
+5. Ajout des fantomes : Nino Arcelin
+    -Descriptif:
+        -les fantomes sont des personnages il doivent pouvoir se déplacer en restant dans la map
+        mais peuvent passer à travers de tout
+      - Critères de validation :
+        -les fantomes doivent pouvoir passer partout
+        -il ne doit pas sortir de la zone de jeu
+
+6. Ajout des tresors : Nino Arcelin
+    -Descriptif:
+        -les tresors sont la condition de victoire du jeu quand le joueur le trouve il gagne la partie
+      - Critères de validation :
+        -quand le joueur va sur le tresor il disparait
+        -il n'y a plus de tresor donc le jouer gagne
