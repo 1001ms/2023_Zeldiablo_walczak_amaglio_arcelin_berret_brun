@@ -1,0 +1,171 @@
+@startuml
+
+package javafx.application{
+class Application{
+}
+}
+
+
+package moteurJeu{
+
+class MoteurJeu{
+- <static> width: int
+- <static> height: int
+- <static> FPS: int
++ <static> launch(jeu: Jeu, dessin: DessinJeu)
++ <static> setTaille(width: int, height: int)
++ <static> setFPS(FPS: int)
++ start(primaryStage: Stage)
++ startAnimation(canvas: Canvas)
+}
+
+Application <|-- MoteurJeu
+
+
+
+interface Jeu{
++ init()
++ update(seconds: double, clavier: Clavier)
++ etreFini(): boolean
+}
+
+MoteurJeu "1" --> "1" Jeu : - <static> jeu
+
+
+interface DessinJeu{
++ dessinerJeu(jeu: Jeu, canvas: Canvas)
+}
+
+MoteurJeu "1" --> "1" DessinJeu : - <static> dessin
+
+class Clavier{
+- haut: boolean
+- bas: boolean
+- gauche: boolean
+- droite: boolean
++ appuyerTouche(event : KeyEvent)
++ relacherTouche(event : KeyEvent)
+}
+
+MoteurJeu "1" --> "1" Clavier : - clavier
+}
+
+
+package gameLaby.laby{
+class LabyJeu{
++ init()
++ update(seconds: double, clavier: Clavier)
++ etreFini(): boolean
++ getLaby(): Labyrinthe
+}
+
+Jeu <|.. LabyJeu
+
+class Aventurier {
+  - coordonnee: Coordonnee
+  + Aventurier(dx: int, dy: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+class Coordonnee {
+  - x: int
+  - y: int
+  + Coordonnee(x: int, y: int)
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+interface Element {
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+}
+
+class Monstre {
+  - coordonnee: Coordonnee
+  + Monstre(dx: int, dy: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+abstract class Personnage {
+  - coordonnee: Coordonnee
+  + Personnage(dx: int, dy: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+class Serpent {
+  - corp: List<Coordonnee>
+  + Serpent(dx: int, dy: int)
+  + getCorp(): List<Coordonnee>
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+class Labyrinthe {
+  - murs: boolean[][]
+  - pj: Aventurier
+  - monstres: List<Monstre>
+  - serpents: List<Serpent>
+  - elements: List<Element>
+  + Labyrinthe(nom: String)
+  + elementPresent(x: int, y: int): boolean
+  + deplacerPerso(action: String): void
+  + deplacerMonstre(): void
+  + deplacerSerpent(): void
+  + etreFini(): boolean
+  + getLengthY(): int
+  + getLength(): int
+  + getMur(x: int, y: int): boolean
+}
+
+class Echappatoire {
+  - escpNv1: ArrayList<int []>
+  - escpNv2: ArrayList<int []>
+  - escpNv3: ArrayList<int []>
+  + Echappatoire()
+  + typeToIndex(type: char)
+  + determinerNiv(x: int, y: int, nMap: int, niveau: int, type: char)
+  + add(x: int, y: int, nMap: int, niveau: int, type: char)
+}
+
+Aventurier --|> Personnage
+Personnage <|-- Monstre
+
+Personnage "1" <-- "1..*" Coordonnee
+Element <|.. Serpent
+Element <|.. Personnage
+
+Labyrinthe -- Aventurier
+Labyrinthe "1" -- "0..*" Monstre
+Labyrinthe "1" -- "0..*" Serpent
+Labyrinthe "1" -- "0..*" Element
+
+Labyrinthe <- LabyJeu : +Labyrinthe
+
+Labyrinthe --> Monstre : +monstres
+Labyrinthe -> Aventurier : +pj
+
+class MainLaby{
++ main(String[] args)
+}
+
+MainLaby --> MoteurJeu : <<use>>
+
+@enduml
