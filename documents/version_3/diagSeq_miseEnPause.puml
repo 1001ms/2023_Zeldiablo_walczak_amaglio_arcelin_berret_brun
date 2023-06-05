@@ -25,7 +25,7 @@ Labyrinthe --> Labyrinthe: [courante[0] - 1, courante[1]]
 
 
 Labyrinthe -> Labyrinthe: elementPresentObject(x, y)
-Labyrinthe --> Labyrinthe: Monster
+Labyrinthe --> Labyrinthe: Personnage
 
 
 MoteurJeu -> Labyrinthe: getCombat()
@@ -33,7 +33,7 @@ activate MoteurJeu
 Labyrinthe --> MoteurJeu: true
 
 MoteurJeu -> MoteurJeu : monstreTimeLine.pause()
-MoteurJeu -> MoteurJeu : serpentTimeline.pause()
+MoteurJeu -> MoteurJeu : TorcheTimeLine.pause()
 MoteurJeu -> MoteurJeu : timer.stop()
 MoteurJeu --> MoteurJeu
 MoteurJeu --> MoteurJeu

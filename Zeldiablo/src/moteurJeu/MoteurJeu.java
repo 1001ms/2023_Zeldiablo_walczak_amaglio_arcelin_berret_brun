@@ -73,26 +73,6 @@ public class MoteurJeu extends Application {
      */
     Clavier controle = new Clavier();
 
-    //controleur Boutton Combat
-    public class CombatBouttonControleur implements EventHandler<ActionEvent>{
-        private int codeC;
-        public CombatBouttonControleur(int codeC){
-            this.codeC = codeC;
-        }
-        @Override
-        public void handle(ActionEvent event){
-            try {
-                if(jeu.getLabyrinthe().getCombat().etatCombat == true){
-                    jeu.getLabyrinthe().getCombat().attaque(this.codeC);
-                    jeu.getLabyrinthe().getCombat().attaque(4);
-
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     public AnimationTimer timer;
 
     /**
@@ -127,7 +107,6 @@ public class MoteurJeu extends Application {
     }
     /****************************/
     private void lancerJeu (Stage primaryStage) throws IOException {
-
 
         // initialisation du canvas de dessin et du container
         Canvas canvas = new Canvas();
@@ -249,8 +228,8 @@ public class MoteurJeu extends Application {
         monstreTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
         monstreTimeline.play(); // Démarrer la timeline du monstre
 
-        // timeline pour le déplacement du serpent ---------------------------------------------------------------------
-        Timeline serpentTimeline = new Timeline(
+        // timeline pour la gestion de torche ---------------------------------------------------------------------
+        Timeline TorcheTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.2), event -> {
                     // Déplacement du serpent
                     try {
@@ -287,11 +266,11 @@ public class MoteurJeu extends Application {
                         dessin.dessinerJeu(jeu, canvas);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }
-                })
+                    }})
+
         );
-        serpentTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
-        serpentTimeline.play(); // Démarrer la timeline du monstre
+        TorcheTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
+        TorcheTimeline.play(); // Démarrer la timeline du monstre
 
 
         try {
@@ -334,6 +313,7 @@ public class MoteurJeu extends Application {
         combatI.setPrefSize(700, 600);
         // Ajouter un espace vide en haut de la troisième ligne
         VBox.setMargin(row3, new Insets(10, 0, 0, 0));
+
         // timeline pour le combat  ---------------------------------------------------------------------
         Timeline combatTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
@@ -341,7 +321,7 @@ public class MoteurJeu extends Application {
                     try {
                         if(jeu.getLabyrinthe().getCombat()!=null) {
                             if (jeu.getLabyrinthe().getCombat().etatCombat) {
-                                serpentTimeline.pause();
+                                TorcheTimeline.pause();
                                 monstreTimeline.pause();
                                 timer.stop();
                                 IVm.setVisible(true);
@@ -358,7 +338,7 @@ public class MoteurJeu extends Application {
                                     IVm.setImage(fantome);
                                 }
                             } else {
-                                serpentTimeline.play();
+                                TorcheTimeline.play();
                                 monstreTimeline.play();
                                 timer.start();
                                 opponentHPBar.setVisible(false);
@@ -615,7 +595,4 @@ public class MoteurJeu extends Application {
         timer.start();
     }
 
-    public FrameStats getFrameStats(){
-        return frameStats;
-    }
 }

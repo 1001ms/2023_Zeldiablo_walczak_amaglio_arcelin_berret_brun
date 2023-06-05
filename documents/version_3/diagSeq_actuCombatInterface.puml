@@ -1,0 +1,33 @@
+@startuml
+
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+activate MoteurJeu
+MoteurJeu -> Labyrinthe: getCombat()
+activate Labyrinthe
+
+Labyrinthe --> MoteurJeu: true
+deactivate Labyrinthe
+MoteurJeu -> MoteurJeu : monstreTimeLine.pause()
+MoteurJeu -> MoteurJeu : serpentTimeline.pause()
+MoteurJeu -> MoteurJeu : timer.stop()
+MoteurJeu <-- MoteurJeu
+MoteurJeu <-- MoteurJeu
+MoteurJeu <-- MoteurJeu
+
+MoteurJeu -> MoteurJeu : IVm.setVisible(true)
+MoteurJeu <-- MoteurJeu
+MoteurJeu -> MoteurJeu : opponentHPBar.setVisible(true);
+MoteurJeu <-- MoteurJeu
+MoteurJeu -> MoteurJeu : jeu.getLaby().monstreEnCombat instanceof Monstre
+MoteurJeu --> MoteurJeu : true
+MoteurJeu -> MoteurJeu :IVm.setImage(monstre)
+MoteurJeu <-- MoteurJeu
+deactivate MoteurJeu
+
+@enduml
