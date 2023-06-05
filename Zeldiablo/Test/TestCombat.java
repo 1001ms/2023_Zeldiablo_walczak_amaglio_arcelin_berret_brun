@@ -1,14 +1,14 @@
-import gameLaby.laby.Echappatoire;
-import org.testng.annotations.Test;
-
+import org.junit.jupiter.api.Test;
 import gameLaby.laby.LabyDessin;
 import gameLaby.laby.LabyJeu;
 import moteurJeu.MoteurJeu;
 
+import java.io.IOException;
+
 public class TestCombat {
 
         @Test
-        public void test_miseEnPause() {
+        public void test_miseEnPause() throws IOException {
             int width = 900;
             int height = 800;
             int pFPS = 8;

@@ -10,6 +10,7 @@ import moteurJeu.Jeu;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LabyDessin implements DessinJeu {
@@ -22,7 +23,7 @@ public class LabyDessin implements DessinJeu {
      * @param canvas dessin dans lequel dessin
      */
     @Override
-    public void dessinerJeu(Jeu jeu, Canvas canvas) throws FileNotFoundException {
+    public void dessinerJeu(Jeu jeu, Canvas canvas) throws IOException {
         FileInputStream  inputStreamGameOver = new FileInputStream("zeldiablo/images/gameOver.png");
         Image gameOver = new Image(inputStreamGameOver);
 
@@ -71,7 +72,12 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
-
+    /**
+     * méthode dessinerMurSOl permet de dessiner les murs et les sols
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerMurSol(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur2.png");
         Image mur = new Image(inputStreamMur);
@@ -89,9 +95,13 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
+    /**
+     * méthode dessinerAventurier permet de dessiner l'aventurier
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerAventurier(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
-
-
         Aventurier personnage = labyrinthe.pj;
         FileInputStream  inputStreamAventurier = new FileInputStream("zeldiablo/images/aventurier.png");
         Image aventurier = new Image(inputStreamAventurier);
@@ -113,6 +123,12 @@ public class LabyDessin implements DessinJeu {
 
     }
 
+    /**
+     * méthode dessinerMonstre permet de dessiner les monstres
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerMonstre(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream  inputStreamMonstre = new FileInputStream("zeldiablo/images/monstre.png");
         Image monstre = new Image(inputStreamMonstre);
@@ -143,6 +159,12 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
+    /**
+     * méthode dessinerCaisse permet de dessiner les caisses
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerCaisse(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream  inputStreamCaisse = new FileInputStream("zeldiablo/images/caisse.png");
         Image caisse = new Image(inputStreamCaisse);
@@ -153,6 +175,12 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
+    /**
+     * méthode dessinerDepot permet de dessiner les depots
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerDepot(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream  inputStreamTrou = new FileInputStream("zeldiablo/images/trou.png");
         Image trou = new Image(inputStreamTrou);
@@ -163,6 +191,11 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
+    /**
+     * méthode dessinerEscalier
+     * @param gc
+     * @param labyrinthe
+     */
     private void dessinerEscaliers(GraphicsContext gc, Labyrinthe labyrinthe) {
         Echappatoire ec = labyrinthe.escapes;
         for(int i=0; i<ec.getEscpNv(labyrinthe.nvLaby).size();i++){
@@ -202,6 +235,12 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
+    /**
+     * méthode dessinerFantome
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerFantome(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream inputStreamFantome = new FileInputStream("zeldiablo/images/fantome.png");
         Image fantome = new Image(inputStreamFantome);
@@ -234,6 +273,12 @@ public class LabyDessin implements DessinJeu {
         }
     }
 
+    /**
+     * méthode dessinerTresor
+     * @param gc
+     * @param labyrinthe
+     * @throws FileNotFoundException
+     */
     public void dessinerTresor(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream  inputStreamTrou = new FileInputStream("zeldiablo/images/tresor.png");
         Image trou = new Image(inputStreamTrou);
@@ -243,5 +288,4 @@ public class LabyDessin implements DessinJeu {
             gc.drawImage(trou, py * TAILLE, px * TAILLE, TAILLE, TAILLE);
         }
     }
-
 }
