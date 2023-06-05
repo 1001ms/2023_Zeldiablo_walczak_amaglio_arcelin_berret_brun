@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+MainLaby -> LabyJeu:
+activate LabyJeu
+LabyJeu -> Labyrinthe: Labyrinte(String nomFichier)
+
+activate Labyrinthe
+Labyrinthe->Labyrinthe : TresorTrouvé
+
+loop for each Tresor
+Labyrinthe->Tresor : estPresent
+activate Tresor
+Labyrinthe<--Tresor :
+deactivate Tresor
+end loop
+Labyrinthe->Labyrinthe : etreFini
+note right
+Si les PV du perso son a 0 ou si son nombre de trésor est superieur ou egale a 1
+end note
+Labyrinthe-->Labyrinthe : boolean()
+Labyrinthe --> LabyJeu
+deactivate Labyrinthe
+
+LabyJeu --> MainLaby:
+deactivate LabyJeu
+
+@enduml

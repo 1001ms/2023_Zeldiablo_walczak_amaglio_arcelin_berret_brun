@@ -1,0 +1,40 @@
+@startuml
+
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+loop FantomeTimeline toute les 0,2s
+MoteurJeu -> LabyJeu: getLaby()
+activate LabyJeu
+LabyJeu --> MoteurJeu : Laby
+deactivate LabyJeu
+MoteurJeu -> Labyrinthe: deplacerFantome()
+activate Labyrinthe
+
+Labyrinthe -> Perso: getX()
+activate Perso
+Labyrinthe <-- Perso:
+deactivate Perso
+
+Labyrinthe -> Perso: getY()
+activate Perso
+Labyrinthe <-- Perso:
+deactivate Perso
+
+
+Labyrinthe -> Labyrinthe: getSuivant(courante[0], courante[1], "Gauche")
+Labyrinthe --> Labyrinthe: [courante[0] - 1, courante[1]]
+
+
+
+
+Labyrinthe -> Labyrinthe: deplacerFantome()
+Labyrinthe --> Labyrinthe:
+
+MoteurJeu <-- Labyrinthe:
+end loop
+@enduml
