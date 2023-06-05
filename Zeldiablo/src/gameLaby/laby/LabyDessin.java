@@ -196,13 +196,14 @@ public class LabyDessin implements DessinJeu {
      * @param gc
      * @param labyrinthe
      */
-    private void dessinerEscaliers(GraphicsContext gc, Labyrinthe labyrinthe) {
+    private void dessinerEscaliers(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
+        FileInputStream inputStreamPortail = new FileInputStream("zeldiablo/images/portail.png");
+        Image portail = new Image(inputStreamPortail);
         Echappatoire ec = labyrinthe.escapes;
         for(int i=0; i<ec.getEscpNv(labyrinthe.nvLaby).size();i++){
             int px = ec.getEscpNv(labyrinthe.nvLaby).get(i)[0];
             int py = ec.getEscpNv(labyrinthe.nvLaby).get(i)[1];
-            gc.setFill(Color.YELLOW);
-            gc.fillRect(py*TAILLE,px*TAILLE,TAILLE,TAILLE);
+            gc.drawImage(portail,py*TAILLE,px*TAILLE,TAILLE,TAILLE);
         }
     }
 

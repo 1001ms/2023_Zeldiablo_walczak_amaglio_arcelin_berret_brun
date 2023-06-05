@@ -1,7 +1,9 @@
 package moteurJeu;
 
 //https://github.com/zarandok/megabounce/blob/master/MainCanvas.java
-
+import javafx.scene.control.Label;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import gameLaby.laby.Fantome;
 import gameLaby.laby.Labyrinthe;
 import gameLaby.laby.Monstre;
@@ -25,9 +27,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -107,7 +110,6 @@ public class MoteurJeu extends Application {
     }
     /****************************/
     private void lancerJeu (Stage primaryStage) throws IOException {
-
         // initialisation du canvas de dessin et du container
         Canvas canvas = new Canvas();
         final Pane canvasContainer = new Pane(canvas);
@@ -443,6 +445,10 @@ public class MoteurJeu extends Application {
      */
     public void start(Stage primaryStage) throws IOException, FileNotFoundException {
         primaryStage.setTitle("Menu du Jeu");
+        //création du titre
+        Label titleLabel = new Label("Zeldiablo");
+        titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        titleLabel.setFont(Font.font("System"));
         // Création des boutons
         Button jouerButton = new Button("Jouer");
         jouerButton.setPrefWidth(200); // Définir la largeur préférée du bouton
@@ -452,8 +458,11 @@ public class MoteurJeu extends Application {
         quitterButton.setPrefWidth(200); // Définir la largeur préférée du bouton
         quitterButton.setPrefHeight(50);
 
-
-
+        String path = "Zeldiablo/musique/musique.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer media_player = new MediaPlayer(media);
+        // La musique est prête à être jouée, vous pouvez la démarrer ici
+        media_player.play();
         jouerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -478,7 +487,7 @@ public class MoteurJeu extends Application {
         VBox menuBox = new VBox();
         menuBox.setAlignment(Pos.CENTER);
         menuBox.setSpacing(20);
-        menuBox.getChildren().addAll(jouerButton, quitterButton);
+        menuBox.getChildren().addAll(titleLabel,jouerButton, quitterButton);
 
         // Création de la scène du menu
         BorderPane menuPane = new BorderPane();
