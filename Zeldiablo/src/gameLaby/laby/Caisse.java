@@ -9,7 +9,7 @@ public class Caisse implements Element {
      * @param x
      * @param y
      */
-    Caisse(int x, int y) {
+    public Caisse(int x, int y) {
         this.x=x;
         this.y=y;
     }

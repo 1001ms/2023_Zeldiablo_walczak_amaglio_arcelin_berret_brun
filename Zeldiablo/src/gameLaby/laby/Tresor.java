@@ -3,7 +3,7 @@ package gameLaby.laby;
 public class Tresor implements Element{
 
     private Coordonnee coordonnee;
-    Tresor(int x, int y){
+    public Tresor(int x, int y){
         this.coordonnee=new Coordonnee(x,y);
     }
 

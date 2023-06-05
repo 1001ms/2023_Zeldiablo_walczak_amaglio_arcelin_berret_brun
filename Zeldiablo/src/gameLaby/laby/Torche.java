@@ -4,7 +4,7 @@ public class Torche implements Element{
 
     private Coordonnee coordonnee;
     public final static int RAYONTORCHE=200;
-    Torche(int x, int y){
+    public Torche(int x, int y){
         this.coordonnee=new Coordonnee(x,y);
     }
 
