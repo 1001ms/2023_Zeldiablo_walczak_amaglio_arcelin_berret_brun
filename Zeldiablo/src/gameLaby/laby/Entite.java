@@ -4,6 +4,11 @@ public abstract class Entite implements Element{
 
     private Coordonnee coordonnee;
 
+    /**
+     * constructeur d'entite
+     * @param x coordonnée x
+     * @param y coordonnée y
+     */
     public Entite(int x, int y){
         this.coordonnee=new Coordonnee(x,y);
     }
