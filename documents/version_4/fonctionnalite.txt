@@ -1,0 +1,29 @@
+1.Boutton d'attaque fonctionnelle : Matias Amaglio / Dimitri Walczak-Vela-Mena
+- Descriptif :
+  - Lors d'un combat les bouton d'attaque du joueur doivent etre fonctionnelle.
+- Critères de validation :
+  - Les deux  bouttons d'attaque doiven,t etre clicable.
+  - Les bouttons d'attaques doivent appliquer leurs efdfets sur les HP du monstre.
+
+2. Contre attaques du monstre : Matias Amaglio
+- Descriptif :
+  - Apres le tours du joueurs, le monstre doit imédiattement contre attaquer.
+- Critères de validation :
+  - Apres le tours du joeurs le monstre devra avoir fais dfes dégats au joueur.
+  - Le programme doit passer dans la boucle d'attaque du monstre.
+
+3. Gestion de fin de combat : Matias Amaglio / Nino Arcelin
+- Descriptif :
+  - A la fin du combats, le monstre doit disparaitre ou le joueur mourrir et la partie reprendre.
+- Critères de validation :
+  - Le monstre a bien disparue de la liste d'éléments.
+  - Les TimeLine de jeu doivent se lancer à nouveaux.
+
+4. Création d'un système de portes 2ème partie : Félix Brun / Axel Berret
+- Descriptif :
+  - Les portes doivent être récupérées depuis Echappatoire et affichées.
+  - Lorsque le joueur passe sur une porte, il doit être téléporté à la position de la porte.
+- Critères de validation :
+  -  Lors de l'affichage de la map, les portes doivent être récupérées depuis Echappatoire et affichées.
+  -  Lorsque le joueur passe sur une porte, il doit être téléporté à la position de la porte
+     associée, récupérable grace à la classe Echapatoire.

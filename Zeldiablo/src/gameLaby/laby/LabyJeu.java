@@ -28,13 +28,6 @@ public class LabyJeu implements Jeu {
     /**
      Constructeur avec une String en parametre
      */
-    public LabyJeu(String path){
-        try {
-            this.laby=new Labyrinthe(path,0,null,0); //A modifier chargement des éscaliers
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     public void update(double secondes, Clavier clavier) {
 
         // deplace le perso en fonction des touches

@@ -1,4 +1,8 @@
-1. Donner une position initial au monstre
+<<<<<<< HEAD
+1. Donner une position initial au monstre Nino Arcelin
+=======
+1. Donner une position initial au monstre : Nino Arcelin
+>>>>>>> 4bd753e8b8db0dd893db79cacc16b46cd11910c2
 - Descriptif :
   - le monstre débute sur une case décrite dans le fichier labyrinthe.
 - Critères de validation :
@@ -7,14 +11,18 @@
   - le monstre est représenté par le caractère 'M' dans le fichier labyrinthe.
   - le monstre ne se trouve pas sur la même case que le personnage.
 
-2. Afficher le monstre
+2. Afficher le monstre : Nino Arcelin
 - Descriptif :
   - le jeu doit afficher le monstre à sa position.
 - Critères de validation :
   - le monstre doit être affiché à la bonne position dans le labyrinthe.
   - le monstre sera représenté sous la forme d'un cercle vert de la taille du personnage.
 
-3. Considérer le monstre dans les déplacements du personnage
+<<<<<<< HEAD
+3. Considérer le monstre dans les déplacements du personnage Nino Arcelin
+=======
+3. Considérer le monstre dans les déplacements du personnage : Nino Arcelin
+>>>>>>> 4bd753e8b8db0dd893db79cacc16b46cd11910c2
 - Descriptif :
   - lorsque le jeu évolue, le personnage ne peut pas se déplacer sur la case du monstre.
 - Critères de validation :
@@ -22,7 +30,11 @@
   - le monstre et le personnage ne peuvent pas se trouver sur la même case.
   - le personnage ne peut pas traverser la case du monstre
 
-4. Déplacer le monstre
+<<<<<<< HEAD
+4. Déplacer le monstre Nino Arcelin
+=======
+4. Déplacer le monstre : Nino Arcelin
+>>>>>>> 4bd753e8b8db0dd893db79cacc16b46cd11910c2
 - Descriptif :
   - lorsque le jeu évolue, le monstre choisit une case adjacente de manière aléatoire et tente de s'y déplacer.
 - Critères de validation :
@@ -30,37 +42,9 @@
   - le monstre ne peut pas se déplacer sur mur. S'il tente de se déplacer sur cette case, il ne bouge pas.
   - le monstre ne peut pas se trouver sur la même case que le personnage.
 
-5. Jeu en pause lors de combat : Matias Amaglio
+5. Interface graphique de combat : Dimitri Walczak-Vela-Mena
 - Descriptif :
-  - lorsqu'un joueur rencontre un monstre le jeu doit se mettre en pause pour facilité le system de combat
+  - Lors du lancement du jeu, l'interrface de combat doit etre créer
 - Critères de validation :
-  - Toute les TimeLine (sauf combat) doivent être à l'arret.
-  - Le nombre de frame ne doit pas augmenter apres la pause.
-
-6. L'interface de combat est actualisé lors de la rencontre avec un monstre : Matias Amaglio
-- Descriptif :
-  - lorsqu'un joueur rencontre un monstre l'interface de combat doit etre actualis", au niveau des PV et du monstre combatue.
-- Critères de validation :
-  - Le nombre de PV doit etre correcte pour l'aventurier et le monstre.
-  - Les immages doivent bien avoir chargées.
-
-7. Boutton d'attaque fonctionnelle : Matias Amaglio
-- Descriptif :
-  - Lors d'un combat les bouton d'attaque du joueur doivent etre fonctionnelle.
-- Critères de validation :
-  - Les deux  bouttons d'attaque doiven,t etre clicable.
-  - Les bouttons d'attaques doivent appliquer leurs efdfets sur les HP du monstre.
-
-8. Contre attaques du monstre : Matias Amaglio
-- Descriptif :
-  - Apres le tours du joueurs, le mùonstre doit imédiattement contre attaquer.
-- Critères de validation :
-  - Apres le tours du joeurs le monstre devra avoir fais dfes dégats au joueur.
-  - Le programme doit passer dans la boucle d'attaque du monstre.
-
-9. Gestion de fin de combat : Matias Amaglio
-- Descriptif :
-  - A la fin du combats, le monstre doit disparaitre ou le joeur mourrir et la partie reprendre.
-- Critères de validation :
-  - Le monstre a bien disparue de la liste d'éléments.
-  - Les TimeLine de jeu doivent se lancer à nouveaux.
+  - L'interface est bien affiché.
+  - L'interface ne pause aps de problème de compatibilité avec le jeu principale.
