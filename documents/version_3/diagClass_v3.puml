@@ -52,23 +52,38 @@ MoteurJeu "1" --> "1" Clavier : - clavier
 
 
 package gameLaby.laby{
-class LabyJeu{
-+ init()
-+ update(seconds: double, clavier: Clavier)
-+ etreFini(): boolean
-+ getLaby(): Labyrinthe
-}
 
 Jeu <|.. LabyJeu
 
-class Aventurier {
+class Aventurier extends Personnage {
   - coordonnee: Coordonnee
   + Aventurier(dx: int, dy: int)
   + etrePresent(dx: int, dy: int): boolean
   + getX(): int
   + getY(): int
-  + setX(x: int): void
-  + setY(y: int): void
+  + setX(x: int)
+  + setY(y: int)
+}
+
+class Caisse implements Element {
+  - x: int
+  - y: int
+  + Caisse(x: int, y: int)
+  + etrePresent(dx: int, dy: int) : boolean
+  + getX() : int
+  + getY() : int
+  + setX(x: int)
+  + setY(y: int)
+}
+
+class Combat {
+  + adversaire: Personnage
+  + PJ: Aventurier
+  + etatCombat: boolean
+  + toursPj: boolean
+  + Combat(e: Element, j: Element)
+  + attaque(codeAttaque: int)
+  + getPj(): Aventurier
 }
 
 class Coordonnee {
@@ -77,62 +92,19 @@ class Coordonnee {
   + Coordonnee(x: int, y: int)
   + getX(): int
   + getY(): int
-  + setX(x: int): void
-  + setY(y: int): void
+  + setX(x: int)
+  + setY(y: int)
 }
 
-interface Element {
-  + etrePresent(dx: int, dy: int): boolean
+class Depot implements Element {
+  - x: int
+  - y: int
+  + Depot(x: int, y: int)
+  + etrePresent(dx: int, dy: int) : boolean
   + getX(): int
   + getY(): int
-}
-
-class Monstre {
-  - coordonnee: Coordonnee
-  + Monstre(dx: int, dy: int)
-  + etrePresent(dx: int, dy: int): boolean
-  + getX(): int
-  + getY(): int
-  + setX(x: int): void
-  + setY(y: int): void
-}
-
-abstract class Personnage {
-  - coordonnee: Coordonnee
-  + Personnage(dx: int, dy: int)
-  + etrePresent(dx: int, dy: int): boolean
-  + getX(): int
-  + getY(): int
-  + setX(x: int): void
-  + setY(y: int): void
-}
-
-class Serpent {
-  - corp: List<Coordonnee>
-  + Serpent(dx: int, dy: int)
-  + getCorp(): List<Coordonnee>
-  + etrePresent(dx: int, dy: int): boolean
-  + getX(): int
-  + getY(): int
-  + setX(x: int): void
-  + setY(y: int): void
-}
-
-class Labyrinthe {
-  - murs: boolean[][]
-  - pj: Aventurier
-  - monstres: List<Monstre>
-  - serpents: List<Serpent>
-  - elements: List<Element>
-  + Labyrinthe(nom: String)
-  + elementPresent(x: int, y: int): boolean
-  + deplacerPerso(action: String): void
-  + deplacerMonstre(): void
-  + deplacerSerpent(): void
-  + etreFini(): boolean
-  + getLengthY(): int
-  + getLength(): int
-  + getMur(x: int, y: int): boolean
+  + setX(x: int)
+  + setY(y: int)
 }
 
 class Echappatoire {
@@ -140,9 +112,163 @@ class Echappatoire {
   - escpNv2: ArrayList<int []>
   - escpNv3: ArrayList<int []>
   + Echappatoire()
+  + afficher()
   + typeToIndex(type: char)
   + determinerNiv(x: int, y: int, nMap: int, niveau: int, type: char)
-  + add(x: int, y: int, nMap: int, niveau: int, type: char)
+  + add(x: int, y: int, nMap: int, niveau: int, type: char)*
+}
+
+interface Element {
+  + getX(): int
+  + getY(): int
+  + setX(x: int)
+  + setY(y: int)
+}
+
+class Entite implements Element {
+  - coordonnee: Coordonnee
+  + Entite(x: int, y: int)
+  + getX() : int
+  + getY() : int
+  + setX(x: int)
+  + setY(y: int)
+  + estPresent(x: int, y: int) : boolean
+}
+
+class LabyDessin implements DessinJeu {
+  + <static final> TAILLE: int
+  + dessinerJeu(jeu: Jeu, canvas: Canvas)
+  + dessinerMurSol(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerAventurier(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerMonstre(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerSerpent(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerCaisse(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerDepot(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerEscalier(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerTorche(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerFantome(gc: GraphicsContext, labyrinthe: Labyrinthe)
+  + dessinerTresor(gc: GraphicsContext, labyrinthe: Labyrinthe)
+}
+
+class LabyJeu implements Jeu {
+  - laby: Labyrinthe
+  + LabyJeu()
+  + update(secondes: double, clavier: Clavier)
+  + init()
+  + etreFini() : boolean
+  + getLabyrinthe() : Labyrinthe
+  + setLabyrinthe(l: Labyrinthe)
+  + newLaby(name: String, nv: int, es: Echappatoire, nM: int) : LabyJeu
+}
+
+class Labyrinthe {
+  + <static final> MUR: char
+  + <static final> MONSTRE: char
+  + <static final> SERPENT: char
+  + <static final> PJ: char
+  + <static final> VIDE: char
+  + <static final> ESCAPE1: char
+  + <static final> ESCAPE2: char
+  + <static final> ESCAPE3: char
+  + <static final> ESCAPE4: char
+  + <static final> ESCAPE5: char
+  + <static final> ESCAPE6: char
+  + <static final> ESCAPE7: char
+  + <static final> ESCAPE8: char
+  + <static final> ESCAPE9: char
+  + <static final> DEPOT: char
+  + <static final> CAISSE: char
+  + <static final> TORCHE: char
+  + <static final> FANTOME: char
+  + <static final> TRESOR: char
+  + <static final> HAUT: String
+  + <static final> BAS: String
+  + <static final> GAUCHE: String
+  + <static final> DROITE: String
+  + pj: Aventurier
+  + serpents: ArrayList<Serpent>
+  + monstres: ArrayList<Monstre>
+  + personnages: ArrayList<Personnage>
+  + escapes: Echappatoire
+  + murs: boolean[][]
+  + nvLaby: int
+  + nMap: int
+  + depots: ListeElements
+  + caisses: ListeElements
+  + torches: ArrayList<Torche>
+  + fantomes: ArrayList<Fantome>
+  + combat: Combat
+  + tailleMax: int[]
+  + monstreEnCombat: Personnage
+  + tresors: ArrayList<Tresor>
+  + getSuivant(x: int, y: int, action: String) : int[]
+  + Labyrinthe(nom: String)
+  + personnagePresent(x: int, y: int) : boolean
+  + elementPresentObject(x: int, y: int): Personnage
+  + caisseOuTrouPresent(x: int, y: int) : boolean
+  + deplacerPerso(action: String)
+  + supprimerMonstre(m: Personnage)
+  + actualiserVieAventurier(combat: Combat)
+  + tresorTrouve()
+  + caisseSurTrou()
+  + aventurierSurTorche()
+  + aventurierDansTrou() : boolean
+  + deplacerMonstre()
+  + deplacerFantome()
+  + deplacerSerpent()
+  + etreFini(): boolean
+  + getLengthY(): int
+  + getLength(): int
+  + getMur(x: int, y: int): boolean
+  + playerInEscape() : int
+  + getCombat() : Combat
+}
+
+class ListeElements {
+  - listeE: ArrayList<Element>
+  + ListeElements()
+  + ajouter(e: Element)
+  + setListeElements(i: int, e: Element)
+  + getElement(x: int, y: int) : Element
+  + etreElement(x: int, y: int) : boolean
+  + indiceElement(x: int, y: int) : int
+  + getTaille() : int
+  + getElementByIndice(i: int) : Element
+  + supprimerElement(i: int)
+}
+
+class Monstre extends Personnage {
+  + Monstre(dx: int, dy: int, HP: int)
+}
+
+abstract class Personnage implements Element {
+  - coordonnee: Coordonnee
+  - HP: double
+  + <final> HPMax: double
+  + Personnage(dx: int, dy: int, HP: int)
+  + etrePresent(dx: int, dy: int): boolean
+  + getX(): int
+  + getY(): int
+  + getHP() : double
+  + setX(x: int)
+  + setY(y: int)
+  + setHP(HP: double)
+  + getHPMax() : double
+}
+
+class Serpent extends Personnage {
+  + corp: ArrayList<Coordonnee>
+  + Serpent(dx: int, dy: int, HP: int)
+  + getCorp(): ArrayList<Coordonnee>
+  + getX(): int
+  + getY(): int
+  + setX(x: int): void
+  + setY(y: int): void
+}
+
+class Torche extends Entite {
+  + <static final> RAYONTORCHE: int
+  + Torche(x: int, y:int)
 }
 
 Aventurier --|> Personnage
