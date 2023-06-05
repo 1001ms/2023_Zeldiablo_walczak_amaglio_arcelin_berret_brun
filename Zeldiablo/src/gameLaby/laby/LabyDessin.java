@@ -79,7 +79,7 @@ public class LabyDessin implements DessinJeu {
      * @throws FileNotFoundException
      */
     public void dessinerMurSol(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
-        FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur2.png");
+        FileInputStream  inputStreamMur = new FileInputStream("zeldiablo/images/mur.png");
         Image mur = new Image(inputStreamMur);
         FileInputStream  inputStreamSol = new FileInputStream("zeldiablo/images/sol.png");
         Image sol = new Image(inputStreamSol);
@@ -142,7 +142,7 @@ public class LabyDessin implements DessinJeu {
     public void dessinerSerpent(GraphicsContext gc, Labyrinthe labyrinthe) throws FileNotFoundException {
         FileInputStream  inputStreamTeteS = new FileInputStream("zeldiablo/images/teteS.png");
         Image teteS = new Image(inputStreamTeteS);
-        FileInputStream  inputStreamCorpS = new FileInputStream("zeldiablo/images/corpS2.png");
+        FileInputStream  inputStreamCorpS = new FileInputStream("zeldiablo/images/corpS.png");
         Image corpS = new Image(inputStreamCorpS);
 
         for (Serpent s : labyrinthe.serpents) {

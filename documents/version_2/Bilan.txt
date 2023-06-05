@@ -1,5 +1,12 @@
 - Bilan :
     - Réalisation :
-        Lors de la réalisation de cette version nous avons implémenté...
+        Lors de la réalisation de cette version nous avons implémenté un serpent qui se déplace aléatoirement dans le labyrinthe
+        dans diverses directions, ce serpent bloque le joueur.
 
     - Problème :
+           Le plus gros problème était de faire se déplacer le reste du corp du serpent et de trouver une manière simple de mettre en place le serpent dans le fichier.txt
+           ce que nous avons fais est que nous affichons tout le serpent sur une seule et même case, dans notre méthode deplacerSerpent dans labyrinthe
+           nous faisons en sorte que le corp du serpent suive la tete chaque partie du corp prend la valeur de son predecesseur de ce fait avec un caractère
+           nous pouvons afficher le serpent sur une seule case dans le fichier.txt. De plus nous rencontrions un problème avec les collisions entre le serpent et l'aventurier,
+           en effet l'aventurier pouvait passer à travers le corp du serpent c'est pour cela que nous avons créer une méthode qui regarde toutes les coordonnées du corp du serpent
+           si l'aventurier veux avancer vers une case où se trouve le corp il ne peut pas.

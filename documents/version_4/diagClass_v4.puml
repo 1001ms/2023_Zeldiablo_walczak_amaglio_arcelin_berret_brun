@@ -76,7 +76,7 @@ class Aventurier {
 }
 
 Aventurier --|> Personnage
-Aventurier -> Coordonnee: -coordonnee
+
 
 
 class Caisse {
@@ -165,7 +165,7 @@ class LabyJeu {
 }
 
 LabyJeu ..|> Jeu
-LabyJeu -> Labyrinthe: Labyrinthe: laby
+LabyJeu"*" -> "*"Labyrinthe: Labyrinthe: laby
 
 
 class Labyrinthe {
@@ -218,17 +218,17 @@ class Labyrinthe {
   + playerInEscape() : int
   + getCombat() : Combat
 }
-Labyrinthe --> Serpent: -ArrayList<Serpent>: serpents
-Labyrinthe --> Monstre: -ArrayList<Monstre>: monstres
-Labyrinthe --> Personnage: -ArrayList<Personnage>: personnages
-Labyrinthe --> Echappatoire: -Echappatoire: escapes
-Labyrinthe -> ListeElements: -ListeElements: depots
-Labyrinthe -> ListeElements: -ListeElements: caisses
-Labyrinthe --> Torche: -ArrayList<Torche>: torches
-Labyrinthe --> Fantome: -ArrayList<Fantome>: fantomes
-Labyrinthe --> Combat: -Combat: combat
-Labyrinthe --> Personnage: -Personnage: monstreEnCombat
-Labyrinthe -> Tresor: -Tresor: tresors
+Labyrinthe "*"-->"*" Serpent: -ArrayList<Serpent>: serpents
+Labyrinthe "*"-->"*" Monstre: -ArrayList<Monstre>: monstres
+Labyrinthe "*"-->"*" Personnage: -ArrayList<Personnage>: personnages
+Labyrinthe "*"-->"*" Echappatoire: -Echappatoire: escapes
+Labyrinthe "*"->"*" ListeElements: -ListeElements: depots
+Labyrinthe "*"->"*" ListeElements: -ListeElements: caisses
+Labyrinthe "*"-->"*" Torche: -ArrayList<Torche>: torches
+Labyrinthe "*"-->"*" Fantome: -ArrayList<Fantome>: fantomes
+Labyrinthe "*"-->"1" Combat: -Combat: combat
+Labyrinthe "*"-->"*" Personnage: -Personnage: monstreEnCombat
+Labyrinthe "*"->"*" Tresor: -Tresor: tresors
 
 
 class ListeElements {
@@ -243,7 +243,7 @@ class ListeElements {
   + supprimerElement(i: int)
 }
 
-ListeElements -> Element: -ArrayList<Element>: listeE
+ListeElements "*"->"*" Element: -ArrayList<Element>: listeE
 
 class Monstre {
   + Monstre(dx: int, dy: int, HP: int)
@@ -263,7 +263,6 @@ abstract class Personnage {
 }
 
 Personnage --|> Element
-Personnage -> Coordonnee: -Coordonnee: coordonnee
 
 
 class Serpent {
@@ -272,9 +271,9 @@ class Serpent {
 }
 
 Serpent --|> Personnage
-Serpent -> Coordonnee: -Coordonnee: corp
+Serpent "1"->"*" Coordonnee: -Coordonnee: corp
 
-
+Element "*"-> "1"Coordonnee: coordonnee
 class Torche {
   + <static final> RAYONTORCHE: int
   + Torche(x: int, y:int)
