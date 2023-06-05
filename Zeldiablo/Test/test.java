@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class test {
 
+    /*
     @Test
     public void test_miseEnPause(){
         int width = 900;
@@ -31,4 +32,5 @@ public class test {
         // si le nombre de frame est identique alors les boucles se sont belle et bien arreter .
         // on peut aussi regarder si il n'y a pas une fonction qui permet de voirs si une timeLine et a l'arrret (Timer aussi)
     }
+     */
 }

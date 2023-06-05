@@ -28,7 +28,7 @@ public class Echappatoire {
      * constructeur vide qui cree un objet
      * de type Echappatoire
      */
-    public Echappatoire(){
+    public Echappatoire() {
         this.escpNv1 = new ArrayList<>(9);
         this.escpNv2 = new ArrayList<>(9);
         this.escpNv3 = new ArrayList<>(9);
@@ -61,28 +61,6 @@ public class Echappatoire {
             System.out.print("Échappatoire " + (char)('A' + i) + ": ");
             int[] coord = escpNv3.get(i);
             System.out.println("x = " + coord[0] + ", y = " + coord[1] + ", numéro map = " + coord[2]);
-        }
-    }
-
-    /**
-     * methode determinerNiveau de la classe Echappatoire
-     * qui permet de determiner l etage (niveau) du labyrinthe
-     * dans lequel l escalier se trouve
-     * @param x coordonnees en x
-     * @param y coordonnees en y
-     * @param niveau niveau du labyrinthe (etage)
-     */
-    public void determinerNiv(int x, int y, int nMap, int niveau, char type) {
-        switch (niveau) {
-            case 0:
-                this.escpNv1.set(typeToIndex(type), new int[]{x,y,nMap});
-                break;
-            case 1:
-                this.escpNv2.set(typeToIndex(type), new int[]{x,y,nMap});
-                break;
-            case 2:
-                this.escpNv3.set(typeToIndex(type), new int[]{x,y,nMap});
-                break;
         }
     }
 
@@ -131,6 +109,28 @@ public class Echappatoire {
     }
 
     /**
+     * methode determinerNiveau de la classe Echappatoire
+     * qui permet de determiner l etage (niveau) du labyrinthe
+     * dans lequel l escalier se trouve
+     * @param x coordonnees en x
+     * @param y coordonnees en y
+     * @param niveau niveau du labyrinthe (etage)
+     */
+    public void determinerNiv(int x, int y, int nMap, int niveau, char type) {
+        switch (niveau) {
+            case 0:
+                this.escpNv1.set(typeToIndex(type), new int[]{x,y,nMap});
+                break;
+            case 1:
+                this.escpNv2.set(typeToIndex(type), new int[]{x,y,nMap});
+                break;
+            case 2:
+                this.escpNv3.set(typeToIndex(type), new int[]{x,y,nMap});
+                break;
+        }
+    }
+
+    /**
      * methode identifierEchap de la classe Echappatoire
      * qui permet d identifier l escalier couple a celui dont
      * les informations transmises en parametres (niveau et type)
@@ -172,7 +172,8 @@ public class Echappatoire {
                 }
                 else if ((this.escpNv2.get(this.typeToIndex(type))[0]!=-1)&&(this.escpNv2.get(this.typeToIndex(type))[1]!=-1)){
                     res[0] = 1; res[1] = this.typeToIndex(type); res[2] = 0;
-                } else {
+                }
+                else {
                     res[0] = 2; res[1] = this.typeToIndex(type);
                     if (nMap == 0) res[2] = 1;
                     else res[2] = 0;
@@ -189,6 +190,7 @@ public class Echappatoire {
      * en leur attribuant un identifiant
      * @param x coordonnees en x
      * @param y coordonnees en y
+     * @param nMap represente le numero d une piece au sein d un etage
      * @param niveau niveau du labyrinthe (etage)
      * @param type identifiant d une paire d escaliers
      */
@@ -207,27 +209,11 @@ public class Echappatoire {
     }
 
     /**
-     * methode getEscpNv1 de la classe Echappatoire
-     * @return l attribut escpNv1 de la classe Echappatoire
-     */
-    public ArrayList<int[]> getEscpNv1() {
-        return this.escpNv1;
-    }
-
-    /**
      * methode getEscpNv2 de la classe Echappatoire
      * @return l attribut escpNv2 de la classe Echappatoire
      */
     public ArrayList<int[]> getEscpNv(int nv) {
         ArrayList<int[]>[] tab = new ArrayList[] {this.escpNv1, this.escpNv2, this.escpNv3};
         return tab[nv];
-    }
-
-    /**
-     * methode getEscpNv3 de la classe Echappatoire
-     * @return l attribut escpNv3 de la classe Echappatoire
-     */
-    public ArrayList<int[]> getEscpNv3() {
-        return this.escpNv3;
     }
 }
