@@ -13,12 +13,13 @@
   - Toute les TimeLine (sauf combat) doivent être à l'arret.
   - Le nombre de frame ne doit pas augmenter apres la pause.
 
-3. L'interface de combat est actualisé lors de la rencontre avec un monstre : Matias AMAglio/ Nino Arcelin
+3. L'interface de combat est actualisé lors de la rencontre avec un monstre : Matias Amaglio/ Nino Arcelin
 - Descriptif :
   - lorsqu'un joueur rencontre un monstre l'interface de combat doit etre actualisé, Bar de progression du monstre et joueur.
 - Critères de validation :
   - Le nombre de PV doit etre correcte pour l'aventurier et le monstre.
   - Les immages doivent bien avoir chargées.
+
 4. Création d'un système de portes 1ère partie : Félix Brun / Axel Berret
 - Descriptif :
   -  Lorsqu'un fichier txt de labirynthe est chargé, le programme doit pouvoir detecter

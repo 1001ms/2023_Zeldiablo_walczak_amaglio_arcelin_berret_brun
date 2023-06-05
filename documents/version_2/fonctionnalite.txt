@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 1. Donner une position initial au monstre Nino Arcelin
-=======
-1. Donner une position initial au monstre : Nino Arcelin
->>>>>>> 4bd753e8b8db0dd893db79cacc16b46cd11910c2
 - Descriptif :
   - le monstre débute sur une case décrite dans le fichier labyrinthe.
 - Critères de validation :
@@ -18,11 +14,7 @@
   - le monstre doit être affiché à la bonne position dans le labyrinthe.
   - le monstre sera représenté sous la forme d'un cercle vert de la taille du personnage.
 
-<<<<<<< HEAD
 3. Considérer le monstre dans les déplacements du personnage Nino Arcelin
-=======
-3. Considérer le monstre dans les déplacements du personnage : Nino Arcelin
->>>>>>> 4bd753e8b8db0dd893db79cacc16b46cd11910c2
 - Descriptif :
   - lorsque le jeu évolue, le personnage ne peut pas se déplacer sur la case du monstre.
 - Critères de validation :
@@ -30,11 +22,7 @@
   - le monstre et le personnage ne peuvent pas se trouver sur la même case.
   - le personnage ne peut pas traverser la case du monstre
 
-<<<<<<< HEAD
-4. Déplacer le monstre Nino Arcelin
-=======
 4. Déplacer le monstre : Nino Arcelin
->>>>>>> 4bd753e8b8db0dd893db79cacc16b46cd11910c2
 - Descriptif :
   - lorsque le jeu évolue, le monstre choisit une case adjacente de manière aléatoire et tente de s'y déplacer.
 - Critères de validation :
