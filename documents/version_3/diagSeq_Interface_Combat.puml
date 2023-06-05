@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+
+Main -> MoteurJeu: launch(jeuLaby, dessinLaby);
+MoteurJeu->MoteurJeu : lancerJeu();
+note right
+Creation de :
+- initialisation du canvas de dessin et du container
+- ajout des statistiques en bas de la fenetre
+- creation et ajout des boutons dans une HBox
+- initialisation et attribution des images (Background / perso)
+- creation et ajout de la barre de PV pour le perso et du monstre
+
+end note
+MoteurJeu --> MoteurJeu
+MoteurJeu --> Main
+@enduml

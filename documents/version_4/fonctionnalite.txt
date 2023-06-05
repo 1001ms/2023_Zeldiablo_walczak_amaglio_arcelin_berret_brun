@@ -1,0 +1,20 @@
+1.Boutton d'attaque fonctionnelle : Matias Amaglio
+- Descriptif :
+  - Lors d'un combat les bouton d'attaque du joueur doivent etre fonctionnelle.
+- Critères de validation :
+  - Les deux  bouttons d'attaque doiven,t etre clicable.
+  - Les bouttons d'attaques doivent appliquer leurs efdfets sur les HP du monstre.
+
+2. Contre attaques du monstre : Matias Amaglio
+- Descriptif :
+  - Apres le tours du joueurs, le monstre doit imédiattement contre attaquer.
+- Critères de validation :
+  - Apres le tours du joeurs le monstre devra avoir fais dfes dégats au joueur.
+  - Le programme doit passer dans la boucle d'attaque du monstre.
+
+3. Gestion de fin de combat : Matias Amaglio / Nino Arcelin
+- Descriptif :
+  - A la fin du combats, le monstre doit disparaitre ou le joueur mourrir et la partie reprendre.
+- Critères de validation :
+  - Le monstre a bien disparue de la liste d'éléments.
+  - Les TimeLine de jeu doivent se lancer à nouveaux.
