@@ -1,6 +1,6 @@
 package gameLaby.laby;
 
-public class Entite implements Element{
+public abstract class Entite implements Element{
 
     private Coordonnee coordonnee;
 
