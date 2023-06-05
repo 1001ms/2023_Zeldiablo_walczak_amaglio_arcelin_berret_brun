@@ -4,28 +4,45 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 
 public class Echappatoire {
+
+    /**
+     * attribut escpNv1 de la classe Echappatoire
+     * represente la liste des echappatoires du premier etage
+     */
     private ArrayList<int[]> escpNv1;
+
+    /**
+     * attribut escpNv2 de la classe Echappatoire
+     * represente la liste des echappatoires du premier etage
+     */
     private ArrayList<int[]> escpNv2;
+
+    /**
+     * attribut escpNv3 de la classe Echappatoire
+     * represente la liste des echappatoires du premier etage
+     */
     private ArrayList<int[]> escpNv3;
 
 
+    /**
+     * constructeur vide qui cree un objet
+     * de type Echappatoire
+     */
     public Echappatoire(){
         this.escpNv1 = new ArrayList<>(9);
         this.escpNv2 = new ArrayList<>(9);
         this.escpNv3 = new ArrayList<>(9);
-
-        for (int i = 0; i < 9; i++) {
-            this.escpNv1.add(new int[]{-1, -1, -1});
-        }
-        for (int i = 0; i < 9; i++) {
-            this.escpNv2.add(new int[]{-1, -1, -1});
-        }
-        for (int i = 0; i < 9; i++) {
-            this.escpNv3.add(new int[]{-1, -1, -1});
-        }
+        for (int i = 0; i < 9; i++) this.escpNv1.add(new int[]{-1, -1, -1});
+        for (int i = 0; i < 9; i++) this.escpNv2.add(new int[]{-1, -1, -1});
+        for (int i = 0; i < 9; i++) this.escpNv3.add(new int[]{-1, -1, -1});
     }
 
 
+    /**
+     * methode afficher de la classe Echappatoire
+     * permet d afficher dans la console les coordonnees des
+     * echappatoires a chacun des niveaux du labyrinthe
+     */
     public void afficher() {
         System.out.println("Niveau 0 :");
         for (int i = 0; i < escpNv1.size(); i++) {
@@ -33,14 +50,12 @@ public class Echappatoire {
             int[] coord = escpNv1.get(i);
             System.out.println("x = " + coord[0] + ", y = " + coord[1] + ", numéro map = " + coord[2]);
         }
-
         System.out.println("Niveau 1 :");
         for (int i = 0; i < escpNv2.size(); i++) {
             System.out.print("Échappatoire " + (char)('A' + i) + ": ");
             int[] coord = escpNv2.get(i);
             System.out.println("x = " + coord[0] + ", y = " + coord[1] + ", numéro map = " + coord[2]);
         }
-
         System.out.println("Niveau 2 :");
         for (int i = 0; i < escpNv3.size(); i++) {
             System.out.print("Échappatoire " + (char)('A' + i) + ": ");
@@ -93,6 +108,12 @@ public class Echappatoire {
         }
         return res;
     }
+
+    /**
+     * methode indexToType de la classe Echappatoire
+     * @param index represente l index du code de l escalier
+     * @return le code de l escalier
+     */
     public char indexToType(int index) {
         char res = ' ';
         switch (index) {
