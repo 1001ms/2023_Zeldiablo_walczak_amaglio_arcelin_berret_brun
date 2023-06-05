@@ -73,26 +73,6 @@ public class MoteurJeu extends Application {
      */
     Clavier controle = new Clavier();
 
-    //controleur Boutton Combat
-    public class CombatBouttonControleur implements EventHandler<ActionEvent>{
-        private int codeC;
-        public CombatBouttonControleur(int codeC){
-            this.codeC = codeC;
-        }
-        @Override
-        public void handle(ActionEvent event){
-            try {
-                if(jeu.getLabyrinthe().getCombat().etatCombat == true){
-                    jeu.getLabyrinthe().getCombat().attaque(this.codeC);
-                    jeu.getLabyrinthe().getCombat().attaque(4);
-
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     public AnimationTimer timer;
 
     /**
@@ -128,7 +108,6 @@ public class MoteurJeu extends Application {
     /****************************/
     private void lancerJeu (Stage primaryStage) throws IOException {
 
-
         // initialisation du canvas de dessin et du container
         Canvas canvas = new Canvas();
         final Pane canvasContainer = new Pane(canvas);
@@ -160,7 +139,7 @@ public class MoteurJeu extends Application {
 
         ProgressBar pokemonHPBar = new ProgressBar();
         pokemonHPBar.setMaxWidth(Double.MAX_VALUE);
-        pokemonHPBar.setProgress(jeu.getLaby().pj.getHP()/100); // PV à 100% au départ
+        pokemonHPBar.setProgress(jeu.getLabyrinthe().pj.getHP()/100); // PV à 100% au départ
 
         ProgressBar opponentHPBar = new ProgressBar();
         opponentHPBar.setVisible(false);
@@ -241,14 +220,16 @@ public class MoteurJeu extends Application {
                         dessin.dessinerJeu(jeu, canvas);
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 })
         );
         monstreTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
         monstreTimeline.play(); // Démarrer la timeline du monstre
 
-        // timeline pour le déplacement du serpent ---------------------------------------------------------------------
-        Timeline serpentTimeline = new Timeline(
+        // timeline pour la gestion de torche ---------------------------------------------------------------------
+        Timeline TorcheTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.2), event -> {
                     // Déplacement du serpent
                     try {
@@ -283,13 +264,13 @@ public class MoteurJeu extends Application {
                     // Redessiner le jeu
                     try {
                         dessin.dessinerJeu(jeu, canvas);
-                    } catch (FileNotFoundException e) {
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }
-                })
+                    }})
+
         );
-        serpentTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
-        serpentTimeline.play(); // Démarrer la timeline du monstre
+        TorcheTimeline.setCycleCount(Timeline.INDEFINITE); // Exécution indéfinie
+        TorcheTimeline.play(); // Démarrer la timeline du monstre
 
 
         try {
@@ -332,6 +313,7 @@ public class MoteurJeu extends Application {
         combatI.setPrefSize(700, 600);
         // Ajouter un espace vide en haut de la troisième ligne
         VBox.setMargin(row3, new Insets(10, 0, 0, 0));
+
         // timeline pour le combat  ---------------------------------------------------------------------
         Timeline combatTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
@@ -339,24 +321,24 @@ public class MoteurJeu extends Application {
                     try {
                         if(jeu.getLabyrinthe().getCombat()!=null) {
                             if (jeu.getLabyrinthe().getCombat().etatCombat) {
-                                serpentTimeline.pause();
+                                TorcheTimeline.pause();
                                 monstreTimeline.pause();
                                 timer.stop();
                                 IVm.setVisible(true);
                                 opponentHPBar.setVisible(true);
-                                opponentHPBar.setProgress(jeu.getLaby().monstreEnCombat.getHP() / jeu.getLaby().monstreEnCombat.getHPMax());
+                                opponentHPBar.setProgress(jeu.getLabyrinthe().monstreEnCombat.getHP() / jeu.getLabyrinthe().monstreEnCombat.getHPMax());
                                 IVm.setOpacity(1);
-                                if (jeu.getLaby().monstreEnCombat instanceof Monstre) {
+                                if (jeu.getLabyrinthe().monstreEnCombat instanceof Monstre) {
                                     IVm.setImage(monstre);
-                                } else if (jeu.getLaby().monstreEnCombat instanceof Serpent) {
+                                } else if (jeu.getLabyrinthe().monstreEnCombat instanceof Serpent) {
 
                                     IVm.setImage(serpent);
-                                } else if(jeu.getLaby().monstreEnCombat instanceof Fantome){
+                                } else if(jeu.getLabyrinthe().monstreEnCombat instanceof Fantome){
                                     IVm.setOpacity(0.5);
                                     IVm.setImage(fantome);
                                 }
                             } else {
-                                serpentTimeline.play();
+                                TorcheTimeline.play();
                                 monstreTimeline.play();
                                 timer.start();
                                 opponentHPBar.setVisible(false);
@@ -364,7 +346,7 @@ public class MoteurJeu extends Application {
                             }
                         }
 
-                        pokemonHPBar.setProgress(jeu.getLaby().pj.getHP() / 100);
+                        pokemonHPBar.setProgress(jeu.getLabyrinthe().pj.getHP() / 100);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -545,14 +527,14 @@ public class MoteurJeu extends Application {
                             n1 = Integer.parseInt(name.substring(0, 1));
                             n2 = name.substring(1, 2).charAt(0);
                             n3 = Integer.parseInt(name.substring(2, 3));
-                            jeu.newLaby(("Zeldiablo/labySimple/laby"+n1+n2+n3+".txt"), n1,jeu.getLaby().escapes,n3);
+                            jeu.newLaby(("Zeldiablo/labySimple/laby"+n1+n2+n3+".txt"), n1,jeu.getLabyrinthe().escapes,n3);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 }
             }
-            jeu = jeu.newLaby("Zeldiablo/labySimple/laby0A0.txt", 0,jeu.getLaby().escapes,0);
+            jeu = jeu.newLaby("Zeldiablo/labySimple/laby0A0.txt", 0,jeu.getLabyrinthe().escapes,0);
         }
 
         // stocke la derniere mise e jour
@@ -578,14 +560,14 @@ public class MoteurJeu extends Application {
                     // met a jour le jeu en passant les touches appuyees
                     jeu.update(dureeEnMilliSecondes / 1_000., controle);
                     try {
-                        if(jeu.getLaby().playerInEscape() != -1) {
+                        if(jeu.getLabyrinthe().playerInEscape() != -1) {
                             canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                            System.out.println("+ niveau : " + jeu.getLaby().nvLaby + " type : " + jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()));
-                            int[] res = jeu.getLaby().escapes.identifierEchap(jeu.getLaby().nvLaby,jeu.getLaby().escapes.indexToType(jeu.getLaby().playerInEscape()),jeu.getLaby().nMap);
-                            System.out.println("+ niveau : " + res[0] + " type : " + jeu.getLaby().escapes.indexToType(res[1]));
-                            String labS = "Zeldiablo/labySimple/laby" + (res[0]) + (jeu.getLaby().escapes.indexToType(res[1]))+res[2]+".txt";
+                            System.out.println("+ niveau : " + jeu.getLabyrinthe().nvLaby + " type : " + jeu.getLabyrinthe().escapes.indexToType(jeu.getLabyrinthe().playerInEscape()));
+                            int[] res = jeu.getLabyrinthe().escapes.identifierEchap(jeu.getLabyrinthe().nvLaby,jeu.getLabyrinthe().escapes.indexToType(jeu.getLabyrinthe().playerInEscape()),jeu.getLabyrinthe().nMap);
+                            System.out.println("+ niveau : " + res[0] + " type : " + jeu.getLabyrinthe().escapes.indexToType(res[1]));
+                            String labS = "Zeldiablo/labySimple/laby" + (res[0]) + (jeu.getLabyrinthe().escapes.indexToType(res[1]))+res[2]+".txt";
                             System.out.println(labS);
-                            jeu = jeu.newLaby(labS, res[0],jeu.getLaby().escapes,res[2]);
+                            jeu = jeu.newLaby(labS, res[0],jeu.getLabyrinthe().escapes,res[2]);
 
                         }
 
@@ -613,7 +595,4 @@ public class MoteurJeu extends Application {
         timer.start();
     }
 
-    public FrameStats getFrameStats(){
-        return frameStats;
-    }
 }

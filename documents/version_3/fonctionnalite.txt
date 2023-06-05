@@ -1,8 +1,10 @@
-1. Creation de boutton d'interraction dans l'interface de combat : Dimitri Walczak-Vela-Mena
+1. Interface graphique de combat : Dimitri Walczak-Vela-Mena
 - Descriptif :
-  - Lors de la creation de l'interface, des boutton doivent etre creer. Ils aurons le role d'action d'attaque lors du combats.
+  - Lors du lancement du jeu, l'interrface de combat doit etre créer
 - Critères de validation :
-  - Les bouttons doivent apparaitre et etre clicable.
+  - L'interface est bien affiché.
+  - L'interface ne pause aps de problème de compatibilité avec le jeu principale.
+  - L'interface doit contenir des bouttons clicables.
 
 2. Jeu en pause lors de combat : Matias Amaglio / Dimitri Walczak
 - Descriptif :
@@ -17,4 +19,9 @@
 - Critères de validation :
   - Le nombre de PV doit etre correcte pour l'aventurier et le monstre.
   - Les immages doivent bien avoir chargées.
-
+4. Création d'un système de portes 1ère partie : Félix Brun / Axel Berret
+- Descriptif :
+  -  Lorsqu'un fichier txt de labirynthe est chargé, le programme doit pouvoir detecter
+     les portes et les stocker dans la class Echappatoire.
+- Critères de validation :
+  - Les portes doivent etre detecté et stocké aux bons endroits dans la class Echappatoire.

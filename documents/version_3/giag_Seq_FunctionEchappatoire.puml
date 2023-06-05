@@ -1,0 +1,44 @@
+@startuml
+skinparam participantPadding 20
+
+participant "Labyrinthe" as Labyrinthe
+participant "Echappatoire" as Echappatoire
+participant "ArrayList<Echappatoire>" as ArrayList
+
+group Récupération et rangement des échappatoires
+  Labyrinthe -> Echappatoire: Récupérer échappatoires
+  activate Echappatoire
+
+  Echappatoire -> Labyrinthe: Ajouter échappatoire
+  activate Labyrinthe
+  Labyrinthe --> Echappatoire: Confirmation ajout
+  deactivate Labyrinthe
+
+  Echappatoire -> Echappatoire: Récupérer échappatoires restants
+  Echappatoire -> Labyrinthe: Ajouter échappatoire
+  activate Labyrinthe
+  Labyrinthe --> Echappatoire: Confirmation ajout
+  deactivate Labyrinthe
+
+  Echappatoire -> Labyrinthe: Vérifier échappatoires restants
+  activate Labyrinthe
+  Labyrinthe -> ArrayList: Récupérer échappatoires
+  activate ArrayList
+  ArrayList --> Labyrinthe: Liste des échappatoires
+  deactivate ArrayList
+  Labyrinthe --> Echappatoire: Liste des échappatoires
+  deactivate Labyrinthe
+
+  Echappatoire -> Labyrinthe: Récupérer échappatoire aléatoire
+  activate Labyrinthe
+  Labyrinthe -> ArrayList: Récupérer échappatoires
+  activate ArrayList
+  ArrayList --> Labyrinthe: Liste des échappatoires
+  deactivate ArrayList
+  Labyrinthe --> Echappatoire: Échappatoire aléatoire
+  deactivate Labyrinthe
+
+  deactivate Echappatoire
+end group
+
+@enduml

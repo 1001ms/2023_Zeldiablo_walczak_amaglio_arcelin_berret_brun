@@ -9,7 +9,7 @@ public class ListeElements {
     /**
      * Constructeur
      */
-    ListeElements() {
+    public ListeElements() {
         listeE = new ArrayList<>();
     }
 

@@ -30,8 +30,6 @@ public interface Jeu {
      */
     boolean etreFini();
 
-    Labyrinthe getLaby() throws IOException;
-
     LabyJeu newLaby(String l, int lvl, Echappatoire es, int nM) throws IOException;
     Labyrinthe getLabyrinthe() throws IOException;
 }

@@ -1,0 +1,59 @@
+@startuml
+
+' Activation style
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor DeepSkyBlue
+}
+
+activate MoteurJeu
+MoteurJeu -> Labyrinthe: getCombat()
+activate Labyrinthe
+
+Labyrinthe --> MoteurJeu: true
+note right
+Le combats commence
+end note
+deactivate Labyrinthe
+
+MoteurJeu -> Labyrinthe: getCombat()
+activate Labyrinthe
+
+Labyrinthe --> MoteurJeu: false
+note right
+Le combats est terminé
+end note
+deactivate MoteurJeu
+
+Labyrinthe -> Labyrinthe : actualiserVieAventurier()
+activate Labyrinthe
+
+Labyrinthe -> Combat : getPj().getHP()
+activate Combat
+Combat --> Labyrinthe : double
+deactivate Combat
+Labyrinthe -> Labyrinthe : pj.setHP(double)
+Labyrinthe --> Labyrinthe :
+Labyrinthe --> Labyrinthe :
+deactivate Labyrinthe
+Labyrinthe -> Labyrinthe : supprimerMonstre(Adversaire)
+Labyrinthe --> Labyrinthe :
+note right
+En fonction du indtanceOf
+de l'adversaire la methode
+de supression est différente
+end note
+deactivate Labyrinthe
+@enduml
+
+supprimerMonstre(Personnage m){
+        this.personnages.remove(m);
+        if( m instanceof Monstre)
+            this.monstres.remove(m);
+
+        if(m instanceof  Serpent)
+            this.serpents.remove(m);
+        if(m instanceof Fantome)
+            this.fantomes.remove(m);
+    }
