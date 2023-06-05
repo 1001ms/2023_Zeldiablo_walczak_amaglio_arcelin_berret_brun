@@ -1,25 +1,48 @@
 package gameLaby.laby;
 
 public class Combat {
+    /**
+     * attribut de type personnage qui représente l'adeversaire du pj
+     */
     public Personnage adversaire;
+
+    /**
+     * attribut de type Aventurier qui représente le pj
+     */
     public Aventurier pj;
 
+    /**
+     * attribut de type boolean est a true lorsque le combats et en cours et false a la fin du combats
+     */
     public boolean etatCombat;
+
+    /**
+     * attribut de type boolean est a true si c'est aux tours du personnage de jouer
+     */
     public boolean toursPj;
 
-    public Combat(Element e, Element j){
+    /**
+     * Constructeur qui attribut le personnage a pj et met le tours du pj a true
+     * @param e Un element personnage qui peut représenter le pj ou l'adversaire
+     * @param j Un element personnage qui peut représenter le pj ou l'adversaire
+     */
+    public Combat(Personnage e, Personnage j){
         etatCombat = true;
         if(e instanceof Aventurier){
             pj = (Aventurier) e;
-            adversaire = (Personnage) j;
+            adversaire =  j;
         }else{
             pj = (Aventurier) j;
-            adversaire = (Personnage) e;
+            adversaire =  e;
         }
         toursPj = true;
 
     }
 
+    /**
+     * méthode gérant l'attaque du personnage et de l'adversaire à partir d'un codeAttaque
+     * @param codeAttaque code (compris entre 1 et 4)  représentant quelle attaque a choisit l'utilisateur et où 4 represente l'attaque de l'adversaire
+     */
     public void attaque(int codeAttaque){
         if((pj.getHP() > 0)&&(adversaire.getHP() > 0 )){
 
@@ -49,6 +72,10 @@ public class Combat {
         }
     }
 
+    /**
+     * getteur retournant l'aventurier qui a combatue
+     * @return pj
+     */
     public Aventurier getPj() {
         return pj;
     }
