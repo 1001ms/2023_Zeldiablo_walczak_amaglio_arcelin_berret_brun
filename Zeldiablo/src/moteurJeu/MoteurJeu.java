@@ -2,8 +2,6 @@ package moteurJeu;
 
 //https://github.com/zarandok/megabounce/blob/master/MainCanvas.java
 import javafx.scene.control.Label;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import gameLaby.laby.Fantome;
 import gameLaby.laby.Labyrinthe;
 import gameLaby.laby.Monstre;
@@ -27,7 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -457,13 +454,6 @@ public class MoteurJeu extends Application {
         Button quitterButton = new Button("Quitter");
         quitterButton.setPrefWidth(200); // Définir la largeur préférée du bouton
         quitterButton.setPrefHeight(50);
-        /*
-        String path = "Zeldiablo/musique/musique.mp3";
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer media_player = new MediaPlayer(media);
-        // La musique est prête à être jouée, vous pouvez la démarrer ici
-        media_player.play();
-         */
         jouerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
